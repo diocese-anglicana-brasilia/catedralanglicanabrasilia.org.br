@@ -1,8 +1,8 @@
 ---
-import ActionButton from "../components/ActionButton.astro";
 import ActionLink from "../components/ActionLink.astro";
 import BackgroundScreen from "../components/BackgroundScreen.astro";
 import ContactDetails from "../components/ContactDetails.astro";
+import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
 import FeatureSplit from "../components/FeatureSplit.astro";
 import Header from "../components/Header.astro";
@@ -186,14 +186,7 @@ const contactDetails = [
           <ContactDetails items={contactDetails} />
         </div>
         <div class="fade-in">
-          <form id="contactForm" class="bg-white p-8 rounded-sm shadow-lg space-y-4">
-            <div><label class="block text-sm font-semibold mb-1" for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" /></div>
-            <div><label class="block text-sm font-semibold mb-1" for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" /></div>
-            <div><label class="block text-sm font-semibold mb-1" for="assunto">Assunto</label><select id="assunto" name="assunto" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"><option>Informações gerais</option><option>Casamento</option><option>Batismo</option><option>Visita à comunidade</option><option>Doações</option></select></div>
-            <div><label class="block text-sm font-semibold mb-1" for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" rows="4" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"></textarea></div>
-            <ActionButton type="submit" class="w-full py-3 font-semibold tracking-wide">Enviar mensagem</ActionButton>
-            <p id="formStatus" class="min-h-5 text-sm text-gray-600" role="status" aria-live="polite"></p>
-          </form>
+          <ContactForm />
         </div>
       </div>
     </section>

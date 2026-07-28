@@ -85,12 +85,14 @@ if ("IntersectionObserver" in window) {
   animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
-const contactForm = document.getElementById("contactForm");
-const formStatus = document.getElementById("formStatus");
+const contactForm = document.querySelector("[data-contact-form]");
+const formStatus = contactForm?.querySelector("[data-form-status]");
 
-contactForm.addEventListener("submit", (event) => {
+contactForm?.addEventListener("submit", (event) => {
   event.preventDefault();
-  formStatus.textContent =
-    "Mensagem registrada neste protótipo. O envio precisa ser conectado a um serviço de formulários.";
+  if (formStatus) {
+    formStatus.textContent =
+      "Mensagem registrada neste protótipo. O envio precisa ser conectado a um serviço de formulários.";
+  }
   contactForm.reset();
 });
