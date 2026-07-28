@@ -1,0 +1,26 @@
+---
+interface Props {
+  icon: string;
+  label: string;
+  value: string;
+  href?: string;
+}
+
+const { icon, label, value, href } = Astro.props;
+---
+
+<div class="flex gap-4">
+  <div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0">
+    <span aria-hidden="true">{icon}</span>
+  </div>
+  <div>
+    <div class="font-bold">{label}</div>
+    {
+      href ? (
+        <a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href={href}>{value}</a>
+      ) : (
+        <div class="text-gray-600 text-sm">{value}</div>
+      )
+    }
+  </div>
+</div>

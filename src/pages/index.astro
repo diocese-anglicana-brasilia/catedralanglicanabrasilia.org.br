@@ -1,4 +1,6 @@
 ---
+import BackgroundScreen from "../components/BackgroundScreen.astro";
+import ContactDetails from "../components/ContactDetails.astro";
 import Footer from "../components/Footer.astro";
 import FeatureSplit from "../components/FeatureSplit.astro";
 import Header from "../components/Header.astro";
@@ -33,6 +35,30 @@ const sacramentCards = [
   {
     title: "Unção dos Enfermos",
     description: "Ministério de cura e consolação, oferecido a quem enfrenta enfermidades, cirurgias ou momentos de fragilidade.",
+  },
+];
+
+const contactDetails = [
+  {
+    icon: "📍",
+    label: "Endereço",
+    value: "Brasília — Distrito Federal, Brasil",
+  },
+  {
+    icon: "✉",
+    label: "E-mail",
+    value: "contato@catedralanglicanabsb.org.br",
+    href: "mailto:contato@catedralanglicanabsb.org.br",
+  },
+  {
+    icon: "☎",
+    label: "Telefone",
+    value: "(61) 0000-0000",
+  },
+  {
+    icon: "🕐",
+    label: "Cultos dominicais",
+    value: "Domingos às 10h — Santa Eucaristia",
   },
 ];
 ---
@@ -86,20 +112,22 @@ const sacramentCards = [
       </a>
     </FeatureSplit>
 
-    <section id="casamentos" class="relative py-28 img-section" style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1d7202bc0-f1a2-4623-914c-68f8a6b8b65f.png');">
-      <div class="absolute inset-0 bg-black/55"></div>
-      <div class="relative z-10 max-w-5xl mx-auto px-6 text-center text-white fade-in">
-        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Celebre o amor</div>
-        <h2 class="serif text-4xl md:text-6xl font-bold mb-6">Casamentos</h2>
-        <p class="text-lg md:text-xl font-light max-w-3xl mx-auto leading-relaxed mb-8">
-          O matrimônio é um sacramento no qual duas pessoas se unem diante de Deus e da comunidade. Na Catedral
-          Anglicana de Brasília, celebramos uniões com reverência, beleza e profundo significado espiritual.
-        </p>
-        <div class="mt-12">
-          <InfoCards items={weddingCards} variant="overlay" />
-        </div>
+    <BackgroundScreen
+      id="casamentos"
+      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1d7202bc0-f1a2-4623-914c-68f8a6b8b65f.png"
+      overlayClass="bg-black/55"
+      contentClass="max-w-5xl mx-auto px-6 text-center text-white fade-in"
+    >
+      <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Celebre o amor</div>
+      <h2 class="serif text-4xl md:text-6xl font-bold mb-6">Casamentos</h2>
+      <p class="text-lg md:text-xl font-light max-w-3xl mx-auto leading-relaxed mb-8">
+        O matrimônio é um sacramento no qual duas pessoas se unem diante de Deus e da comunidade. Na Catedral
+        Anglicana de Brasília, celebramos uniões com reverência, beleza e profundo significado espiritual.
+      </p>
+      <div class="mt-12">
+        <InfoCards items={weddingCards} variant="overlay" />
       </div>
-    </section>
+    </BackgroundScreen>
 
     <FeatureSplit
       id="batismos"
@@ -132,18 +160,20 @@ const sacramentCards = [
       </div>
     </section>
 
-    <section id="historia" class="relative py-28 img-section" style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png');">
-      <div class="absolute inset-0 bg-black/60"></div>
-      <div class="relative z-10 max-w-4xl mx-auto px-6 text-white fade-in">
-        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3 text-center">Nossa trajetória</div>
-        <h2 class="serif text-4xl md:text-6xl font-bold mb-8 text-center">Breve História</h2>
-        <div class="space-y-5 text-lg font-light leading-relaxed text-gray-100">
-          <p>A <strong>Igreja Episcopal Anglicana do Brasil (IEAB)</strong> é uma igreja cristã de tradição apostólica, parte da Comunhão Anglicana mundial, com raízes que remontam à Reforma do século XVI e à Igreja da Inglaterra.</p>
-          <p>A <strong>Diocese Anglicana de Brasília</strong> abrange o Distrito Federal e regiões do entorno, sendo a Catedral Anglicana de Brasília sua igreja-mãe. Desde sua fundação, a diocese tem sido um espaço de acolhimento, diálogo ecumênico e compromisso com a justiça social.</p>
-          <p>A Catedral, situada no coração da capital federal, é um lugar de oração, celebração e serviço, onde a liturgia anglicana — rica em beleza, tradição e abertura — encontra o povo brasileiro em sua diversidade.</p>
-        </div>
+    <BackgroundScreen
+      id="historia"
+      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png"
+      overlayClass="bg-black/60"
+      contentClass="max-w-4xl mx-auto px-6 text-white fade-in"
+    >
+      <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3 text-center">Nossa trajetória</div>
+      <h2 class="serif text-4xl md:text-6xl font-bold mb-8 text-center">Breve História</h2>
+      <div class="space-y-5 text-lg font-light leading-relaxed text-gray-100">
+        <p>A <strong>Igreja Episcopal Anglicana do Brasil (IEAB)</strong> é uma igreja cristã de tradição apostólica, parte da Comunhão Anglicana mundial, com raízes que remontam à Reforma do século XVI e à Igreja da Inglaterra.</p>
+        <p>A <strong>Diocese Anglicana de Brasília</strong> abrange o Distrito Federal e regiões do entorno, sendo a Catedral Anglicana de Brasília sua igreja-mãe. Desde sua fundação, a diocese tem sido um espaço de acolhimento, diálogo ecumênico e compromisso com a justiça social.</p>
+        <p>A Catedral, situada no coração da capital federal, é um lugar de oração, celebração e serviço, onde a liturgia anglicana — rica em beleza, tradição e abertura — encontra o povo brasileiro em sua diversidade.</p>
       </div>
-    </section>
+    </BackgroundScreen>
 
     <section id="contato" class="py-24 bg-[var(--cream)]">
       <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
@@ -151,12 +181,7 @@ const sacramentCards = [
           <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Fale conosco</div>
           <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Contato</h2>
           <p class="text-gray-700 leading-relaxed mb-8">Será uma alegria recebê-lo em nossa comunidade. Entre em contato para visitas, informações sobre sacramentos, agendamentos ou qualquer dúvida.</p>
-          <div class="space-y-5">
-            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">📍</span></div><div><div class="font-bold">Endereço</div><div class="text-gray-600 text-sm">Brasília — Distrito Federal, Brasil</div></div></div>
-            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">✉</span></div><div><div class="font-bold">E-mail</div><a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href="mailto:contato@catedralanglicanabsb.org.br">contato@catedralanglicanabsb.org.br</a></div></div>
-            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">☎</span></div><div><div class="font-bold">Telefone</div><div class="text-gray-600 text-sm">(61) 0000-0000</div></div></div>
-            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">🕐</span></div><div><div class="font-bold">Cultos dominicais</div><div class="text-gray-600 text-sm">Domingos às 10h — Santa Eucaristia</div></div></div>
-          </div>
+          <ContactDetails items={contactDetails} />
         </div>
         <div class="fade-in">
           <form id="contactForm" class="bg-white p-8 rounded-sm shadow-lg space-y-4">

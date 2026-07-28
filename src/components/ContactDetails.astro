@@ -1,0 +1,20 @@
+---
+import ContactItem from "./ContactItem.astro";
+
+interface ContactDetail {
+  icon: string;
+  label: string;
+  value: string;
+  href?: string;
+}
+
+interface Props {
+  items: ContactDetail[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="space-y-5">
+  {items.map((item) => <ContactItem {...item} />)}
+</div>

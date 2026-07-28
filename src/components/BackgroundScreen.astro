@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  imageSrc: string;
+  overlayClass: string;
+  contentClass: string;
+}
+
+const { id, imageSrc, overlayClass, contentClass } = Astro.props;
+const backgroundStyle = `background-image: url('${imageSrc}');`;
+---
+
+<section id={id} class="relative py-28 img-section" style={backgroundStyle}>
+  <div class:list={["absolute inset-0", overlayClass]}></div>
+  <div class:list={["relative z-10", contentClass]}>
+    <slot />
+  </div>
+</section>
