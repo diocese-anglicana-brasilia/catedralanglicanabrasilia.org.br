@@ -1,0 +1,178 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Catedral Anglicana de Brasília">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header />
+
+  <main id="conteudo" tabindex="-1">
+    <section
+      id="inicio"
+      class="relative h-screen min-h-[600px] img-section flex items-center justify-center"
+      style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/183af1eb3-1849-4f13-b0be-9a5e1c1b1635.png');"
+    >
+      <div class="absolute inset-0 hero-overlay"></div>
+      <div class="relative z-10 text-center text-white px-6 max-w-4xl fade-in">
+        <div class="text-xs tracking-[0.4em] uppercase mb-4 text-[var(--gold)]">Diocese Anglicana de Brasília</div>
+        <h1 class="serif text-5xl md:text-7xl font-bold leading-tight mb-6">Catedral Anglicana<br />de Brasília</h1>
+        <p class="text-lg md:text-xl font-light max-w-2xl mx-auto mb-10 text-gray-100">
+          Uma comunidade de fé, esperança e amor no coração do Distrito Federal, pertencente à
+          <strong>Igreja Episcopal Anglicana do Brasil</strong>.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="#doacoes" class="btn-gold px-8 py-3 rounded-sm tracking-wide font-medium">Contribua</a>
+          <a href="#contato" class="border-2 border-white/70 hover:border-white px-8 py-3 rounded-sm tracking-wide font-medium transition">Visite-nos</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="doacoes" class="py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Sustente a missão</div>
+          <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Faça sua doação</h2>
+          <p class="text-gray-700 leading-relaxed mb-5">
+            Sua contribuição mantém viva a missão da Catedral Anglicana de Brasília: celebrar os sacramentos,
+            acolher os que buscam, servir aos necessitados e anunciar o Evangelho de Cristo na capital do Brasil.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-8">
+            Os recursos são destinados à manutenção do templo, projetos sociais, formação de lideranças e apoio às
+            famílias da nossa comunidade.
+          </p>
+          <div class="bg-[var(--cream)] border-l-4 border-[var(--gold)] p-6 rounded-sm">
+            <h3 class="serif text-xl font-bold mb-3">Chave PIX</h3>
+            <div class="font-mono text-sm break-all text-gray-800">catedral.anglicana.bsb@ieab.org.br</div>
+            <div class="mt-4 text-xs text-gray-500">Catedral Anglicana de Brasília — Diocese Anglicana de Brasília</div>
+          </div>
+          <a href="#contato" class="inline-block mt-8 text-[var(--gold-dark)] font-semibold border-b-2 border-[var(--gold)] pb-1 hover:text-[var(--gold)]">
+            Entre em contato para outras formas de contribuição →
+          </a>
+        </div>
+        <div class="fade-in">
+          <img src="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1020c7f2e-1b46-4e79-bbd6-fb777f81c34a.png" alt="Comunidade em oração" class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
+        </div>
+      </div>
+    </section>
+
+    <section id="casamentos" class="relative py-28 img-section" style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1d7202bc0-f1a2-4623-914c-68f8a6b8b65f.png');">
+      <div class="absolute inset-0 bg-black/55"></div>
+      <div class="relative z-10 max-w-5xl mx-auto px-6 text-center text-white fade-in">
+        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Celebre o amor</div>
+        <h2 class="serif text-4xl md:text-6xl font-bold mb-6">Casamentos</h2>
+        <p class="text-lg md:text-xl font-light max-w-3xl mx-auto leading-relaxed mb-8">
+          O matrimônio é um sacramento no qual duas pessoas se unem diante de Deus e da comunidade. Na Catedral
+          Anglicana de Brasília, celebramos uniões com reverência, beleza e profundo significado espiritual.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 mt-12 text-left">
+          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
+            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Preparação</h3>
+            <p class="text-sm text-gray-100">Encontros com o clero para discernimento e preparação espiritual do casal.</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
+            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Cerimônia</h3>
+            <p class="text-sm text-gray-100">Celebração litúrgica completa com música sacra e participação da comunidade.</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
+            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Agendamento</h3>
+            <p class="text-sm text-gray-100">Procure a secretaria com antecedência mínima de 6 meses.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="batismos" class="py-24 bg-[var(--cream)]">
+      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-in order-2 md:order-1">
+          <img src="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1eb7b7dc9-12e6-4f5f-9ba7-2c53a7e19cee.png" alt="Pia batismal e mesa de comunhão" class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
+        </div>
+        <div class="fade-in order-1 md:order-2">
+          <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Início da jornada de fé</div>
+          <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Batismos</h2>
+          <p class="text-gray-700 leading-relaxed mb-5">
+            O Batismo é o sacramento de iniciação cristã, pelo qual somos incorporados ao Corpo de Cristo e recebemos
+            o dom do Espírito Santo. Celebramos batismos de crianças, jovens e adultos.
+          </p>
+          <ul class="space-y-3 text-gray-700">
+            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Celebrações mensais durante a Eucaristia dominical</li>
+            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Preparação para pais e padrinhos</li>
+            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Acolhimento de todas as idades</li>
+          </ul>
+          <a href="#contato" class="inline-block mt-8 btn-gold px-7 py-3 rounded-sm font-medium">Agende uma conversa</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sacramentos" class="py-24 bg-white">
+      <div class="max-w-5xl mx-auto px-6 text-center fade-in">
+        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Vida sacramental</div>
+        <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Sacramentos</h2>
+        <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto mb-14">
+          A Igreja Anglicana reconhece dois sacramentos maiores instituídos por Cristo — o Batismo e a Eucaristia — e
+          cinco sacramentos menores (ou "sacramentais"): Confirmação, Ordem, Matrimônio, Penitência e Unção dos Enfermos.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 text-left">
+          <div class="border-t-2 border-[var(--gold)] pt-5">
+            <h3 class="serif text-2xl font-bold mb-3">Santa Eucaristia</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Celebrada todos os domingos e em dias santos. É o centro da vida litúrgica, onde recebemos o Corpo e o Sangue de Cristo.</p>
+          </div>
+          <div class="border-t-2 border-[var(--gold)] pt-5">
+            <h3 class="serif text-2xl font-bold mb-3">Confirmação</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Sacramento no qual o bispo impõe as mãos sobre os fiéis, fortalecendo-os com o Espírito Santo para a vida cristã adulta.</p>
+          </div>
+          <div class="border-t-2 border-[var(--gold)] pt-5">
+            <h3 class="serif text-2xl font-bold mb-3">Unção dos Enfermos</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Ministério de cura e consolação, oferecido a quem enfrenta enfermidades, cirurgias ou momentos de fragilidade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historia" class="relative py-28 img-section" style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png');">
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-white fade-in">
+        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3 text-center">Nossa trajetória</div>
+        <h2 class="serif text-4xl md:text-6xl font-bold mb-8 text-center">Breve História</h2>
+        <div class="space-y-5 text-lg font-light leading-relaxed text-gray-100">
+          <p>A <strong>Igreja Episcopal Anglicana do Brasil (IEAB)</strong> é uma igreja cristã de tradição apostólica, parte da Comunhão Anglicana mundial, com raízes que remontam à Reforma do século XVI e à Igreja da Inglaterra.</p>
+          <p>A <strong>Diocese Anglicana de Brasília</strong> abrange o Distrito Federal e regiões do entorno, sendo a Catedral Anglicana de Brasília sua igreja-mãe. Desde sua fundação, a diocese tem sido um espaço de acolhimento, diálogo ecumênico e compromisso com a justiça social.</p>
+          <p>A Catedral, situada no coração da capital federal, é um lugar de oração, celebração e serviço, onde a liturgia anglicana — rica em beleza, tradição e abertura — encontra o povo brasileiro em sua diversidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="py-24 bg-[var(--cream)]">
+      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+        <div class="fade-in">
+          <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Fale conosco</div>
+          <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Contato</h2>
+          <p class="text-gray-700 leading-relaxed mb-8">Será uma alegria recebê-lo em nossa comunidade. Entre em contato para visitas, informações sobre sacramentos, agendamentos ou qualquer dúvida.</p>
+          <div class="space-y-5">
+            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">📍</span></div><div><div class="font-bold">Endereço</div><div class="text-gray-600 text-sm">Brasília — Distrito Federal, Brasil</div></div></div>
+            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">✉</span></div><div><div class="font-bold">E-mail</div><a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href="mailto:contato@catedralanglicanabsb.org.br">contato@catedralanglicanabsb.org.br</a></div></div>
+            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">☎</span></div><div><div class="font-bold">Telefone</div><div class="text-gray-600 text-sm">(61) 0000-0000</div></div></div>
+            <div class="flex gap-4"><div class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0"><span aria-hidden="true">🕐</span></div><div><div class="font-bold">Cultos dominicais</div><div class="text-gray-600 text-sm">Domingos às 10h — Santa Eucaristia</div></div></div>
+          </div>
+        </div>
+        <div class="fade-in">
+          <form id="contactForm" class="bg-white p-8 rounded-sm shadow-lg space-y-4">
+            <div><label class="block text-sm font-semibold mb-1" for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" /></div>
+            <div><label class="block text-sm font-semibold mb-1" for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" /></div>
+            <div><label class="block text-sm font-semibold mb-1" for="assunto">Assunto</label><select id="assunto" name="assunto" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"><option>Informações gerais</option><option>Casamento</option><option>Batismo</option><option>Visita à comunidade</option><option>Doações</option></select></div>
+            <div><label class="block text-sm font-semibold mb-1" for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" rows="4" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"></textarea></div>
+            <button type="submit" class="btn-gold w-full py-3 rounded-sm font-semibold tracking-wide">Enviar mensagem</button>
+            <p id="formStatus" class="min-h-5 text-sm text-gray-600" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../scripts/site.js";
+  </script>
+</BaseLayout>

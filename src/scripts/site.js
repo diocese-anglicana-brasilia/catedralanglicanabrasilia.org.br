@@ -2,7 +2,6 @@ document.documentElement.classList.add("js");
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Mobile menu toggle
 const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
 const menuLabel = menuBtn.querySelector("[data-menu-label]");
@@ -20,18 +19,10 @@ menuBtn.addEventListener("click", () => {
   menuLabel.textContent = willOpen ? "Fechar menu" : "Abrir menu";
 });
 
-navLinks
-  .querySelectorAll("a")
-  .forEach((a) =>
-    a.addEventListener("click", closeMenu),
-  );
+navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMenu();
-});
-
-window.addEventListener("resize", () => {
-  updateMenuLayout();
 });
 
 const updateMenuLayout = () => {
@@ -39,65 +30,67 @@ const updateMenuLayout = () => {
 
   const navStyles = window.getComputedStyle(siteNav);
   const horizontalPadding =
-    Number.parseFloat(navStyles.paddingLeft) +
-    Number.parseFloat(navStyles.paddingRight);
+    Number.parseFloat(navStyles.paddingLeft) + Number.parseFloat(navStyles.paddingRight);
   const availableWidth = siteNav.clientWidth - horizontalPadding;
-  const requiredWidth =
-    siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + 32;
+  const requiredWidth = siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + 32;
   const shouldCollapse = requiredWidth > availableWidth;
 
   document.body.classList.toggle("menu-collapsed", shouldCollapse);
   if (!shouldCollapse) closeMenu();
 };
 
+window.addEventListener("resize", updateMenuLayout);
 updateMenuLayout();
 window.addEventListener("load", updateMenuLayout);
-if (document.fonts) {
-  document.fonts.ready.then(updateMenuLayout);
-}
+if (document.fonts) document.fonts.ready.then(updateMenuLayout);
 
-// Active link on scroll
 const sections = document.querySelectorAll("section[id]");
 const navItems = document.querySelectorAll(".nav-link");
-window.addEventListener("scroll", () => {
+
+const updateActiveLink = () => {
   let current = "";
-  sections.forEach((sec) => {
-    const top = sec.offsetTop - 120;
-    if (scrollY >= top) current = sec.getAttribute("id");
+  sections.forEach((section) => {
+    const top = section.offsetTop - 120;
+    if (window.scrollY >= top) current = section.getAttribute("id");
   });
-  navItems.forEach((a) => {
-    a.classList.remove("active");
-    a.removeAttribute("aria-current");
-    if (a.getAttribute("href") === "#" + current) {
-      a.classList.add("active");
-      a.setAttribute("aria-current", "page");
+
+  navItems.forEach((link) => {
+    link.classList.remove("active");
+    link.removeAttribute("aria-current");
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
     }
   });
-});
+};
 
-// Fade-in on scroll
+window.addEventListener("scroll", updateActiveLink, { passive: true });
+updateActiveLink();
+
 const animatedElements = document.querySelectorAll(".fade-in");
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("visible");
-          observer.unobserve(e.target);
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.15 },
   );
-  animatedElements.forEach((el) => observer.observe(el));
+  animatedElements.forEach((element) => observer.observe(element));
 } else {
-  animatedElements.forEach((el) => el.classList.add("visible"));
+  animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
+
 contactForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  formStatus.textContent = "Mensagem registrada neste protótipo. O envio precisa ser conectado a um serviço de formulários.";
+  formStatus.textContent =
+    "Mensagem registrada neste protótipo. O envio precisa ser conectado a um serviço de formulários.";
   contactForm.reset();
 });

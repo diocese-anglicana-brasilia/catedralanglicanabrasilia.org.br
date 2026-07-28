@@ -4,6 +4,7 @@
   --ink: #1a1a1a;
   --cream: #f7f3ec;
 }
+
 html {
   scroll-behavior: smooth;
 }
@@ -29,9 +30,11 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
 .serif {
   font-family: "Playfair Display", serif;
 }
+
 .nav-link {
   position: relative;
   transition: color 0.3s;
@@ -40,6 +43,7 @@ body {
 .nav-links {
   display: flex;
 }
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -50,26 +54,17 @@ body {
   background: var(--gold);
   transition: width 0.3s;
 }
+
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
 }
+
 .nav-link:hover,
 .nav-link.active {
   color: var(--gold-dark);
 }
-.section-title {
-  position: relative;
-  display: inline-block;
-}
-.section-title::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: var(--gold);
-  margin: 14px auto 0;
-}
+
 .hero-overlay {
   background: linear-gradient(
     180deg,
@@ -78,11 +73,13 @@ body {
     rgba(10, 10, 10, 0.75) 100%
   );
 }
+
 .img-section {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 html.js .fade-in {
   opacity: 0;
   transform: translateY(30px);
@@ -90,10 +87,12 @@ html.js .fade-in {
     opacity 0.8s ease,
     transform 0.8s ease;
 }
+
 html.js .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
+
 .btn-gold {
   background: var(--gold);
   color: #fff;
@@ -101,33 +100,39 @@ html.js .fade-in.visible {
     background 0.3s,
     transform 0.3s;
 }
+
 .btn-gold:hover {
   background: var(--gold-dark);
   transform: translateY(-2px);
 }
+
 .cross-icon {
   display: inline-block;
   width: 14px;
   height: 14px;
   position: relative;
 }
+
 .cross-icon::before,
 .cross-icon::after {
   content: "";
   position: absolute;
   background: var(--gold);
 }
+
 .cross-icon::before {
   width: 2px;
   height: 100%;
   left: 50%;
   transform: translateX(-50%);
 }
+
 .cross-icon::after {
   width: 100%;
   height: 2px;
   top: 30%;
 }
+
 .menu-toggle {
   display: none;
 }
