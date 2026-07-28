@@ -1,4 +1,6 @@
 ---
+import ActionButton from "../components/ActionButton.astro";
+import ActionLink from "../components/ActionLink.astro";
 import BackgroundScreen from "../components/BackgroundScreen.astro";
 import ContactDetails from "../components/ContactDetails.astro";
 import Footer from "../components/Footer.astro";
@@ -82,8 +84,8 @@ const contactDetails = [
           <strong>Igreja Episcopal Anglicana do Brasil</strong>.
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
-          <a href="#doacoes" class="btn-gold px-8 py-3 rounded-sm tracking-wide font-medium">Contribua</a>
-          <a href="#contato" class="border-2 border-white/70 hover:border-white px-8 py-3 rounded-sm tracking-wide font-medium transition">Visite-nos</a>
+          <ActionLink href="#doacoes" size="hero">Contribua</ActionLink>
+          <ActionLink href="#contato" variant="light-outline" size="hero">Visite-nos</ActionLink>
         </div>
       </div>
     </section>
@@ -107,9 +109,9 @@ const contactDetails = [
         <div class="font-mono text-sm break-all text-gray-800">catedral.anglicana.bsb@ieab.org.br</div>
         <div class="mt-4 text-xs text-gray-500">Catedral Anglicana de Brasília — Diocese Anglicana de Brasília</div>
       </div>
-      <a href="#contato" class="inline-block mt-8 text-[var(--gold-dark)] font-semibold border-b-2 border-[var(--gold)] pb-1 hover:text-[var(--gold)]">
+      <ActionLink href="#contato" variant="underlined" class="mt-8">
         Entre em contato para outras formas de contribuição →
-      </a>
+      </ActionLink>
     </FeatureSplit>
 
     <BackgroundScreen
@@ -146,7 +148,7 @@ const contactDetails = [
         <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Preparação para pais e padrinhos</li>
         <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Acolhimento de todas as idades</li>
       </ul>
-      <a href="#contato" class="inline-block mt-8 btn-gold px-7 py-3 rounded-sm font-medium">Agende uma conversa</a>
+      <ActionLink href="#contato" class="mt-8">Agende uma conversa</ActionLink>
     </FeatureSplit>
 
     <section id="sacramentos" class="py-24 bg-white">
@@ -189,7 +191,7 @@ const contactDetails = [
             <div><label class="block text-sm font-semibold mb-1" for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" /></div>
             <div><label class="block text-sm font-semibold mb-1" for="assunto">Assunto</label><select id="assunto" name="assunto" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"><option>Informações gerais</option><option>Casamento</option><option>Batismo</option><option>Visita à comunidade</option><option>Doações</option></select></div>
             <div><label class="block text-sm font-semibold mb-1" for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" rows="4" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"></textarea></div>
-            <button type="submit" class="btn-gold w-full py-3 rounded-sm font-semibold tracking-wide">Enviar mensagem</button>
+            <ActionButton type="submit" class="w-full py-3 font-semibold tracking-wide">Enviar mensagem</ActionButton>
             <p id="formStatus" class="min-h-5 text-sm text-gray-600" role="status" aria-live="polite"></p>
           </form>
         </div>

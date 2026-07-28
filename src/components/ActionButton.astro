@@ -1,0 +1,16 @@
+---
+interface Props {
+  type?: "button" | "submit" | "reset";
+  variant?: "primary";
+  class?: string;
+}
+
+const { type = "button", variant = "primary", class: className } = Astro.props;
+const variantClass = {
+  primary: "btn-gold rounded-sm",
+}[variant];
+---
+
+<button type={type} class:list={[variantClass, className]}>
+  <slot />
+</button>

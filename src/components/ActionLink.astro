@@ -1,0 +1,23 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "light-outline" | "underlined";
+  size?: "default" | "hero";
+  class?: string;
+}
+
+const { href, variant = "primary", size = "default", class: className } = Astro.props;
+
+const variantClass = {
+  primary: "btn-gold rounded-sm font-medium",
+  "light-outline": "border-2 border-white/70 hover:border-white text-white rounded-sm font-medium transition",
+  underlined: "text-[var(--gold-dark)] font-semibold border-b-2 border-[var(--gold)] pb-1 hover:text-[var(--gold)]",
+}[variant];
+
+const sizeClass = variant === "underlined" ? "" : size === "hero" ? "px-8 py-3 tracking-wide" : "px-7 py-3";
+const displayClass = variant === "underlined" ? "inline-block" : "inline-flex items-center justify-center";
+---
+
+<a href={href} class:list={[displayClass, variantClass, sizeClass, className]}>
+  <slot />
+</a>
