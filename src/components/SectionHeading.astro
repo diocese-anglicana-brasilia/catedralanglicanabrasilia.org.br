@@ -1,0 +1,22 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  align?: "left" | "center";
+  titleClass?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  align = "left",
+  titleClass = "text-4xl md:text-5xl",
+} = Astro.props;
+
+const alignmentClass = align === "center" ? "text-center" : "";
+---
+
+<div class={alignmentClass}>
+  <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">{eyebrow}</div>
+  <h2 class:list={["serif font-bold mb-6", titleClass]}>{title}</h2>
+</div>

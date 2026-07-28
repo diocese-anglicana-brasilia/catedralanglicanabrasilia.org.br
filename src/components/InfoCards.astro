@@ -1,0 +1,33 @@
+---
+interface Card {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  items: Card[];
+  variant?: "overlay" | "bordered";
+}
+
+const { items, variant = "bordered" } = Astro.props;
+const cardClass = variant === "overlay"
+  ? "bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20"
+  : "border-t-2 border-[var(--gold)] pt-5";
+const titleClass = variant === "overlay"
+  ? "serif text-xl font-bold text-[var(--gold)] mb-2"
+  : "serif text-2xl font-bold mb-3";
+const descriptionClass = variant === "overlay"
+  ? "text-sm text-gray-100"
+  : "text-gray-600 text-sm leading-relaxed";
+---
+
+<div class="grid md:grid-cols-3 gap-6 text-left">
+  {
+    items.map((item) => (
+      <article class={cardClass}>
+        <h3 class={titleClass}>{item.title}</h3>
+        <p class={descriptionClass}>{item.description}</p>
+      </article>
+    ))
+  }
+</div>

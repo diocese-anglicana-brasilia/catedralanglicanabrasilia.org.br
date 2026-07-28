@@ -1,7 +1,40 @@
 ---
 import Footer from "../components/Footer.astro";
+import FeatureSplit from "../components/FeatureSplit.astro";
 import Header from "../components/Header.astro";
+import InfoCards from "../components/InfoCards.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const weddingCards = [
+  {
+    title: "Preparação",
+    description: "Encontros com o clero para discernimento e preparação espiritual do casal.",
+  },
+  {
+    title: "Cerimônia",
+    description: "Celebração litúrgica completa com música sacra e participação da comunidade.",
+  },
+  {
+    title: "Agendamento",
+    description: "Procure a secretaria com antecedência mínima de 6 meses.",
+  },
+];
+
+const sacramentCards = [
+  {
+    title: "Santa Eucaristia",
+    description: "Celebrada todos os domingos e em dias santos. É o centro da vida litúrgica, onde recebemos o Corpo e o Sangue de Cristo.",
+  },
+  {
+    title: "Confirmação",
+    description: "Sacramento no qual o bispo impõe as mãos sobre os fiéis, fortalecendo-os com o Espírito Santo para a vida cristã adulta.",
+  },
+  {
+    title: "Unção dos Enfermos",
+    description: "Ministério de cura e consolação, oferecido a quem enfrenta enfermidades, cirurgias ou momentos de fragilidade.",
+  },
+];
 ---
 
 <BaseLayout title="Catedral Anglicana de Brasília">
@@ -29,33 +62,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </section>
 
-    <section id="doacoes" class="py-24 bg-white">
-      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div class="fade-in">
-          <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Sustente a missão</div>
-          <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Faça sua doação</h2>
-          <p class="text-gray-700 leading-relaxed mb-5">
-            Sua contribuição mantém viva a missão da Catedral Anglicana de Brasília: celebrar os sacramentos,
-            acolher os que buscam, servir aos necessitados e anunciar o Evangelho de Cristo na capital do Brasil.
-          </p>
-          <p class="text-gray-700 leading-relaxed mb-8">
-            Os recursos são destinados à manutenção do templo, projetos sociais, formação de lideranças e apoio às
-            famílias da nossa comunidade.
-          </p>
-          <div class="bg-[var(--cream)] border-l-4 border-[var(--gold)] p-6 rounded-sm">
-            <h3 class="serif text-xl font-bold mb-3">Chave PIX</h3>
-            <div class="font-mono text-sm break-all text-gray-800">catedral.anglicana.bsb@ieab.org.br</div>
-            <div class="mt-4 text-xs text-gray-500">Catedral Anglicana de Brasília — Diocese Anglicana de Brasília</div>
-          </div>
-          <a href="#contato" class="inline-block mt-8 text-[var(--gold-dark)] font-semibold border-b-2 border-[var(--gold)] pb-1 hover:text-[var(--gold)]">
-            Entre em contato para outras formas de contribuição →
-          </a>
-        </div>
-        <div class="fade-in">
-          <img src="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1020c7f2e-1b46-4e79-bbd6-fb777f81c34a.png" alt="Comunidade em oração" class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
-        </div>
+    <FeatureSplit
+      id="doacoes"
+      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1020c7f2e-1b46-4e79-bbd6-fb777f81c34a.png"
+      imageAlt="Comunidade em oração"
+    >
+      <SectionHeading eyebrow="Sustente a missão" title="Faça sua doação" />
+      <p class="text-gray-700 leading-relaxed mb-5">
+        Sua contribuição mantém viva a missão da Catedral Anglicana de Brasília: celebrar os sacramentos,
+        acolher os que buscam, servir aos necessitados e anunciar o Evangelho de Cristo na capital do Brasil.
+      </p>
+      <p class="text-gray-700 leading-relaxed mb-8">
+        Os recursos são destinados à manutenção do templo, projetos sociais, formação de lideranças e apoio às
+        famílias da nossa comunidade.
+      </p>
+      <div class="bg-[var(--cream)] border-l-4 border-[var(--gold)] p-6 rounded-sm">
+        <h3 class="serif text-xl font-bold mb-3">Chave PIX</h3>
+        <div class="font-mono text-sm break-all text-gray-800">catedral.anglicana.bsb@ieab.org.br</div>
+        <div class="mt-4 text-xs text-gray-500">Catedral Anglicana de Brasília — Diocese Anglicana de Brasília</div>
       </div>
-    </section>
+      <a href="#contato" class="inline-block mt-8 text-[var(--gold-dark)] font-semibold border-b-2 border-[var(--gold)] pb-1 hover:text-[var(--gold)]">
+        Entre em contato para outras formas de contribuição →
+      </a>
+    </FeatureSplit>
 
     <section id="casamentos" class="relative py-28 img-section" style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1d7202bc0-f1a2-4623-914c-68f8a6b8b65f.png');">
       <div class="absolute inset-0 bg-black/55"></div>
@@ -66,67 +95,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           O matrimônio é um sacramento no qual duas pessoas se unem diante de Deus e da comunidade. Na Catedral
           Anglicana de Brasília, celebramos uniões com reverência, beleza e profundo significado espiritual.
         </p>
-        <div class="grid md:grid-cols-3 gap-6 mt-12 text-left">
-          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Preparação</h3>
-            <p class="text-sm text-gray-100">Encontros com o clero para discernimento e preparação espiritual do casal.</p>
-          </div>
-          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Cerimônia</h3>
-            <p class="text-sm text-gray-100">Celebração litúrgica completa com música sacra e participação da comunidade.</p>
-          </div>
-          <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-            <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Agendamento</h3>
-            <p class="text-sm text-gray-100">Procure a secretaria com antecedência mínima de 6 meses.</p>
-          </div>
+        <div class="mt-12">
+          <InfoCards items={weddingCards} variant="overlay" />
         </div>
       </div>
     </section>
 
-    <section id="batismos" class="py-24 bg-[var(--cream)]">
-      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div class="fade-in order-2 md:order-1">
-          <img src="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1eb7b7dc9-12e6-4f5f-9ba7-2c53a7e19cee.png" alt="Pia batismal e mesa de comunhão" class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
-        </div>
-        <div class="fade-in order-1 md:order-2">
-          <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Início da jornada de fé</div>
-          <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Batismos</h2>
-          <p class="text-gray-700 leading-relaxed mb-5">
-            O Batismo é o sacramento de iniciação cristã, pelo qual somos incorporados ao Corpo de Cristo e recebemos
-            o dom do Espírito Santo. Celebramos batismos de crianças, jovens e adultos.
-          </p>
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Celebrações mensais durante a Eucaristia dominical</li>
-            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Preparação para pais e padrinhos</li>
-            <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Acolhimento de todas as idades</li>
-          </ul>
-          <a href="#contato" class="inline-block mt-8 btn-gold px-7 py-3 rounded-sm font-medium">Agende uma conversa</a>
-        </div>
-      </div>
-    </section>
+    <FeatureSplit
+      id="batismos"
+      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1eb7b7dc9-12e6-4f5f-9ba7-2c53a7e19cee.png"
+      imageAlt="Pia batismal e mesa de comunhão"
+      imagePosition="left"
+      backgroundClass="bg-[var(--cream)]"
+    >
+      <SectionHeading eyebrow="Início da jornada de fé" title="Batismos" />
+      <p class="text-gray-700 leading-relaxed mb-5">
+        O Batismo é o sacramento de iniciação cristã, pelo qual somos incorporados ao Corpo de Cristo e recebemos
+        o dom do Espírito Santo. Celebramos batismos de crianças, jovens e adultos.
+      </p>
+      <ul class="space-y-3 text-gray-700">
+        <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Celebrações mensais durante a Eucaristia dominical</li>
+        <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Preparação para pais e padrinhos</li>
+        <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Acolhimento de todas as idades</li>
+      </ul>
+      <a href="#contato" class="inline-block mt-8 btn-gold px-7 py-3 rounded-sm font-medium">Agende uma conversa</a>
+    </FeatureSplit>
 
     <section id="sacramentos" class="py-24 bg-white">
       <div class="max-w-5xl mx-auto px-6 text-center fade-in">
-        <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Vida sacramental</div>
-        <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Sacramentos</h2>
+        <SectionHeading eyebrow="Vida sacramental" title="Sacramentos" align="center" />
         <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto mb-14">
           A Igreja Anglicana reconhece dois sacramentos maiores instituídos por Cristo — o Batismo e a Eucaristia — e
           cinco sacramentos menores (ou "sacramentais"): Confirmação, Ordem, Matrimônio, Penitência e Unção dos Enfermos.
         </p>
-        <div class="grid md:grid-cols-3 gap-6 text-left">
-          <div class="border-t-2 border-[var(--gold)] pt-5">
-            <h3 class="serif text-2xl font-bold mb-3">Santa Eucaristia</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">Celebrada todos os domingos e em dias santos. É o centro da vida litúrgica, onde recebemos o Corpo e o Sangue de Cristo.</p>
-          </div>
-          <div class="border-t-2 border-[var(--gold)] pt-5">
-            <h3 class="serif text-2xl font-bold mb-3">Confirmação</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">Sacramento no qual o bispo impõe as mãos sobre os fiéis, fortalecendo-os com o Espírito Santo para a vida cristã adulta.</p>
-          </div>
-          <div class="border-t-2 border-[var(--gold)] pt-5">
-            <h3 class="serif text-2xl font-bold mb-3">Unção dos Enfermos</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">Ministério de cura e consolação, oferecido a quem enfrenta enfermidades, cirurgias ou momentos de fragilidade.</p>
-          </div>
-        </div>
+        <InfoCards items={sacramentCards} />
       </div>
     </section>
 
