@@ -8,34 +8,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.12/index.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/index.min.css" />
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
 
   <!-- NAV -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow-sm">
-    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegação principal">
       <a href="#inicio" class="flex items-center gap-3">
-        <span class="cross-icon"></span>
+        <span class="cross-icon" aria-hidden="true"></span>
         <div class="leading-tight">
           <div class="serif text-lg font-bold tracking-wide">Catedral Anglicana</div>
           <div class="text-xs text-gray-500 tracking-widest uppercase">de Brasília</div>
         </div>
       </a>
-      <button class="menu-toggle text-2xl" id="menuBtn">☰</button>
-      <div class="nav-links flex gap-7 text-sm font-medium" id="navLinks">
-        <a href="#inicio" class="nav-link">Início</a>
-        <a href="#doacoes" class="nav-link">Doações</a>
-        <a href="#casamentos" class="nav-link">Casamentos</a>
-        <a href="#batismos" class="nav-link">Batismos</a>
-        <a href="#sacramentos" class="nav-link">Sacramentos</a>
-        <a href="#historia" class="nav-link">História</a>
-        <a href="#contato" class="nav-link">Contato</a>
-      </div>
+      <button class="menu-toggle text-2xl" id="menuBtn" type="button" aria-controls="navLinks" aria-expanded="false">
+        <span aria-hidden="true">☰</span><span class="sr-only" data-menu-label>Abrir menu</span>
+      </button>
+      <ul class="nav-links gap-7 text-sm font-medium list-none m-0 p-0" id="navLinks">
+        <li><a href="#inicio" class="nav-link">Início</a></li>
+        <li><a href="#doacoes" class="nav-link">Doações</a></li>
+        <li><a href="#casamentos" class="nav-link">Casamentos</a></li>
+        <li><a href="#batismos" class="nav-link">Batismos</a></li>
+        <li><a href="#sacramentos" class="nav-link">Sacramentos</a></li>
+        <li><a href="#historia" class="nav-link">História</a></li>
+        <li><a href="#contato" class="nav-link">Contato</a></li>
+      </ul>
     </nav>
   </header>
 
+  <main id="conteudo" tabindex="-1">
   <!-- HERO -->
   <section id="inicio" class="relative h-screen min-h-[600px] img-section flex items-center justify-center"
     style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/183af1eb3-1849-4f13-b0be-9a5e1c1b1635.png');">
@@ -73,7 +77,7 @@
           formação de lideranças e apoio às famílias da nossa comunidade.
         </p>
         <div class="bg-[var(--cream)] border-l-4 border-[var(--gold)] p-6 rounded-sm">
-          <div class="serif text-xl font-bold mb-3">Chave PIX</div>
+          <h3 class="serif text-xl font-bold mb-3">Chave PIX</h3>
           <div class="font-mono text-sm break-all text-gray-800">catedral.anglicana.bsb@ieab.org.br</div>
           <div class="mt-4 text-xs text-gray-500">Catedral Anglicana de Brasília — Diocese Anglicana de Brasília</div>
         </div>
@@ -104,17 +108,17 @@
       </p>
       <div class="grid md:grid-cols-3 gap-6 mt-12 text-left">
         <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-          <div class="serif text-xl font-bold text-[var(--gold)] mb-2">Preparação</div>
+          <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Preparação</h3>
           <p class="text-sm text-gray-100">Encontros com o clero para discernimento e preparação espiritual do casal.
           </p>
         </div>
         <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-          <div class="serif text-xl font-bold text-[var(--gold)] mb-2">Cerimônia</div>
+          <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Cerimônia</h3>
           <p class="text-sm text-gray-100">Celebração litúrgica completa com música sacra e participação da comunidade.
           </p>
         </div>
         <div class="bg-white/10 backdrop-blur p-6 rounded-sm border border-white/20">
-          <div class="serif text-xl font-bold text-[var(--gold)] mb-2">Agendamento</div>
+          <h3 class="serif text-xl font-bold text-[var(--gold)] mb-2">Agendamento</h3>
           <p class="text-sm text-gray-100">Procure a secretaria com antecedência mínima de 6 meses.</p>
         </div>
       </div>
@@ -138,11 +142,11 @@
           de crianças, jovens e adultos.
         </p>
         <ul class="space-y-3 text-gray-700">
-          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold">✦</span> Celebrações mensais durante a
+          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Celebrações mensais durante a
             Eucaristia dominical</li>
-          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold">✦</span> Preparação para pais e padrinhos
+          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Preparação para pais e padrinhos
           </li>
-          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold">✦</span> Acolhimento de todas as idades</li>
+          <li class="flex gap-3"><span class="text-[var(--gold)] font-bold" aria-hidden="true">✦</span> Acolhimento de todas as idades</li>
         </ul>
         <a href="#contato" class="inline-block mt-8 btn-gold px-7 py-3 rounded-sm font-medium">Agende uma conversa</a>
       </div>
@@ -227,7 +231,7 @@
           <div class="flex gap-4">
             <div
               class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0">
-              📍</div>
+              <span aria-hidden="true">📍</span></div>
             <div>
               <div class="font-bold">Endereço</div>
               <div class="text-gray-600 text-sm">Brasília — Distrito Federal, Brasil</div>
@@ -236,16 +240,16 @@
           <div class="flex gap-4">
             <div
               class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0">
-              ✉</div>
+              <span aria-hidden="true">✉</span></div>
             <div>
               <div class="font-bold">E-mail</div>
-              <div class="text-gray-600 text-sm">contato@catedralanglicanabsb.org.br</div>
+              <a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href="mailto:contato@catedralanglicanabsb.org.br">contato@catedralanglicanabsb.org.br</a>
             </div>
           </div>
           <div class="flex gap-4">
             <div
               class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0">
-              ☎</div>
+              <span aria-hidden="true">☎</span></div>
             <div>
               <div class="font-bold">Telefone</div>
               <div class="text-gray-600 text-sm">(61) 0000-0000</div>
@@ -254,7 +258,7 @@
           <div class="flex gap-4">
             <div
               class="w-10 h-10 rounded-full bg-[var(--gold)] text-white flex items-center justify-center flex-shrink-0">
-              🕐</div>
+              <span aria-hidden="true">🕐</span></div>
             <div>
               <div class="font-bold">Cultos dominicais</div>
               <div class="text-gray-600 text-sm">Domingos às 10h — Santa Eucaristia</div>
@@ -263,21 +267,20 @@
         </div>
       </div>
       <div class="fade-in">
-        <form class="bg-white p-8 rounded-sm shadow-lg space-y-4"
-          onsubmit="event.preventDefault(); alert('Mensagem enviada! Entraremos em contato em breve.'); this.reset();">
+        <form id="contactForm" class="bg-white p-8 rounded-sm shadow-lg space-y-4">
           <div>
-            <label class="block text-sm font-semibold mb-1">Nome</label>
-            <input type="text" required
+            <label class="block text-sm font-semibold mb-1" for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" required
               class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">E-mail</label>
-            <input type="email" required
+            <label class="block text-sm font-semibold mb-1" for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required
               class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Assunto</label>
-            <select
+            <label class="block text-sm font-semibold mb-1" for="assunto">Assunto</label>
+            <select id="assunto" name="assunto"
               class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]">
               <option>Informações gerais</option>
               <option>Casamento</option>
@@ -287,16 +290,18 @@
             </select>
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Mensagem</label>
-            <textarea rows="4" required
+            <label class="block text-sm font-semibold mb-1" for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="4" required
               class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"></textarea>
           </div>
           <button type="submit" class="btn-gold w-full py-3 rounded-sm font-semibold tracking-wide">Enviar
             mensagem</button>
+          <p id="formStatus" class="min-h-5 text-sm text-gray-600" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="bg-[#1a1a1a] text-gray-400 py-10">
@@ -310,7 +315,7 @@
     </div>
   </footer>
 
-  <script src="/script.js"></script>
+  <script src="script.js"></script>
 
 </body>
 
