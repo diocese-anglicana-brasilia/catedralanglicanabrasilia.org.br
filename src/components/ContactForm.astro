@@ -1,9 +1,15 @@
 ---
 import ActionButton from "./ActionButton.astro";
 import FormField from "./FormField.astro";
+
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
 ---
 
-<form data-contact-form class="bg-white p-8 rounded-sm shadow-lg space-y-4">
+<form
+  data-contact-form
+  data-contact-endpoint={contactEndpoint}
+  class="bg-white p-8 rounded-sm shadow-lg space-y-4"
+>
   <FormField id="nome" label="Nome">
     <input id="nome" name="nome" type="text" autocomplete="name" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
   </FormField>
@@ -23,5 +29,10 @@ import FormField from "./FormField.astro";
     <textarea id="mensagem" name="mensagem" rows="4" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]"></textarea>
   </FormField>
   <ActionButton type="submit" class="w-full py-3 font-semibold tracking-wide">Enviar mensagem</ActionButton>
-  <p data-form-status class="min-h-5 text-sm text-gray-600" role="status" aria-live="polite"></p>
+  <p
+    data-form-status
+    class="min-h-5 text-sm text-gray-600"
+    role="status"
+    aria-live="polite"
+  ></p>
 </form>

@@ -9,6 +9,22 @@ npm install
 npm run dev
 ```
 
+Para habilitar o formulário de contato, crie um arquivo `.env` a partir de
+`.env.example` e informe a URL do webhook do Flow de contato no Directus:
+
+```bash
+cp .env.example .env
+```
+
+```env
+PUBLIC_CONTACT_ENDPOINT=https://seu-directus/flows/trigger/seu-flow-id
+```
+
+No Directus, configure CORS para permitir a origem em que o site será servido.
+Durante o desenvolvimento local, inclua `http://localhost:4321`; em produção,
+inclua o domínio público do site. Sem isso, o navegador bloqueia o envio mesmo
+quando o webhook está funcionando.
+
 ## Verificação e publicação local
 
 ```bash
