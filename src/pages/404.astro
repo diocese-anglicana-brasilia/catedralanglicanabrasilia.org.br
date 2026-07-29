@@ -1,0 +1,29 @@
+---
+import ActionLink from "../components/ActionLink.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Página não encontrada | Catedral Anglicana de Brasília">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header isHomePage={false} />
+
+  <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] flex items-center px-6 py-32">
+    <section class="max-w-2xl mx-auto text-center">
+      <p class="text-xs tracking-[0.35em] uppercase text-[var(--gold)] mb-5">Erro 404</p>
+      <h1 class="serif text-5xl md:text-6xl font-bold mb-6">Página não encontrada</h1>
+      <p class="text-lg leading-relaxed text-gray-700 mb-9">
+        Parece que este caminho não existe ou foi movido. Você pode voltar para a página inicial ou usar a
+        navegação para encontrar o que procura.
+      </p>
+      <ActionLink href="/" size="hero">Voltar ao início</ActionLink>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../scripts/site.js";
+  </script>
+</BaseLayout>

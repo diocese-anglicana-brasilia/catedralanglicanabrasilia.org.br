@@ -1,6 +1,16 @@
+---
+interface Props {
+  isHomePage?: boolean;
+}
+
+const { isHomePage = true } = Astro.props;
+const homeHref = isHomePage ? "#inicio" : "/#inicio";
+const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${section}`);
+---
+
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow-sm">
   <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegação principal">
-    <a href="#inicio" class="flex items-center gap-3">
+    <a href={homeHref} class="flex items-center gap-3" data-site-brand>
       <span class="cross-icon" aria-hidden="true"></span>
       <span class="leading-tight">
         <span class="serif text-lg font-bold tracking-wide block">Catedral Anglicana</span>
@@ -11,13 +21,13 @@
       <span aria-hidden="true">☰</span><span class="sr-only" data-menu-label>Abrir menu</span>
     </button>
     <ul class="nav-links gap-7 text-sm font-medium list-none m-0 p-0" id="navLinks">
-      <li><a href="#inicio" class="nav-link">Início</a></li>
-      <li><a href="#doacoes" class="nav-link">Doações</a></li>
-      <li><a href="#casamentos" class="nav-link">Casamentos</a></li>
-      <li><a href="#batismos" class="nav-link">Batismos</a></li>
-      <li><a href="#sacramentos" class="nav-link">Sacramentos</a></li>
-      <li><a href="#historia" class="nav-link">História</a></li>
-      <li><a href="#contato" class="nav-link">Contato</a></li>
+      <li><a href={sectionHref("inicio")} class="nav-link">Início</a></li>
+      <li><a href={sectionHref("doacoes")} class="nav-link">Doações</a></li>
+      <li><a href={sectionHref("casamentos")} class="nav-link">Casamentos</a></li>
+      <li><a href={sectionHref("batismos")} class="nav-link">Batismos</a></li>
+      <li><a href={sectionHref("sacramentos")} class="nav-link">Sacramentos</a></li>
+      <li><a href={sectionHref("historia")} class="nav-link">História</a></li>
+      <li><a href={sectionHref("contato")} class="nav-link">Contato</a></li>
     </ul>
   </nav>
 </header>

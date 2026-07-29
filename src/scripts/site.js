@@ -1,48 +1,54 @@
 document.documentElement.classList.add("js");
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
 
 const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
-const menuLabel = menuBtn.querySelector("[data-menu-label]");
-const siteNav = menuBtn.closest("nav");
-const siteBrand = siteNav.querySelector('a[href="#inicio"]');
 
-const closeMenu = () => {
-  menuBtn.setAttribute("aria-expanded", "false");
-  menuLabel.textContent = "Abrir menu";
-};
+if (menuBtn && navLinks) {
+  const menuLabel = menuBtn.querySelector("[data-menu-label]");
+  const siteNav = menuBtn.closest("nav");
+  const siteBrand = siteNav?.querySelector("[data-site-brand]");
 
-menuBtn.addEventListener("click", () => {
-  const willOpen = menuBtn.getAttribute("aria-expanded") !== "true";
-  menuBtn.setAttribute("aria-expanded", String(willOpen));
-  menuLabel.textContent = willOpen ? "Fechar menu" : "Abrir menu";
-});
+  const closeMenu = () => {
+    menuBtn.setAttribute("aria-expanded", "false");
+    if (menuLabel) menuLabel.textContent = "Abrir menu";
+  };
 
-navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  menuBtn.addEventListener("click", () => {
+    const willOpen = menuBtn.getAttribute("aria-expanded") !== "true";
+    menuBtn.setAttribute("aria-expanded", String(willOpen));
+    if (menuLabel) menuLabel.textContent = willOpen ? "Fechar menu" : "Abrir menu";
+  });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeMenu();
-});
+  navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
-const updateMenuLayout = () => {
-  document.body.classList.remove("menu-collapsed");
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
 
-  const navStyles = window.getComputedStyle(siteNav);
-  const horizontalPadding =
-    Number.parseFloat(navStyles.paddingLeft) + Number.parseFloat(navStyles.paddingRight);
-  const availableWidth = siteNav.clientWidth - horizontalPadding;
-  const requiredWidth = siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + 32;
-  const shouldCollapse = requiredWidth > availableWidth;
+  const updateMenuLayout = () => {
+    if (!siteNav || !siteBrand) return;
 
-  document.body.classList.toggle("menu-collapsed", shouldCollapse);
-  if (!shouldCollapse) closeMenu();
-};
+    document.body.classList.remove("menu-collapsed");
 
-window.addEventListener("resize", updateMenuLayout);
-updateMenuLayout();
-window.addEventListener("load", updateMenuLayout);
-if (document.fonts) document.fonts.ready.then(updateMenuLayout);
+    const navStyles = window.getComputedStyle(siteNav);
+    const horizontalPadding =
+      Number.parseFloat(navStyles.paddingLeft) + Number.parseFloat(navStyles.paddingRight);
+    const availableWidth = siteNav.clientWidth - horizontalPadding;
+    const requiredWidth = siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + 32;
+    const shouldCollapse = requiredWidth > availableWidth;
+
+    document.body.classList.toggle("menu-collapsed", shouldCollapse);
+    if (!shouldCollapse) closeMenu();
+  };
+
+  window.addEventListener("resize", updateMenuLayout);
+  updateMenuLayout();
+  window.addEventListener("load", updateMenuLayout);
+  if (document.fonts) document.fonts.ready.then(updateMenuLayout);
+}
 
 const sections = document.querySelectorAll("section[id]");
 const navItems = document.querySelectorAll(".nav-link");
