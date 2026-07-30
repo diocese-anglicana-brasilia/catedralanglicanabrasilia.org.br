@@ -64,6 +64,49 @@ test("envia uma mensagem e confirma o sucesso", async ({ page }) => {
   expect(receivedPayload).toEqual(contactMessage);
 });
 
+test("impede o envio com campos obrigatórios ou e-mail inválido", async ({ page }) => {
+  let requestCount = 0;
+
+  await page.route("**/flows/trigger/**", async (route) => {
+    requestCount += 1;
+    await route.fulfill({ contentType: "application/json", body: "[1]" });
+  });
+
+  await page.goto("/#contato");
+  await page.getByRole("button", { name: "Enviar mensagem" }).click();
+  expect(await page.getByLabel("Nome").evaluate((input) => input.matches(":invalid"))).toBe(true);
+  expect(requestCount).toBe(0);
+
+  await page.getByLabel("Nome").fill(contactMessage.name);
+  await page.getByLabel("E-mail").fill("email-invalido");
+  await page.getByLabel("Mensagem").fill(contactMessage.message);
+  await page.getByRole("button", { name: "Enviar mensagem" }).click();
+  expect(await page.getByLabel("E-mail").evaluate((input) => input.matches(":invalid"))).toBe(true);
+  expect(requestCount).toBe(0);
+});
+
+test("expõe o estado de carregamento enquanto o formulário é enviado", async ({ page }) => {
+  await page.route("**/flows/trigger/**", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    await route.fulfill({
+      contentType: "application/json",
+      body: "[1]",
+      headers: { "access-control-allow-origin": "*" },
+    });
+  });
+
+  await page.goto("/#contato");
+  await fillContactForm(page);
+  await page.getByRole("button", { name: "Enviar mensagem" }).click();
+
+  await expect(page.getByRole("status")).toHaveText("Enviando mensagem...");
+  await expect(page.getByRole("button", { name: "Enviar mensagem" })).toBeDisabled();
+  await expect(page.locator("form")).toHaveAttribute("aria-busy", "true");
+  await expect(page.getByRole("status")).toHaveText(
+    "Mensagem enviada. Entraremos em contato em breve.",
+  );
+});
+
 test("mantém os dados e explica o erro quando o Directus recusa a mensagem", async ({ page }) => {
   await page.route("**/flows/trigger/**", async (route) => {
     await route.fulfill({
@@ -154,6 +197,69 @@ test("fecha o menu mobile ao pressionar Escape", async ({ page }, testInfo) => {
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 });
 
+test("respeita a preferência por movimento reduzido", async ({ browser }) => {
+  const context = await browser.newContext({
+    reducedMotion: "reduce",
+    viewport: { width: 1280, height: 900 },
+  });
+  const reducedMotionPage = await context.newPage();
+
+  await reducedMotionPage.goto("/");
+  const heroContent = reducedMotionPage.locator("#inicio .fade-in");
+
+  await expect(heroContent).toBeVisible();
+  expect(await heroContent.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+  expect(await heroContent.evaluate((element) => getComputedStyle(element).transform)).toMatch(
+    /^(none|matrix\(1, 0, 0, 1, 0, 0\))$/,
+  );
+
+  await context.close();
+});
+
+test("mantém a navegação utilizável em larguras intermediárias", async ({ browser }) => {
+  for (const width of [640, 768, 960]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    const intermediatePage = await context.newPage();
+
+    await intermediatePage.goto("/");
+    expect(
+      await intermediatePage.locator("html").evaluate((element) => element.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+
+    const menuButton = intermediatePage.locator("#menuBtn");
+    const contactLink = intermediatePage.locator('#navLinks a[href="#contato"]');
+
+    if (await menuButton.isVisible()) {
+      await expect(contactLink).toBeHidden();
+      await menuButton.click();
+      await expect(contactLink).toBeVisible();
+    } else {
+      await expect(contactLink).toBeVisible();
+    }
+
+    await context.close();
+  }
+});
+
+test("oferece alvos de toque adequados no menu e nas ações mobile", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Exclusivo do viewport mobile.");
+
+  await page.goto("/");
+  await page.locator("#menuBtn").click();
+
+  const targetSizes = await page
+    .locator("#menuBtn, #navLinks .nav-link, .btn-gold, [data-contact-form] button")
+    .evaluateAll((elements) =>
+      elements.map((element) => {
+        const { width, height } = element.getBoundingClientRect();
+        return { width, height };
+      }),
+    );
+
+  expect(targetSizes).not.toEqual([]);
+  expect(targetSizes.every(({ width, height }) => width >= 44 && height >= 44)).toBe(true);
+});
+
 test("mantém âncoras e contatos com destinos válidos", async ({ page }) => {
   await page.goto("/");
 
@@ -230,6 +336,33 @@ test("preserva o visual da página 404", async ({ page }, testInfo) => {
 
   await page.goto("/caminho-inexistente");
   await expect(page.locator("#conteudo")).toHaveScreenshot("not-found.png", {
+    animations: "disabled",
+  });
+});
+
+test("preserva o formulário de contato em desktop", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+
+  await page.goto("/#contato");
+  await expect(page.locator("[data-contact-form]")).toHaveScreenshot("contact-form-desktop.png", {
+    animations: "disabled",
+  });
+});
+
+test("preserva o formulário de contato em mobile", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Referência visual mobile.");
+
+  await page.goto("/#contato");
+  await expect(page.locator("[data-contact-form]")).toHaveScreenshot("contact-form-mobile.png", {
+    animations: "disabled",
+  });
+});
+
+test("preserva os cards de sacramentos em desktop", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+
+  await page.goto("/#sacramentos");
+  await expect(page.locator("#sacramentos .grid")).toHaveScreenshot("sacrament-cards-desktop.png", {
     animations: "disabled",
   });
 });

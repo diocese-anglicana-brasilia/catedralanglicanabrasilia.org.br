@@ -44,4 +44,13 @@ simulado durante esses testes, portanto nenhuma mensagem é enviada ao Directus.
 npm run test:e2e
 ```
 
+Há uma verificação de integração do Directus que não roda por padrão e não cria
+mensagens. Ela testa apenas o preflight CORS do webhook:
+
+```bash
+RUN_DIRECTUS_INTEGRATION_TESTS=true \
+DIRECTUS_CONTACT_ENDPOINT=https://seu-directus/flows/trigger/seu-flow-id \
+npm run test:e2e -- --grep Directus
+```
+
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.

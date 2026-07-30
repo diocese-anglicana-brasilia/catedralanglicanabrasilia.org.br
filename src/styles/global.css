@@ -97,6 +97,7 @@ html.js .fade-in.visible {
 .btn-gold {
   background: var(--gold-dark);
   color: #fff;
+  min-height: 2.75rem;
   transition:
     background 0.3s,
     transform 0.3s;
@@ -199,4 +200,10 @@ body.menu-collapsed .nav-links {
 
 body.menu-collapsed .menu-toggle[aria-expanded="true"] + .nav-links {
   display: flex;
+}
+
+body.menu-collapsed .nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
