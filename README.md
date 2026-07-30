@@ -33,4 +33,14 @@ npm run build
 npm run preview
 ```
 
+## Testes funcionais
+
+Os testes funcionais usam Playwright e são executados em Chromium com dois
+perfis: desktop e mobile. O webhook de contato é simulado durante esses testes,
+portanto nenhuma mensagem é enviada ao Directus.
+
+```bash
+npm run test:e2e
+```
+
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.
