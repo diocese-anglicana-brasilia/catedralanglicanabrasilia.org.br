@@ -36,8 +36,9 @@ npm run preview
 ## Testes funcionais
 
 Os testes funcionais usam Playwright e são executados em Chromium com dois
-perfis: desktop e mobile. O webhook de contato é simulado durante esses testes,
-portanto nenhuma mensagem é enviada ao Directus.
+perfis: desktop e mobile. Eles cobrem fluxos essenciais, responsividade e uma
+auditoria automática de acessibilidade com axe-core. O webhook de contato é
+simulado durante esses testes, portanto nenhuma mensagem é enviada ao Directus.
 
 ```bash
 npm run test:e2e

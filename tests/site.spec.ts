@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test("permite navegar até a seção de contato", async ({ page }, testInfo) => {
@@ -88,4 +89,35 @@ test("adapta a navegação ao tamanho da tela", async ({ page }, testInfo) => {
     await expect(menuButton).toBeHidden();
     await expect(contactLink).toBeVisible();
   }
+});
+
+test("não apresenta violações automáticas de acessibilidade", async ({ page }) => {
+  await page.goto("/");
+  await page.locator(".fade-in").evaluateAll((elements) => {
+    elements.forEach((element) => element.classList.add("visible"));
+  });
+  await page.waitForTimeout(900);
+
+  const accessibilityScan = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+
+  expect(accessibilityScan.violations).toEqual([]);
+});
+
+test("mantém o conteúdo responsivo e sem rolagem horizontal", async ({ page }, testInfo) => {
+  const isMobile = testInfo.project.name === "mobile-chromium";
+
+  await page.goto("/#contato");
+
+  const layout = await page.locator("#contato > div").evaluate((contactGrid) => ({
+    contentWidth: document.documentElement.scrollWidth,
+    viewportWidth: window.innerWidth,
+    contactColumns: getComputedStyle(contactGrid).gridTemplateColumns
+      .split(" ")
+      .filter(Boolean).length,
+  }));
+
+  expect(layout.contentWidth).toBeLessThanOrEqual(layout.viewportWidth);
+  expect(layout.contactColumns).toBe(isMobile ? 1 : 2);
 });

@@ -1,6 +1,7 @@
 :root {
   --gold: #c9a96e;
-  --gold-dark: #a8874a;
+  --gold-dark: #806127;
+  --gold-deep: #6b4f1d;
   --ink: #1a1a1a;
   --cream: #f7f3ec;
 }
@@ -94,7 +95,7 @@ html.js .fade-in.visible {
 }
 
 .btn-gold {
-  background: var(--gold);
+  background: var(--gold-dark);
   color: #fff;
   transition:
     background 0.3s,
@@ -102,7 +103,7 @@ html.js .fade-in.visible {
 }
 
 .btn-gold:hover {
-  background: var(--gold-dark);
+  background: var(--gold-deep);
   transform: translateY(-2px);
 }
 
