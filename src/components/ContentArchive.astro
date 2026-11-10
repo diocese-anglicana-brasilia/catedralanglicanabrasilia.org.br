@@ -25,6 +25,7 @@ const pageTitle = currentPage === 1 ? title : `${title} — página ${currentPag
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
     <div class="max-w-6xl mx-auto">
       <h1 class="serif text-4xl md:text-5xl font-bold mb-10">{title}</h1>
+      <slot name="before-list" />
       <CardGrid items={items} emptyMessage={emptyMessage} headingLevel={2} />
       <Pagination currentPage={currentPage} totalPages={totalPages} getPageHref={getPageHref} ariaLabel={`Paginação de ${title.toLocaleLowerCase("pt-BR")}`} />
     </div>

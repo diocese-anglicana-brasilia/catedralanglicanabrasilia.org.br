@@ -1,0 +1,116 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props { events: CollectionEntry<"events">[] }
+const events = Astro.props.events.map(({ id, data }) => ({
+  title: data.name,
+  href: `/events/${id}`,
+  start: data.start_date.toISOString(),
+  end: data.end_date?.toISOString(),
+}));
+const eventsJson = JSON.stringify(events).replace(/</g, "\\u003c");
+---
+
+<section class="event-calendar" aria-label="Calendário de eventos" hidden>
+  <div class="calendar-navigation">
+    <button type="button" data-previous aria-label="Mês anterior">‹ <span>Mês anterior</span></button>
+    <h2 class="serif" data-month aria-live="polite"></h2>
+    <button type="button" data-next aria-label="Próximo mês"><span>Próximo mês</span> ›</button>
+  </div>
+  <p class="calendar-timezone">Datas no horário de Brasília.</p>
+  <table>
+    <thead><tr>{["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"].map((day) => <th scope="col"><abbr title={day}>{day.slice(0, 3)}</abbr></th>)}</tr></thead>
+    <tbody data-days></tbody>
+  </table>
+  <script is:inline type="application/json" data-events set:html={eventsJson} />
+</section>
+
+<script>
+  type CalendarItem = { title: string; href: string; start: string; end?: string };
+  const dateFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" });
+  const monthFormatter = new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC", month: "long", year: "numeric" });
+
+  document.querySelectorAll<HTMLElement>(".event-calendar").forEach((calendar) => {
+    const events = JSON.parse(calendar.querySelector("[data-events]")!.textContent!) as CalendarItem[];
+    const days = calendar.querySelector<HTMLTableSectionElement>("[data-days]")!;
+    const heading = calendar.querySelector<HTMLElement>("[data-month]")!;
+    const today = dateFormatter.format(new Date()).split("-").map(Number);
+    let year = today[0];
+    let month = today[1] - 1;
+    const normalized = events.map((event) => ({
+      ...event,
+      startDay: dateFormatter.format(new Date(event.start)),
+      endDay: dateFormatter.format(new Date(event.end && event.end >= event.start ? event.end : event.start)),
+    })).sort((a, b) => a.start.localeCompare(b.start));
+
+    function render() {
+      heading.textContent = monthFormatter.format(new Date(Date.UTC(year, month, 1)));
+      days.replaceChildren();
+      const firstWeekday = new Date(Date.UTC(year, month, 1)).getUTCDay();
+      const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+      let row: HTMLTableRowElement;
+      for (let index = 0; index < Math.ceil((firstWeekday + lastDay) / 7) * 7; index++) {
+        if (index % 7 === 0) { row = days.insertRow(); }
+        const cell = row!.insertCell();
+        const day = index - firstWeekday + 1;
+        if (day < 1 || day > lastDay) { cell.className = "calendar-empty"; continue; }
+        const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        cell.dataset.date = key;
+        const label = document.createElement("time");
+        label.dateTime = key;
+        label.textContent = String(day);
+        cell.append(label);
+        const matching = normalized.filter((event) => event.startDay <= key && event.endDay >= key);
+        if (matching.length) {
+          const list = document.createElement("ul");
+          matching.forEach((event) => {
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = event.href;
+            link.textContent = event.title;
+            item.append(link); list.append(item);
+          });
+          cell.append(list);
+        }
+      }
+    }
+    function changeMonth(offset: number) {
+      const date = new Date(Date.UTC(year, month + offset, 1));
+      year = date.getUTCFullYear(); month = date.getUTCMonth(); render();
+    }
+    calendar.querySelector("[data-previous]")!.addEventListener("click", () => changeMonth(-1));
+    calendar.querySelector("[data-next]")!.addEventListener("click", () => changeMonth(1));
+    render();
+    calendar.hidden = false;
+  });
+</script>
+
+<style is:global>
+  .event-calendar { margin-bottom: 3rem; }
+  .event-calendar[hidden] { display: none; }
+  .calendar-navigation { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+  .calendar-navigation h2 { text-align: center; text-transform: capitalize; font-size: 1.5rem; font-weight: bold; }
+  .calendar-navigation button { color: var(--gold-dark); padding: .5rem; text-decoration: underline; cursor: pointer; }
+  .calendar-timezone { color: #595959; font-size: .875rem; margin: .5rem 0 1rem; }
+  .event-calendar table { width: 100%; table-layout: fixed; border-collapse: collapse; background: white; }
+  .event-calendar th, .event-calendar td { border: 1px solid #dedbd3; padding: .5rem; }
+  .event-calendar th { background: #f4f1ea; font-weight: 600; text-align: center; }
+  .event-calendar abbr { text-decoration: none; }
+  .event-calendar td { height: 6rem; vertical-align: top; overflow-wrap: anywhere; }
+  .event-calendar td time { font-weight: bold; }
+  .event-calendar td ul { margin-top: .35rem; list-style: none; padding: 0; }
+  .event-calendar td li + li { margin-top: .4rem; }
+  .event-calendar td a { color: var(--gold-dark); text-decoration: underline; font-size: .875rem; }
+  .event-calendar .calendar-empty { background: #f8f7f4; }
+  @media (max-width: 640px) {
+    .calendar-navigation button span { display: none; }
+    .calendar-navigation button { font-size: 2rem; line-height: 1; min-width: 2.75rem; }
+    .event-calendar table, .event-calendar tbody, .event-calendar tr, .event-calendar td { display: block; }
+    .event-calendar thead, .event-calendar .calendar-empty { display: none; }
+    .event-calendar td { height: auto; min-height: 2.75rem; }
+    .event-calendar td time { display: inline-block; min-width: 2rem; }
+    .event-calendar td ul { display: inline; }
+    .event-calendar td li { display: inline; }
+    .event-calendar td li + li::before { content: " · "; }
+  }
+</style>

@@ -52,3 +52,39 @@ test("mostra o período no card e os horários no detalhamento", async ({ page }
   await expect(dates.nth(1)).toHaveText(/31\/12\/2026.*09:00/);
   await expect(page.getByText("(horário de Brasília)")).toBeVisible();
 });
+
+test("apresenta calendário mensal navegável com eventos em todos os dias do período", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-02-15T15:00:00Z"));
+  await page.goto("/events/");
+  const calendar = page.getByRole("region", { name: "Calendário de eventos" });
+  await expect(calendar.getByRole("heading", { name: /fevereiro de 2026/i })).toBeVisible();
+  const firstDay = calendar.locator('[data-date="2026-02-01"]');
+  await expect(firstDay.getByRole("link", { name: "Evento de exemplo" })).toHaveAttribute("href", "/events/evento-exemplo");
+  await expect(calendar.locator('[data-date="2026-02-28"]').getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  await calendar.getByRole("button", { name: "Próximo mês" }).click();
+  await expect(calendar.getByRole("heading", { name: /março de 2026/i })).toBeVisible();
+  await calendar.getByRole("button", { name: "Mês anterior" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(calendar.getByRole("heading", { name: /fevereiro de 2026/i })).toBeVisible();
+  await expect(page.locator(".content-card").filter({ hasText: "Evento de exemplo" })).toBeVisible();
+});
+
+test("respeita o mês de Brasília e navega entre anos", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+  await page.goto("/events/");
+  const calendar = page.getByRole("region", { name: "Calendário de eventos" });
+  await expect(calendar.getByRole("heading", { name: /dezembro de 2026/i })).toBeVisible();
+  await expect(calendar.locator('[data-date="2026-12-31"]').getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  await calendar.getByRole("button", { name: "Próximo mês" }).click();
+  await expect(calendar.getByRole("heading", { name: /janeiro de 2027/i })).toBeVisible();
+  await expect(calendar.getByRole("link", { name: "Evento de exemplo" })).toHaveCount(0);
+});
+
+test("preserva a lista de eventos quando o JavaScript está desativado", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/events/");
+  await expect(page.locator(".content-card").getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Calendário de eventos" })).toHaveCount(0);
+  await context.close();
+});
