@@ -44,6 +44,10 @@ npm run test:e2e
 
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.
 
+O feed de notícias está disponível em `/rss.xml`. Ele inclui apenas notícias
+com status `published`, ordenadas da mais recente para a mais antiga; seu
+endereço público é definido pela configuração `site` do Astro.
+
 `PUBLIC_SITE_URL` define a URL canônica usada pelos metadados de SEO e pelas
 prévias em redes sociais. Caso o domínio público mude, atualize também as URLs
 em `public/robots.txt` e `public/sitemap.xml`.
