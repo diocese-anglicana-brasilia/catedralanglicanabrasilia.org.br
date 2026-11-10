@@ -87,6 +87,7 @@ collections:
   - name: locations
     label: Locais
     label_singular: Local
+    hide: true
     folder: src/content/locations
     identifier_field: name
     create: true
@@ -144,6 +145,7 @@ collections:
   - name: reverends
     label: Reverendo(a)s
     label_singular: Reverendo(a)
+    reorder: true
     create: true
     folder: src/content/reverends
     identifier_field: name
@@ -184,6 +186,7 @@ collections:
         file: src/content/pages/leadership.md
         fields:
           - { name: title, label: Título }
+          - { name: body, label: Conteúdo, widget: richtext }
           - name: board_members
             label: Membros da Junta
             widget: relation
@@ -191,20 +194,21 @@ collections:
             display_fields: [name]
             multiple: true
             required: false
-          - { name: body, label: Conteúdo, widget: richtext }
       - name: reverends-gallery
         label: Galeria de reverendos
         file: src/content/pages/reverends-gallery.md
         fields:
           - { name: title, label: Título }
+          - { name: body, label: Conteúdo, widget: richtext }
           - name: reverends
             label: Reverendo(a)s
             widget: relation
             collection: reverends
             display_fields: [name]
+            sort_by:
+              field: _manual
             multiple: true
             required: false
-          - { name: body, label: Conteúdo, widget: richtext }
       - name: donate
         label: Doar
         file: src/content/pages/donate.md
