@@ -1,5 +1,6 @@
 ---
 import type { CardItem } from "../types/card";
+import DateRange from "./DateRange.astro";
 
 interface Props {
   item: CardItem;
@@ -13,7 +14,7 @@ const Heading = headingLevel === 2 ? "h2" : "h3";
 <article class="content-card">
   {item.image && <div class="content-card-media"><img src={item.image.src} alt={item.image.alt} loading="lazy" /></div>}
   <div class="content-card-content">
-    {item.date && <time class="content-card-date" datetime={item.date.toISOString()}>{item.date.toLocaleDateString("pt-BR", { timeZone: "UTC" })}</time>}
+    {item.date && <div class="content-card-date"><DateRange start={item.date} end={item.endDate} timeZone={item.dateTimeZone} /></div>}
     <Heading class="serif content-card-title"><a href={item.href}>{item.title}</a></Heading>
     {item.description && <p class="content-card-description">{item.description}</p>}
   </div>

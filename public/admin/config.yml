@@ -104,7 +104,8 @@ collections:
     create: true
     fields:
       - { name: name, label: Nome }
-      - { name: date, label: Data, widget: datetime }
+      - { name: start_date, label: Data de início, widget: datetime }
+      - { name: end_date, label: Data de encerramento, widget: datetime, required: false }
       - name: location
         label: Local
         widget: relation

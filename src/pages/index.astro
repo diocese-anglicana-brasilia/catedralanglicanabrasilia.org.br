@@ -12,7 +12,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { newsCard, publishedNews } from "../utils/news";
-import { eventCard, orderEvents } from "../utils/events";
+import { eventCard, isCurrentOrUpcoming, orderEvents } from "../utils/events";
 
 const weddingCards = [
   {
@@ -75,6 +75,9 @@ const [news, events, about, contact, donate] = await Promise.all([
   getEntry("pages", "contact"),
   getEntry("pages", "donate"),
 ]);
+const featuredNews = publishedNews(news).slice(0, 3);
+const now = new Date();
+const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcoming(data, now)), now).slice(0, 3);
 ---
 
 <BaseLayout title="Catedral Anglicana de Brasília">
@@ -191,21 +194,21 @@ const [news, events, about, contact, donate] = await Promise.all([
       </div>
     </BackgroundScreen>
 
-    <section id="noticias" class="py-16 bg-white">
+    {featuredNews.length > 0 && <section id="noticias" class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-6">
         <h2 class="serif text-4xl font-bold mb-8">Notícias</h2>
-        <CardGrid items={publishedNews(news).slice(0, 3).map(newsCard)} emptyMessage="Ainda não há notícias publicadas." />
+        <CardGrid items={featuredNews.map(newsCard)} emptyMessage="Ainda não há notícias publicadas." />
         <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/news/">Ver todas as notícias</a>
       </div>
-    </section>
+    </section>}
 
-    <section id="eventos" class="py-16 bg-white">
+    {featuredEvents.length > 0 && <section id="eventos" class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-6">
         <h2 class="serif text-4xl font-bold mb-8">Eventos</h2>
-        <CardGrid items={orderEvents(events).slice(0, 3).map(eventCard)} emptyMessage="Ainda não há eventos cadastrados." />
+        <CardGrid items={featuredEvents.map(eventCard)} emptyMessage="Ainda não há eventos cadastrados." />
         <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/events/">Ver todos os eventos</a>
       </div>
-    </section>
+    </section>}
 
     <section id="contato" class="py-24 bg-[var(--cream)]">
       <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">

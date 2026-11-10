@@ -1,6 +1,7 @@
 ---
 name: Evento de exemplo
-date: 2026-01-01T12:00:00.000Z
+start_date: 2026-01-01T12:00:00.000Z
+end_date: 2026-12-31T12:00:00.000Z
 featured: false
 ---
 

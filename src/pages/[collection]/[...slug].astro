@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import DateRange from "../../components/DateRange.astro";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -56,7 +57,9 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
     <article class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-sm shadow-sm">
       <h1 class="serif text-4xl md:text-5xl font-bold mb-6">{title}</h1>
-      {date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
+      {entry.collection === "events" ? (
+        <p class="text-gray-600 mb-6"><DateRange start={entry.data.start_date} end={entry.data.end_date} showTime timeZone="America/Sao_Paulo" /> <span>(horário de Brasília)</span></p>
+      ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
       {image && <img src={typeof image === "string" ? image : image.src} alt="" class="w-full max-h-[32rem] object-cover mb-8" />}
       {entry.collection === "events" && entry.data.description && <p class="mb-6">{entry.data.description}</p>}
       {entry.collection === "programs" && <p class="mb-6">{entry.data.description}</p>}

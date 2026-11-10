@@ -46,7 +46,8 @@ const events = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
   schema: z.object({
     name: z.string(),
-    date: z.coerce.date(),
+    start_date: z.coerce.date(),
+    end_date: z.coerce.date().nullish(),
     location: z.string().nullish(),
     description: z.string().nullish(),
     registration_url: z.string().nullish(),

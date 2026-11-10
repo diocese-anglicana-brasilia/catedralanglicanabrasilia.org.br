@@ -1,0 +1,22 @@
+---
+interface Props {
+  start: Date;
+  end?: Date | null;
+  showTime?: boolean;
+  timeZone?: string;
+}
+
+const { start, end, showTime = false, timeZone = "UTC" } = Astro.props;
+const formatter = new Intl.DateTimeFormat("pt-BR", {
+  timeZone,
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  ...(showTime ? { hour: "2-digit", minute: "2-digit", hourCycle: "h23" as const } : {}),
+});
+---
+
+<span>
+  {end && <span>Início: </span>}<time datetime={start.toISOString()}>{formatter.format(start)}</time>
+  {end && <span> · Fim: <time datetime={end.toISOString()}>{formatter.format(end)}</time></span>}
+</span>
