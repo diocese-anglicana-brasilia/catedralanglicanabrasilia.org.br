@@ -4,8 +4,8 @@ board_members:
   - caio-costa
   - leo-carvalho
   - sandra-andrade
-  - tiago-palhano
   - phil-costa
+  - tiago-palhano
 ---
 
 A Junta Paroquial é responsável por liderar a igreja no âmbito administrativo, e é responsável por cuidar do patrimônio e zelar pelo bom andamento do culto e preservação institucional.
