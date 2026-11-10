@@ -9,22 +9,20 @@ npm install
 npm run dev
 ```
 
-Para habilitar o formulário de contato, crie um arquivo `.env` a partir de
-`.env.example` e informe a URL do webhook do Flow de contato no Directus:
+Para configurar o endereço público do site, crie um arquivo `.env` a partir de
+`.env.example`:
 
 ```bash
 cp .env.example .env
 ```
 
 ```env
-PUBLIC_CONTACT_ENDPOINT=https://seu-directus/flows/trigger/seu-flow-id
 PUBLIC_SITE_URL=https://catedralanglicanabrasilia.org.br
 ```
 
-No Directus, configure CORS para permitir a origem em que o site será servido.
-Durante o desenvolvimento local, inclua `http://localhost:4321`; em produção,
-inclua o domínio público do site. Sem isso, o navegador bloqueia o envio mesmo
-quando o webhook está funcionando.
+O formulário de contato está temporariamente indisponível, sem integração de
+envio. Enquanto isso, visitantes podem entrar em contato pelo e-mail informado
+na página.
 
 ## Verificação e publicação local
 
@@ -38,20 +36,10 @@ npm run preview
 
 Os testes funcionais usam Playwright e são executados em Chromium com dois
 perfis: desktop e mobile. Eles cobrem fluxos essenciais, responsividade e uma
-auditoria automática de acessibilidade com axe-core. O webhook de contato é
-simulado durante esses testes, portanto nenhuma mensagem é enviada ao Directus.
+auditoria automática de acessibilidade com axe-core.
 
 ```bash
 npm run test:e2e
-```
-
-Há uma verificação de integração do Directus que não roda por padrão e não cria
-mensagens. Ela testa apenas o preflight CORS do webhook:
-
-```bash
-RUN_DIRECTUS_INTEGRATION_TESTS=true \
-DIRECTUS_CONTACT_ENDPOINT=https://seu-directus/flows/trigger/seu-flow-id \
-npm run test:e2e -- --grep Directus
 ```
 
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.

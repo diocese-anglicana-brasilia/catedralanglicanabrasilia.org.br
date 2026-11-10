@@ -96,65 +96,6 @@ if ("IntersectionObserver" in window) {
   animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
-const contactForm = document.querySelector("[data-contact-form]");
-const formStatus = contactForm?.querySelector("[data-form-status]");
-
-const setFormStatus = (message, isError = false) => {
-  if (!formStatus) return;
-
-  formStatus.textContent = message;
-  formStatus.classList.toggle("text-red-700", isError);
-  formStatus.classList.toggle("text-gray-600", !isError);
-  formStatus.setAttribute("aria-live", isError ? "assertive" : "polite");
-};
-
-contactForm?.addEventListener("submit", async (event) => {
+document.querySelector("[data-contact-form]")?.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  const endpoint = contactForm.dataset.contactEndpoint;
-  const submitButton = contactForm.querySelector('[type="submit"]');
-
-  if (!endpoint) {
-    setFormStatus("O formulário ainda não está configurado para envio.", true);
-    return;
-  }
-
-  const formData = new FormData(contactForm);
-  const payload = {
-    name: formData.get("nome"),
-    email: formData.get("email"),
-    subject: formData.get("assunto"),
-    message: formData.get("mensagem"),
-  };
-
-  submitButton?.setAttribute("disabled", "");
-  contactForm.setAttribute("aria-busy", "true");
-  setFormStatus("Enviando mensagem...");
-
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const responseBody = await response.json().catch(() => null);
-    if (!response.ok || responseBody?.name === "DirectusError" || responseBody?.error) {
-      throw new Error("Directus rejected the contact message.");
-    }
-
-    contactForm.reset();
-    setFormStatus("Mensagem enviada. Entraremos em contato em breve.");
-  } catch {
-    setFormStatus(
-      "Não foi possível enviar sua mensagem agora. Tente novamente em alguns instantes.",
-      true,
-    );
-  } finally {
-    submitButton?.removeAttribute("disabled");
-    contactForm.removeAttribute("aria-busy");
-  }
 });
