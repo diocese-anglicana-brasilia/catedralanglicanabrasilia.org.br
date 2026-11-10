@@ -124,11 +124,16 @@ collections:
     create: true
     identifier_field: name
     fields:
-      - { name: name, label: Name }
-      - { name: role, label: Role }
+      - { name: name, label: Nome }
+      - { name: role, label: Cargo }
       - { name: bio, label: Bio, widget: richtext, required: false }
-      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
+      - widget: boolean
+        name: is_active
+        label: Está ativo?
+        required: true
+        default: true
   - name: programs
     label: Atividades
     label_singular: Atividade
@@ -154,7 +159,7 @@ collections:
       default: { field: start_date, direction: descending }
     fields:
       - { name: name, label: Nome }
-      - { name: role, label: Papel }
+      - { name: role, label: Cargo }
       - { name: bio, label: Biografia, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
