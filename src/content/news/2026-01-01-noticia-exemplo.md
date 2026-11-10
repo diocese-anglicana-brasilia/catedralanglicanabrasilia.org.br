@@ -1,7 +1,7 @@
 ---
 title: Notícia de exemplo
 date: 2026-01-01T12:00:00.000Z
-status: draft
+status: published
 excerpt: Conteúdo fictício para testar o cadastro de notícias.
 ---
 
