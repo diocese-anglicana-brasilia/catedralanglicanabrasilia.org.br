@@ -43,9 +43,11 @@ const image = entry.collection === "news" ? entry.data.featured_image : undefine
 const relatedMembers = entry.collection === "pages" && entry.data.board_members?.length
   ? await getCollection("board_members", ({ id }) => entry.data.board_members?.includes(id) ?? false)
   : [];
-const relatedReverends = entry.collection === "pages" && entry.data.reverends?.length
-  ? await getCollection("reverends", ({ id }) => entry.data.reverends?.includes(id) ?? false)
+const reverendIds = entry.collection === "pages" ? entry.data.reverends ?? [] : [];
+const matchingReverends = reverendIds.length
+  ? await getCollection("reverends", ({ id }) => reverendIds.includes(id))
   : [];
+const relatedReverends = reverendIds.flatMap((id) => matchingReverends.filter((reverend) => reverend.id === id));
 const relatedPrograms = entry.collection === "pages" && entry.data.programs?.length
   ? await getCollection("programs", ({ id }) => entry.data.programs?.includes(id) ?? false)
   : [];
@@ -70,7 +72,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       )}
       <div class="content-body text-gray-700 leading-relaxed"><Content /></div>
       {relatedMembers.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Junta Paroquial</h2><ul class="space-y-3">{relatedMembers.map(({ data }) => <li><strong>{data.name}</strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
-      {relatedReverends.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Reverendo(a)s</h2><ul class="space-y-3">{relatedReverends.map(({ data }) => <li><strong>{data.name}</strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
+      {relatedReverends.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Reverendo(a)s</h2><ul class="space-y-3">{relatedReverends.map(({ id, data }) => <li><strong><a class="underline text-[var(--gold-dark)]" href={`/reverends/${id}`}>{data.name}</a></strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
       {relatedPrograms.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Atividades</h2><ul class="space-y-3">{relatedPrograms.map(({ data }) => <li><strong>{data.name}</strong><p>{data.description}</p></li>)}</ul></section>}
       {entry.collection === "events" && entry.data.registration_url && (
         <p class="mt-6"><a class="underline text-[var(--gold-dark)]" href={entry.data.registration_url}>Inscreva-se</a></p>
