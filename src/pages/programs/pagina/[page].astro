@@ -1,0 +1,24 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import ContentArchive from "../../../components/ContentArchive.astro";
+import { paginateItems } from "../../../utils/pagination";
+import { orderPrograms, programCard, programsPageHref } from "../../../utils/programs";
+
+export async function getStaticPaths() {
+  const pages = paginateItems(orderPrograms(await getCollection("programs")));
+  return pages.slice(1).map((entries, index) => ({
+    params: { page: String(index + 2) },
+    props: { entries, currentPage: index + 2, totalPages: pages.length },
+  }));
+}
+
+interface Props {
+  entries: CollectionEntry<"programs">[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { entries, currentPage, totalPages } = Astro.props;
+---
+
+<ContentArchive title="Ações sociais" items={entries.map(programCard)} emptyMessage="Ainda não há ações sociais cadastradas." currentPage={currentPage} totalPages={totalPages} getPageHref={programsPageHref} />

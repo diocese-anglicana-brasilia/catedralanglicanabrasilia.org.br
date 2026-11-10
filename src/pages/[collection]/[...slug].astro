@@ -8,14 +8,16 @@ type PublicEntry =
   | CollectionEntry<"news">
   | CollectionEntry<"events">
   | CollectionEntry<"locations">
+  | CollectionEntry<"programs">
   | CollectionEntry<"pages">;
 
 export async function getStaticPaths() {
-  const [news, events, locations, pages] = await Promise.all([
+  const [news, events, locations, pages, programs] = await Promise.all([
     getCollection("news", ({ data }) => data.status === "published"),
     getCollection("events"),
     getCollection("locations"),
     getCollection("pages"),
+    getCollection("programs"),
   ]);
 
   return [
@@ -23,6 +25,7 @@ export async function getStaticPaths() {
     ...events.map((entry) => ({ params: { collection: "events", slug: entry.id }, props: { entry } })),
     ...locations.map((entry) => ({ params: { collection: "locations", slug: entry.id }, props: { entry } })),
     ...pages.map((entry) => ({ params: { collection: "pages", slug: entry.id }, props: { entry } })),
+    ...programs.map((entry) => ({ params: { collection: "programs", slug: entry.id }, props: { entry } })),
   ];
 }
 
@@ -56,6 +59,9 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
       {image && <img src={typeof image === "string" ? image : image.src} alt="" class="w-full max-h-[32rem] object-cover mb-8" />}
       {entry.collection === "events" && entry.data.description && <p class="mb-6">{entry.data.description}</p>}
+      {entry.collection === "programs" && <p class="mb-6">{entry.data.description}</p>}
+      {entry.collection === "programs" && entry.data.goals?.length && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Objetivos</h2><ul class="list-disc pl-6">{entry.data.goals.map((goal) => <li>{goal}</li>)}</ul></section>}
+      {entry.collection === "programs" && entry.data.impact && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Impacto</h2><p>{entry.data.impact}</p></section>}
       {entry.collection === "locations" && (
         <p class="mb-6">{[entry.data.address, entry.data.city].filter(Boolean).join(" — ")}</p>
       )}

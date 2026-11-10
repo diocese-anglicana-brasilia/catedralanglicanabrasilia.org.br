@@ -1,0 +1,10 @@
+---
+import { getCollection } from "astro:content";
+import ContentArchive from "../../components/ContentArchive.astro";
+import { paginateItems } from "../../utils/pagination";
+import { orderPrograms, programCard, programsPageHref } from "../../utils/programs";
+
+const pages = paginateItems(orderPrograms(await getCollection("programs")));
+---
+
+<ContentArchive title="Ações sociais" items={pages[0].map(programCard)} emptyMessage="Ainda não há ações sociais cadastradas." currentPage={1} totalPages={pages.length} getPageHref={programsPageHref} />
