@@ -87,7 +87,6 @@ collections:
   - name: locations
     label: Locais
     label_singular: Local
-    hide: true
     folder: src/content/locations
     identifier_field: name
     create: true
