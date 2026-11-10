@@ -68,28 +68,13 @@ const contactDetails = [
   },
 ];
 
-const [news, events, locations, dean, leadership, gallery, about, contact, donate] = await Promise.all([
+const [news, events, about, contact, donate] = await Promise.all([
   getCollection("news", ({ data }) => data.status === "published"),
   getCollection("events"),
-  getCollection("locations"),
-  getEntry("pages", "dean"),
-  getEntry("pages", "leadership"),
-  getEntry("pages", "reverends_gallery"),
   getEntry("pages", "about"),
   getEntry("pages", "contact"),
   getEntry("pages", "donate"),
 ]);
-const lists = [
-  { id: "locais", title: "Endereço", entries: locations.map((entry) => ({ title: entry.data.name, href: `/locations/${entry.id}` })) },
-];
-const editorialPages = await Promise.all([
-  { id: "lideranca", entry: leadership },
-  { id: "reverenda-dea", entry: dean },
-  { id: "galeria-reverendos", entry: gallery },
-].filter(({ entry }) => entry !== undefined).map(async ({ id, entry }) => {
-  const { Content } = await render(entry!);
-  return { id, entry: entry!, Content };
-}));
 ---
 
 <BaseLayout title="Catedral Anglicana de Brasília">
@@ -221,25 +206,6 @@ const editorialPages = await Promise.all([
         <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/events/">Ver todos os eventos</a>
       </div>
     </section>
-
-    {lists.map(({ id, title, entries }) => (
-      <section id={id} class="py-16 bg-white">
-        <div class="max-w-5xl mx-auto px-6">
-          <h2 class="serif text-4xl font-bold mb-4">{title}</h2>
-          {entries.length ? <ul class="space-y-3">{entries.map((entry) => <li><a class="underline text-[var(--gold-dark)]" href={entry.href}>{entry.title}</a></li>)}</ul> : <p class="text-gray-700">Conteúdo em preparação.</p>}
-        </div>
-      </section>
-    ))}
-
-    {editorialPages.map(({ id, entry, Content }) => (
-      <section id={id} class="py-16 bg-white">
-        <div class="max-w-5xl mx-auto px-6">
-          <h2 class="serif text-4xl font-bold mb-4">{entry.data.title}</h2>
-          <div class="content-body text-gray-700"><Content /></div>
-          <a class="inline-block mt-4 underline text-[var(--gold-dark)]" href={`/pages/${entry.id}`}>Leia mais</a>
-        </div>
-      </section>
-    ))}
 
     <section id="contato" class="py-24 bg-[var(--cream)]">
       <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">

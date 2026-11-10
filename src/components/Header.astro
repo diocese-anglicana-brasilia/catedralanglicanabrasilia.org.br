@@ -24,10 +24,10 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
       <li class="nav-group">
         <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-sobre">Sobre <span aria-hidden="true">▾</span></button>
         <ul id="submenu-sobre" class="nav-submenu" hidden>
-          <li><a href={sectionHref("historia")} class="nav-link">Sobre (História)</a></li>
-          <li><a href={sectionHref("reverenda-dea")} class="nav-link">Reverenda Deã</a></li>
-          <li><a href={sectionHref("galeria-reverendos")} class="nav-link">Galeria de reverendos</a></li>
-          <li><a href={sectionHref("lideranca")} class="nav-link">Liderança</a></li>
+          <li><a href="/pages/about" class="nav-link">Sobre nós</a></li>
+          <li><a href="/pages/dean" class="nav-link">Reverenda Deã</a></li>
+          <li><a href="/pages/reverends-gallery" class="nav-link">Galeria de reverendo(a)s</a></li>
+          <li><a href="/pages/leadership" class="nav-link">Liderança</a></li>
         </ul>
       </li>
       <li class="nav-group">
@@ -40,11 +40,11 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
       <li class="nav-group">
         <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-contato">Fale conosco <span aria-hidden="true">▾</span></button>
         <ul id="submenu-contato" class="nav-submenu" hidden>
-          <li><a href={sectionHref("contato")} class="nav-link">Contato</a></li>
+          <li><a href="/pages/contact" class="nav-link">Contato</a></li>
           <li><a href={sectionHref("locais")} class="nav-link">Endereço</a></li>
         </ul>
       </li>
-      <li><a href={sectionHref("doacoes")} class="nav-link">Doar</a></li>
+      <li><a href="/pages/donate" class="nav-link">Doar</a></li>
     </ul>
   </nav>
 </header>
