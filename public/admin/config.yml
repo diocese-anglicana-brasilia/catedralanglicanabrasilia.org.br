@@ -192,9 +192,9 @@ collections:
             multiple: true
             required: false
           - { name: body, label: Conteúdo, widget: richtext }
-      - name: reverends_gallery
+      - name: reverends-gallery
         label: Galeria de reverendos
-        file: src/content/pages/reverends_gallery.md
+        file: src/content/pages/reverends-gallery.md
         fields:
           - { name: title, label: Título }
           - name: reverends
