@@ -1,13 +1,14 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-test("permite navegar até a seção de contato", async ({ page }, testInfo) => {
+test("permite navegar até a seção de contato", async ({ page }) => {
   await page.goto("/");
 
-  if (testInfo.project.name === "mobile-chromium") {
+  if (await page.locator("#menuBtn").isVisible()) {
     await page.locator("#menuBtn").click();
   }
 
+  await page.getByRole("button", { name: "Fale conosco" }).click();
   await page.locator('#navLinks a[href="#contato"]').click();
 
   await expect(page).toHaveURL(/#contato$/);
@@ -31,20 +32,19 @@ test("exibe uma página 404 com retorno à página inicial", async ({ page }) =>
   await expect(page).toHaveURL(/\/$/);
 });
 
-test("adapta a navegação ao tamanho da tela", async ({ page }, testInfo) => {
-  const isMobile = testInfo.project.name === "mobile-chromium";
-
+test("adapta a navegação ao tamanho da tela", async ({ page }) => {
   await page.goto("/");
 
   const menuButton = page.locator("#menuBtn");
   const contactLink = page.locator('#navLinks a[href="#contato"]');
 
-  if (isMobile) {
+  if (await menuButton.isVisible()) {
     await expect(menuButton).toBeVisible();
     await expect(contactLink).toBeHidden();
 
     await menuButton.click();
     await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+    await page.getByRole("button", { name: "Fale conosco" }).click();
     await expect(contactLink).toBeVisible();
 
     await contactLink.click();
@@ -52,8 +52,42 @@ test("adapta a navegação ao tamanho da tela", async ({ page }, testInfo) => {
     await expect(menuButton).toHaveAttribute("aria-expanded", "false");
   } else {
     await expect(menuButton).toBeHidden();
+    await page.getByRole("button", { name: "Fale conosco" }).click();
     await expect(contactLink).toBeVisible();
   }
+});
+
+test("agrupa os destinos e permite navegar pelos submenus", async ({ page }) => {
+  await page.goto("/");
+  const menuButton = page.locator("#menuBtn");
+  if (await menuButton.isVisible()) await menuButton.click();
+
+  for (const [group, links] of [
+    ["Sobre", ["Sobre (História)", "Reverenda Deã", "Galeria de reverendos", "Liderança"]],
+    ["O que fazemos", ["Notícias", "Eventos"]],
+    ["Fale conosco", ["Contato", "Endereço"]],
+  ] as const) {
+    const button = page.getByRole("button", { name: group, exact: true });
+    await button.click();
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    for (const title of links) {
+      await expect(page.locator("#navLinks").getByRole("link", { name: title, exact: true })).toBeVisible();
+    }
+  }
+
+  await page.locator('#navLinks a[href="#contato"]').click();
+  await expect(page).toHaveURL(/#contato$/);
+});
+
+test("fecha o submenu com Escape e devolve o foco ao agrupador", async ({ page }) => {
+  await page.goto("/");
+  if (await page.locator("#menuBtn").isVisible()) await page.locator("#menuBtn").click();
+  const group = page.getByRole("button", { name: "Sobre", exact: true });
+  await group.click();
+  await page.getByRole("link", { name: "Reverenda Deã" }).focus();
+  await page.keyboard.press("Escape");
+  await expect(group).toHaveAttribute("aria-expanded", "false");
+  await expect(group).toBeFocused();
 });
 
 test("permite pular diretamente ao conteúdo com o teclado", async ({ page }) => {
@@ -130,10 +164,9 @@ test("mantém a navegação utilizável em larguras intermediárias", async ({ b
     if (await menuButton.isVisible()) {
       await expect(contactLink).toBeHidden();
       await menuButton.click();
-      await expect(contactLink).toBeVisible();
-    } else {
-      await expect(contactLink).toBeVisible();
     }
+    await intermediatePage.getByRole("button", { name: "Fale conosco" }).click();
+    await expect(contactLink).toBeVisible();
 
     await context.close();
   }
@@ -146,7 +179,7 @@ test("oferece alvos de toque adequados no menu e nas ações mobile", async ({ p
   await page.locator("#menuBtn").click();
 
   const targetSizes = await page
-    .locator("#menuBtn, #navLinks .nav-link, .btn-gold, [data-contact-form] button")
+    .locator("#menuBtn, #navLinks .nav-link:visible, #navLinks .nav-group-toggle, .btn-gold, [data-contact-form] button")
     .evaluateAll((elements) =>
       elements.map((element) => {
         const { width, height } = element.getBoundingClientRect();

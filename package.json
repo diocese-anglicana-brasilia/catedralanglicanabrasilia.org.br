@@ -13,11 +13,16 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.1.2",
-    "astro": "^7.1.5",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/mdx": "^8.1.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.1.5"
   }
 }

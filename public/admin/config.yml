@@ -10,6 +10,9 @@ slug:
 
 publish_mode: editorial_workflow
 
+output:
+  omit_empty_optional_fields: true
+
 backend:
   name: github
   branch: main
@@ -32,8 +35,9 @@ collections:
   - name: news
     label: Notícias
     label_singular: Notícia
-    folder: /content/news
+    folder: src/content/news
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    create: true
     summary: '{{title}} ({{date}})'
     sortable_fields:
       fields: [date, title]
@@ -44,7 +48,7 @@ collections:
       - name: author
         label: Autor
         widget: relation
-        collection: autores
+        collection: authors
         display_fields: [name]
         required: false
       - name: tags
@@ -63,14 +67,16 @@ collections:
       - { name: body, label: Conteúdo, widget: richtext }
   - name: tags
     label: Tags
+    create: true
     label_singular: Tag
-    folder: /content/tags
+    folder: src/content/tags
     fields:
       - { name: title, label: Title }
   - name: authors
     label: Autores
     label_singular: Autor
-    folder: /content/authors
+    create: true
+    folder: src/content/authors
     identifier_field: name
     fields:
       - { name: name, label: Nome }
@@ -80,8 +86,9 @@ collections:
   - name: locations
     label: Locais
     label_singular: Local
-    folder: /content/locations
+    folder: src/content/locations
     identifier_field: name
+    create: true
     fields:
       - { name: name, label: Nome }
       - { name: map_location, label: Mapa, type: Point, widget: Map, required: false }
@@ -92,8 +99,9 @@ collections:
   - name: events
     label: Eventos
     label_singular: Evento
-    folder: /content/events
+    folder: src/content/events
     identifier_field: name
+    create: true
     fields:
       - { name: name, label: Nome }
       - { name: date, label: Data, widget: datetime }
@@ -109,7 +117,8 @@ collections:
   - name: board_members
     label: Membros da Junta Paroquial
     label_singular: Membro da Junta Paroquial
-    folder: /content/board-members
+    folder: src/content/board-members
+    create: true
     identifier_field: name
     fields:
       - { name: name, label: Name }
@@ -120,7 +129,8 @@ collections:
   - name: programs
     label: Atividades
     label_singular: Atividade
-    folder: /content/programs
+    folder: src/content/programs
+    create: true
     identifier_field: name
     fields:
       - { name: name, label: Nome }
@@ -132,7 +142,8 @@ collections:
   - name: reverends
     label: Reverendo(a)s
     label_singular: Reverendo(a)
-    folder: /content/reverends
+    create: true
+    folder: src/content/reverends
     identifier_field: name
     sortable_fields:
       fields: [start_date, end_date]
@@ -150,19 +161,25 @@ collections:
     files:
       - name: about
         label: Sobre
-        file: /content/pages/about.md
+        file: src/content/pages/about.md
         fields:
           - { name: title, label: Título }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: contact
         label: Contato
-        file: /content/pages/contact.md
+        file: src/content/pages/contact.md
+        fields:
+          - { name: title, label: Título }
+          - { name: body, label: Conteúdo, widget: richtext }
+      - name: dean
+        label: Reverenda Deã
+        file: src/content/pages/dean.md
         fields:
           - { name: title, label: Título }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: leadership
         label: Liderança
-        file: /content/pages/leadership.md
+        file: src/content/pages/leadership.md
         fields:
           - { name: title, label: Título }
           - name: board_members
@@ -175,7 +192,7 @@ collections:
           - { name: body, label: Conteúdo, widget: richtext }
       - name: reverends_gallery
         label: Galeria de reverendos
-        file: /content/pages/reverends_gallery.md
+        file: src/content/pages/reverends_gallery.md
         fields:
           - { name: title, label: Título }
           - name: reverends
@@ -188,13 +205,13 @@ collections:
           - { name: body, label: Conteúdo, widget: richtext }
       - name: donate
         label: Doar
-        file: /content/pages/donate.md
+        file: src/content/pages/donate.md
         fields:
           - { name: title, label: Título }
           - { name: body, label: Body, widget: richtext }
       - name: programs
         label: Atividades
-        file: /content/pages/programs.md
+        file: src/content/pages/programs.md
         fields:
           - { name: title, label: Title }
           - name: programs

@@ -10,26 +10,60 @@ if (menuBtn && navLinks) {
   const menuLabel = menuBtn.querySelector("[data-menu-label]");
   const siteNav = menuBtn.closest("nav");
   const siteBrand = siteNav?.querySelector("[data-site-brand]");
+  const groupButtons = [...navLinks.querySelectorAll(".nav-group-toggle")];
+
+  const closeSubmenus = (except = null) => {
+    groupButtons.forEach((button) => {
+      if (button === except) return;
+      button.setAttribute("aria-expanded", "false");
+      const submenu = document.getElementById(button.getAttribute("aria-controls"));
+      if (submenu) submenu.hidden = true;
+    });
+  };
 
   const closeMenu = ({ restoreFocus = false } = {}) => {
     const shouldRestoreFocus = restoreFocus && navLinks.contains(document.activeElement);
 
     menuBtn.setAttribute("aria-expanded", "false");
+    closeSubmenus();
     if (menuLabel) menuLabel.textContent = "Abrir menu";
     if (shouldRestoreFocus) menuBtn.focus();
   };
 
   menuBtn.addEventListener("click", () => {
     const willOpen = menuBtn.getAttribute("aria-expanded") !== "true";
+    if (!willOpen) closeSubmenus();
     menuBtn.setAttribute("aria-expanded", String(willOpen));
     if (menuLabel) menuLabel.textContent = willOpen ? "Fechar menu" : "Abrir menu";
+  });
+
+  groupButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const willOpen = button.getAttribute("aria-expanded") !== "true";
+      closeSubmenus(button);
+      button.setAttribute("aria-expanded", String(willOpen));
+      const submenu = document.getElementById(button.getAttribute("aria-controls"));
+      if (submenu) submenu.hidden = !willOpen;
+    });
   });
 
   navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && menuBtn.getAttribute("aria-expanded") === "true") {
+    if (event.key !== "Escape") return;
+    const openButton = groupButtons.find((button) => button.getAttribute("aria-expanded") === "true");
+    if (openButton) {
+      closeSubmenus();
+      openButton.focus();
+    } else if (menuBtn.getAttribute("aria-expanded") === "true") {
       closeMenu({ restoreFocus: true });
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!siteNav?.contains(event.target)) {
+      closeSubmenus();
+      if (menuBtn.getAttribute("aria-expanded") === "true") closeMenu();
     }
   });
 

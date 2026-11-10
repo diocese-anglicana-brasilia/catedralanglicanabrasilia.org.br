@@ -21,13 +21,31 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
       <span aria-hidden="true">☰</span><span class="sr-only" data-menu-label>Abrir menu</span>
     </button>
     <ul class="nav-links gap-7 text-sm font-medium list-none m-0 p-0" id="navLinks">
-      <li><a href={sectionHref("inicio")} class="nav-link">Início</a></li>
-      <li><a href={sectionHref("doacoes")} class="nav-link">Doações</a></li>
-      <li><a href={sectionHref("casamentos")} class="nav-link">Casamentos</a></li>
-      <li><a href={sectionHref("batismos")} class="nav-link">Batismos</a></li>
-      <li><a href={sectionHref("sacramentos")} class="nav-link">Sacramentos</a></li>
-      <li><a href={sectionHref("historia")} class="nav-link">História</a></li>
-      <li><a href={sectionHref("contato")} class="nav-link">Contato</a></li>
+      <li><a href={sectionHref("inicio")} class="nav-link">Home</a></li>
+      <li class="nav-group">
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-sobre">Sobre <span aria-hidden="true">▾</span></button>
+        <ul id="submenu-sobre" class="nav-submenu" hidden>
+          <li><a href={sectionHref("historia")} class="nav-link">Sobre (História)</a></li>
+          <li><a href={sectionHref("reverenda-dea")} class="nav-link">Reverenda Deã</a></li>
+          <li><a href={sectionHref("galeria-reverendos")} class="nav-link">Galeria de reverendos</a></li>
+          <li><a href={sectionHref("lideranca")} class="nav-link">Liderança</a></li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-atividades">O que fazemos <span aria-hidden="true">▾</span></button>
+        <ul id="submenu-atividades" class="nav-submenu" hidden>
+          <li><a href={sectionHref("noticias")} class="nav-link">Notícias</a></li>
+          <li><a href={sectionHref("eventos")} class="nav-link">Eventos</a></li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-contato">Fale conosco <span aria-hidden="true">▾</span></button>
+        <ul id="submenu-contato" class="nav-submenu" hidden>
+          <li><a href={sectionHref("contato")} class="nav-link">Contato</a></li>
+          <li><a href={sectionHref("locais")} class="nav-link">Endereço</a></li>
+        </ul>
+      </li>
+      <li><a href={sectionHref("doacoes")} class="nav-link">Doar</a></li>
     </ul>
   </nav>
 </header>
