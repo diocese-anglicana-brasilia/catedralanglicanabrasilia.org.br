@@ -60,6 +60,7 @@ const board_members = defineCollection({
   schema: ({ image }) => z.object({
     name: z.string(),
     role: z.string(),
+    is_active: z.boolean().default(true),
     bio: z.string().nullish(),
     photo: image().optional(),
     email: z.string().nullish(),
