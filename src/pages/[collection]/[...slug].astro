@@ -5,6 +5,7 @@ import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import DateRange from "../../components/DateRange.astro";
 import { isActiveMember } from "../../utils/board-members";
+import LocationDetails from "../../components/LocationDetails.astro";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -70,9 +71,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {entry.collection === "programs" && <p class="mb-6">{entry.data.description}</p>}
       {entry.collection === "programs" && entry.data.goals?.length && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Objetivos</h2><ul class="list-disc pl-6">{entry.data.goals.map((goal) => <li>{goal}</li>)}</ul></section>}
       {entry.collection === "programs" && entry.data.impact && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Impacto</h2><p>{entry.data.impact}</p></section>}
-      {entry.collection === "locations" && (
-        <p class="mb-6">{[entry.data.address, entry.data.city].filter(Boolean).join(" — ")}</p>
-      )}
+      {entry.collection === "locations" && <LocationDetails location={entry.data} />}
       <div class="content-body text-gray-700 leading-relaxed"><Content /></div>
       {relatedMembers.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Junta Paroquial</h2><ul class="space-y-3">{relatedMembers.map(({ id, data }) => <li><strong>{isActiveMember(data) ? <a class="underline text-[var(--gold-dark)]" href={`/board-members/${id}`}>{data.name}</a> : data.name}</strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
       {relatedReverends.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Reverendo(a)s</h2><ul class="space-y-3">{relatedReverends.map(({ id, data }) => <li><strong><a class="underline text-[var(--gold-dark)]" href={`/reverends/${id}`}>{data.name}</a></strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}

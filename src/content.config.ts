@@ -38,6 +38,7 @@ const locations = defineCollection({
     jurisdiction: z.string().nullish(),
     address: z.string().nullish(),
     city: z.string().nullish(),
+    online_url: z.string().nullish(),
     capacity: z.number().nullish(),
   }),
 });

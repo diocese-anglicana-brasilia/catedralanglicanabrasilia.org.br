@@ -3,8 +3,6 @@ interface Props {
   isHomePage?: boolean;
 }
 
-const { isHomePage = true } = Astro.props;
-const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${section}`);
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow-sm">
@@ -42,7 +40,7 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
         <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-contato">Fale conosco <span aria-hidden="true">▾</span></button>
         <ul id="submenu-contato" class="nav-submenu" hidden>
           <li><a href="/pages/contact" class="nav-link">Contato</a></li>
-          <li><a href={sectionHref("locais")} class="nav-link">Endereço</a></li>
+          <li><a href="/locations/" class="nav-link">Endereço</a></li>
         </ul>
       </li>
       <li><a href="/pages/donate" class="nav-link">Doar</a></li>

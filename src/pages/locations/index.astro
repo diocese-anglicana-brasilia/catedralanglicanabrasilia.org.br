@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import LocationDetails from "../../components/LocationDetails.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const locations = await getCollection("locations");
+---
+
+<BaseLayout title="Endereços | Catedral Anglicana de Brasília">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header isHomePage={false} />
+  <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="serif text-4xl md:text-5xl font-bold mb-10">Endereços</h1>
+      {locations.length ? locations.map((entry) => <article class="bg-white p-8 rounded-sm shadow-sm mb-8">
+        <h2 class="serif text-3xl font-bold mb-4"><a class="underline text-[var(--gold-dark)]" href={`/locations/${entry.id}`}>{entry.data.name}</a></h2>
+        <LocationDetails location={entry.data} headingLevel={3} />
+      </article>) : <p>Ainda não há locais cadastrados.</p>}
+    </div>
+  </main>
+  <Footer />
+  <script>import "../../scripts/site.js";</script>
+</BaseLayout>

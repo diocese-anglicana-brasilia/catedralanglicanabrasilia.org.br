@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { publicHttpUrl } from "../utils/geometry";
+import GeoMap from "./GeoMap.astro";
+
+interface Props {
+  location: CollectionEntry<"locations">["data"];
+  headingLevel?: 2 | 3;
+}
+
+const { location, headingLevel = 2 } = Astro.props;
+const onlineUrl = publicHttpUrl(location.online_url);
+const address = [location.address, location.city].filter(Boolean).join(" — ");
+---
+
+{address && <p class="mb-4">{address}</p>}
+{onlineUrl && <p class="mb-4"><a class="underline text-[var(--gold-dark)]" href={onlineUrl} target="_blank" rel="noopener noreferrer">Acessar local online (nova aba)</a></p>}
+{location.map_location && <GeoMap geometry={location.map_location} type="Point" title="Mapa do endereço" headingLevel={headingLevel} />}
+{location.jurisdiction && <GeoMap geometry={location.jurisdiction} type="Polygon" title="Mapa da região" headingLevel={headingLevel} />}

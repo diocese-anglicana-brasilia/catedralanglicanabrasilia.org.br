@@ -97,6 +97,7 @@ collections:
       - { name: jurisdiction, label: Jurisdição, type: Polygon , widget: map, required: false }
       - { name: address, label: Endereço, required: false }
       - { name: city, label: Cidade, required: false }
+      - { name: online_url, label: URL do local online, required: false, hint: "Informe um endereço completo, começando por https:// ou http://." }
       - { name: capacity, label: Capacidade, widget: number, required: false }
   - name: events
     label: Eventos
