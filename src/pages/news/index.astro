@@ -1,0 +1,9 @@
+---
+import { getCollection } from "astro:content";
+import ContentArchive from "../../components/ContentArchive.astro";
+import { newsCard, newsPageHref, paginateNews, publishedNews } from "../../utils/news";
+
+const pages = paginateNews(publishedNews(await getCollection("news")));
+---
+
+<ContentArchive title="Notícias" items={pages[0].map(newsCard)} emptyMessage="Ainda não há notícias publicadas." currentPage={1} totalPages={pages.length} getPageHref={newsPageHref} />

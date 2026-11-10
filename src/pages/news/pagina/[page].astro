@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import ContentArchive from "../../../components/ContentArchive.astro";
+import { newsCard, newsPageHref, paginateNews, publishedNews } from "../../../utils/news";
+
+export async function getStaticPaths() {
+  const pages = paginateNews(publishedNews(await getCollection("news")));
+  return pages.slice(1).map((entries, index) => ({
+    params: { page: String(index + 2) },
+    props: { entries, currentPage: index + 2, totalPages: pages.length },
+  }));
+}
+
+interface Props {
+  entries: CollectionEntry<"news">[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { entries, currentPage, totalPages } = Astro.props;
+---
+
+<ContentArchive title="Notícias" items={entries.map(newsCard)} emptyMessage="Ainda não há notícias publicadas." currentPage={currentPage} totalPages={totalPages} getPageHref={newsPageHref} />

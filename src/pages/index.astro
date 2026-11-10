@@ -7,9 +7,11 @@ import Footer from "../components/Footer.astro";
 import FeatureSplit from "../components/FeatureSplit.astro";
 import Header from "../components/Header.astro";
 import InfoCards from "../components/InfoCards.astro";
+import CardGrid from "../components/CardGrid.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, getEntry, render } from "astro:content";
+import { newsCard, publishedNews } from "../utils/news";
 
 const weddingCards = [
   {
@@ -77,7 +79,6 @@ const [news, events, locations, dean, leadership, gallery, about, contact, donat
   getEntry("pages", "donate"),
 ]);
 const lists = [
-  { id: "noticias", title: "Notícias", entries: news.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).map((entry) => ({ title: entry.data.title, href: `/news/${entry.id}` })) },
   { id: "eventos", title: "Eventos", entries: events.map((entry) => ({ title: entry.data.name, href: `/events/${entry.id}` })) },
   { id: "locais", title: "Endereço", entries: locations.map((entry) => ({ title: entry.data.name, href: `/locations/${entry.id}` })) },
 ];
@@ -204,6 +205,14 @@ const editorialPages = await Promise.all([
         {about && <p><a class="underline" href="/pages/about">Mais sobre a Catedral</a></p>}
       </div>
     </BackgroundScreen>
+
+    <section id="noticias" class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="serif text-4xl font-bold mb-8">Notícias</h2>
+        <CardGrid items={publishedNews(news).slice(0, 3).map(newsCard)} emptyMessage="Ainda não há notícias publicadas." />
+        <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/news/">Ver todas as notícias</a>
+      </div>
+    </section>
 
     {lists.map(({ id, title, entries }) => (
       <section id={id} class="py-16 bg-white">

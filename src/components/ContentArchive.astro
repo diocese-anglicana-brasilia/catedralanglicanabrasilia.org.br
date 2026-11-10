@@ -1,0 +1,34 @@
+---
+import type { CardItem } from "../types/card";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "./Footer.astro";
+import Header from "./Header.astro";
+import CardGrid from "./CardGrid.astro";
+import Pagination from "./Pagination.astro";
+
+interface Props {
+  title: string;
+  items: CardItem[];
+  emptyMessage: string;
+  currentPage: number;
+  totalPages: number;
+  getPageHref: (page: number) => string;
+}
+
+const { title, items, emptyMessage, currentPage, totalPages, getPageHref } = Astro.props;
+const pageTitle = currentPage === 1 ? title : `${title} — página ${currentPage}`;
+---
+
+<BaseLayout title={`${pageTitle} | Catedral Anglicana de Brasília`}>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header isHomePage={false} />
+  <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="serif text-4xl md:text-5xl font-bold mb-10">{title}</h1>
+      <CardGrid items={items} emptyMessage={emptyMessage} headingLevel={2} />
+      <Pagination currentPage={currentPage} totalPages={totalPages} getPageHref={getPageHref} ariaLabel={`Paginação de ${title.toLocaleLowerCase("pt-BR")}`} />
+    </div>
+  </main>
+  <Footer />
+  <script>import "../scripts/site.js";</script>
+</BaseLayout>

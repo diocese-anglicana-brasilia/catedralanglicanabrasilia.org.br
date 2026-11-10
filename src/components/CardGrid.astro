@@ -1,0 +1,16 @@
+---
+import type { CardItem } from "../types/card";
+import ContentCard from "./ContentCard.astro";
+
+interface Props {
+  items: CardItem[];
+  emptyMessage: string;
+  headingLevel?: 2 | 3;
+}
+
+const { items, emptyMessage, headingLevel = 3 } = Astro.props;
+---
+
+{items.length > 0 ? (
+  <div class="card-grid">{items.map((item) => <ContentCard item={item} headingLevel={headingLevel} />)}</div>
+) : <p class="text-gray-700">{emptyMessage}</p>}
