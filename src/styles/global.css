@@ -36,6 +36,18 @@ body {
   font-family: "Playfair Display", serif;
 }
 
+.content-body :is(p, ul, ol, blockquote, h2, h3) {
+  margin-block: 1rem;
+}
+
+.content-body :is(ul, ol) {
+  padding-left: 1.5rem;
+}
+
+.content-body ul { list-style: disc; }
+.content-body ol { list-style: decimal; }
+.content-body a { color: var(--gold-dark); text-decoration: underline; }
+
 .nav-link {
   position: relative;
   transition: color 0.3s;
@@ -43,6 +55,17 @@ body {
 
 .nav-links {
   display: flex;
+  align-items: center;
+}
+
+.nav-links > li > .nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.nav-links > li > .nav-link::after {
+  bottom: 0.35rem;
 }
 
 .nav-links > li {
@@ -239,6 +262,7 @@ body.menu-collapsed .nav-links {
   left: 0;
   right: 0;
   flex-direction: column;
+  align-items: stretch;
   gap: 0;
   max-height: calc(100dvh - 5rem);
   overflow-y: auto;

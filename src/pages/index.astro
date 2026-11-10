@@ -9,6 +9,7 @@ import Header from "../components/Header.astro";
 import InfoCards from "../components/InfoCards.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, getEntry, render } from "astro:content";
 
 const weddingCards = [
   {
@@ -64,14 +65,30 @@ const contactDetails = [
   },
 ];
 
-const upcomingSections = [
-  { id: "noticias", title: "Notícias" },
-  { id: "eventos", title: "Eventos" },
-  { id: "locais", title: "Endereço" },
-  { id: "lideranca", title: "Liderança" },
-  { id: "reverenda-dea", title: "Reverenda Deã" },
-  { id: "galeria-reverendos", title: "Galeria de reverendos" },
+const [news, events, locations, dean, leadership, gallery, about, contact, donate] = await Promise.all([
+  getCollection("news", ({ data }) => data.status === "published"),
+  getCollection("events"),
+  getCollection("locations"),
+  getEntry("pages", "dean"),
+  getEntry("pages", "leadership"),
+  getEntry("pages", "reverends_gallery"),
+  getEntry("pages", "about"),
+  getEntry("pages", "contact"),
+  getEntry("pages", "donate"),
+]);
+const lists = [
+  { id: "noticias", title: "Notícias", entries: news.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).map((entry) => ({ title: entry.data.title, href: `/news/${entry.id}` })) },
+  { id: "eventos", title: "Eventos", entries: events.map((entry) => ({ title: entry.data.name, href: `/events/${entry.id}` })) },
+  { id: "locais", title: "Endereço", entries: locations.map((entry) => ({ title: entry.data.name, href: `/locations/${entry.id}` })) },
 ];
+const editorialPages = await Promise.all([
+  { id: "lideranca", entry: leadership },
+  { id: "reverenda-dea", entry: dean },
+  { id: "galeria-reverendos", entry: gallery },
+].filter(({ entry }) => entry !== undefined).map(async ({ id, entry }) => {
+  const { Content } = await render(entry!);
+  return { id, entry: entry!, Content };
+}));
 ---
 
 <BaseLayout title="Catedral Anglicana de Brasília">
@@ -121,6 +138,7 @@ const upcomingSections = [
       <ActionLink href="#contato" variant="underlined" class="mt-8">
         Entre em contato para outras formas de contribuição →
       </ActionLink>
+      {donate && <p class="mt-4"><a class="underline text-[var(--gold-dark)]" href="/pages/donate">Mais informações sobre doações</a></p>}
     </FeatureSplit>
 
     <BackgroundScreen
@@ -183,14 +201,25 @@ const upcomingSections = [
         <p>A <strong>Igreja Episcopal Anglicana do Brasil (IEAB)</strong> é uma igreja cristã de tradição apostólica, parte da Comunhão Anglicana mundial, com raízes que remontam à Reforma do século XVI e à Igreja da Inglaterra.</p>
         <p>A <strong>Diocese Anglicana de Brasília</strong> abrange o Distrito Federal e regiões do entorno, sendo a Catedral Anglicana de Brasília sua igreja-mãe. Desde sua fundação, a diocese tem sido um espaço de acolhimento, diálogo ecumênico e compromisso com a justiça social.</p>
         <p>A Catedral, situada no coração da capital federal, é um lugar de oração, celebração e serviço, onde a liturgia anglicana — rica em beleza, tradição e abertura — encontra o povo brasileiro em sua diversidade.</p>
+        {about && <p><a class="underline" href="/pages/about">Mais sobre a Catedral</a></p>}
       </div>
     </BackgroundScreen>
 
-    {upcomingSections.map(({ id, title }) => (
+    {lists.map(({ id, title, entries }) => (
       <section id={id} class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-6">
           <h2 class="serif text-4xl font-bold mb-4">{title}</h2>
-          <p class="text-gray-700">Conteúdo em preparação.</p>
+          {entries.length ? <ul class="space-y-3">{entries.map((entry) => <li><a class="underline text-[var(--gold-dark)]" href={entry.href}>{entry.title}</a></li>)}</ul> : <p class="text-gray-700">Conteúdo em preparação.</p>}
+        </div>
+      </section>
+    ))}
+
+    {editorialPages.map(({ id, entry, Content }) => (
+      <section id={id} class="py-16 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+          <h2 class="serif text-4xl font-bold mb-4">{entry.data.title}</h2>
+          <div class="content-body text-gray-700"><Content /></div>
+          <a class="inline-block mt-4 underline text-[var(--gold-dark)]" href={`/pages/${entry.id}`}>Leia mais</a>
         </div>
       </section>
     ))}
@@ -202,6 +231,7 @@ const upcomingSections = [
           <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Contato</h2>
           <p class="text-gray-700 leading-relaxed mb-8">Será uma alegria recebê-lo em nossa comunidade. Entre em contato para visitas, informações sobre sacramentos, agendamentos ou qualquer dúvida.</p>
           <ContactDetails items={contactDetails} />
+          {contact && <p class="mt-6"><a class="underline text-[var(--gold-dark)]" href="/pages/contact">Mais informações de contato</a></p>}
         </div>
         <div class="fade-in">
           <ContactForm />

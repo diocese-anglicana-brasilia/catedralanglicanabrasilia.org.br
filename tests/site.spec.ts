@@ -57,6 +57,21 @@ test("adapta a navegação ao tamanho da tela", async ({ page }) => {
   }
 });
 
+test("alinha os itens principais do menu na mesma linha no desktop", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Exclusivo do menu desktop.");
+  await page.goto("/");
+  await expect(page.locator("#menuBtn")).toBeHidden();
+
+  const centers = await page.locator("#navLinks > li > :is(a, button)").evaluateAll((elements) =>
+    elements.map((element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.top + rect.height / 2;
+    }),
+  );
+  expect(centers).toHaveLength(5);
+  expect(Math.max(...centers) - Math.min(...centers)).toBeLessThanOrEqual(1);
+});
+
 test("agrupa os destinos e permite navegar pelos submenus", async ({ page }) => {
   await page.goto("/");
   const menuButton = page.locator("#menuBtn");
