@@ -2,6 +2,7 @@
 interface Props {
   isHomePage?: boolean;
 }
+import ContentSearch from "./ContentSearch.astro";
 
 ---
 
@@ -45,5 +46,6 @@ interface Props {
       </li>
       <li><a href="/pages/donate" class="nav-link">Doar</a></li>
     </ul>
+    <ContentSearch />
   </nav>
 </header>

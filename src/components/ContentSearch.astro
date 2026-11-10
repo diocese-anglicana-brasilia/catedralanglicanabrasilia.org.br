@@ -1,0 +1,131 @@
+<button type="button" class="search-open" data-search-open aria-label="Abrir pesquisa" aria-haspopup="dialog" hidden>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+</button>
+<dialog class="content-search" data-content-search aria-labelledby="search-title">
+  <div class="search-heading"><h2 id="search-title" class="serif">Pesquisar no site</h2><button type="button" data-search-close aria-label="Fechar pesquisa">×</button></div>
+  <label for="site-search">Pesquisar notícias e eventos</label>
+  <input id="site-search" type="search" autocomplete="off" placeholder="Digite sua pesquisa" />
+  <p class="search-status" role="status" aria-live="polite"></p>
+  <div data-search-results></div>
+  <nav class="pagination" aria-label="Paginação dos resultados" data-search-pagination></nav>
+</dialog>
+
+<script>
+  type Card = { title: string; href: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; image?: { src: string; alt: string } };
+  type WorkerResult = { id: number; error?: boolean; results: Card[]; total: number; page: number };
+  document.querySelectorAll<HTMLElement>("[data-content-search]").forEach((section) => {
+    const input = section.querySelector<HTMLInputElement>('input[type="search"]')!;
+    const status = section.querySelector<HTMLElement>('[role="status"]')!;
+    const results = section.querySelector<HTMLElement>("[data-search-results]")!;
+    const pagination = section.querySelector<HTMLElement>("[data-search-pagination]")!;
+    const dialog = section as HTMLDialogElement;
+    const open = document.querySelector<HTMLButtonElement>("[data-search-open]")!;
+    const close = dialog.querySelector<HTMLButtonElement>("[data-search-close]")!;
+    let worker: Worker | undefined;
+    let requestId = 0;
+    let timer: ReturnType<typeof setTimeout>;
+
+    const textElement = (tag: string, text: string, className?: string) => {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      if (className) element.className = className;
+      return element;
+    };
+    function card(item: Card) {
+      const article = document.createElement("article"); article.className = "content-card";
+      if (item.image) {
+        const frame = document.createElement("div"); frame.className = "content-card-media";
+        const image = document.createElement("img"); image.src = item.image.src; image.alt = item.image.alt; image.loading = "lazy";
+        frame.append(image); article.append(frame);
+      }
+      const content = document.createElement("div"); content.className = "content-card-content";
+      if (item.date) {
+        const wrapper = document.createElement("div"); wrapper.className = "content-card-date";
+        const formatter = new Intl.DateTimeFormat("pt-BR", { timeZone: item.dateTimeZone || "UTC", day: "2-digit", month: "2-digit", year: "numeric" });
+        const time = (value: string) => { const node = document.createElement("time"); node.dateTime = value; node.textContent = formatter.format(new Date(value)); return node; };
+        if (item.endDate) wrapper.append("Início: ");
+        wrapper.append(time(item.date));
+        if (item.endDate) wrapper.append(" · Fim: ", time(item.endDate));
+        content.append(wrapper);
+      }
+      const heading = document.createElement("h3"); heading.className = "serif content-card-title";
+      const link = document.createElement("a"); link.href = item.href; link.textContent = item.title; heading.append(link); content.append(heading);
+      if (item.description) content.append(textElement("p", item.description, "content-card-description"));
+      article.append(content); return article;
+    }
+    function request(page: number) {
+      const query = input.value.trim();
+      if (!query) return;
+      const id = ++requestId;
+      status.textContent = "Pesquisando...";
+      if (!worker) {
+        worker = new Worker(new URL("../scripts/search-worker.ts", import.meta.url), { type: "module" });
+        worker.onmessage = ({ data }: MessageEvent<WorkerResult>) => {
+          if (data.id !== requestId) return;
+          results.replaceChildren(); pagination.replaceChildren();
+          if (data.error) { status.textContent = "Não foi possível carregar a pesquisa. Tente novamente."; return; }
+          status.textContent = data.total ? `${data.total} ${data.total === 1 ? "resultado encontrado" : "resultados encontrados"}.` : "Nenhum resultado encontrado.";
+          if (data.results.length) {
+            const grid = document.createElement("div"); grid.className = "card-grid";
+            grid.append(...data.results.map(card)); results.append(grid);
+          }
+          const pages = Math.ceil(data.total / 9);
+          if (pages > 1) {
+            if (data.page > 1) button("Anterior", "Página anterior de resultados", data.page - 1);
+            pagination.append(textElement("span", `Página ${data.page} de ${pages}`));
+            if (data.page < pages) button("Próxima", "Próxima página de resultados", data.page + 1);
+          }
+        };
+        worker.onerror = () => { status.textContent = "Não foi possível carregar a pesquisa. Tente novamente."; worker?.terminate(); worker = undefined; };
+      }
+      worker.postMessage({ id, query, page });
+    }
+    function button(label: string, name: string, page: number) {
+      const control = document.createElement("button"); control.type = "button"; control.textContent = label; control.setAttribute("aria-label", name);
+      control.addEventListener("click", () => request(page)); pagination.append(control);
+    }
+    input.addEventListener("input", () => {
+      clearTimeout(timer); requestId++;
+      const searching = Boolean(input.value.trim());
+      results.replaceChildren(); pagination.replaceChildren(); status.textContent = "";
+      if (searching) timer = setTimeout(() => request(1), 250);
+    });
+    open.addEventListener("click", () => { dialog.showModal(); input.focus(); });
+    close.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); dialog.close(); }
+      if (event.key === "Tab") {
+        const focusable = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), a[href]')].filter((element) => element.getClientRects().length > 0);
+        const first = focusable[0]; const last = focusable[focusable.length - 1];
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      }
+    });
+    dialog.addEventListener("close", () => {
+      clearTimeout(timer); requestId++; input.value = ""; results.replaceChildren(); pagination.replaceChildren(); status.textContent = ""; open.focus();
+    });
+    open.hidden = false;
+  });
+</script>
+
+<style>
+  .search-open { order: 3; display: flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; margin-left: 1rem; cursor: pointer; }
+  .search-open[hidden] { display: none; }
+  .content-search { position: fixed; margin: auto; width: min(56rem, calc(100vw - 2rem)); max-height: min(85vh, 55rem); padding: 1.5rem; border: 0; border-radius: .25rem; background: var(--cream); box-shadow: 0 1rem 3rem #0005; }
+  .content-search::backdrop { background: #0009; }
+  .search-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .search-heading h2 { font-size: 1.75rem; font-weight: bold; }
+  .search-heading button { min-width: 2.75rem; min-height: 2.75rem; font-size: 2rem; line-height: 1; cursor: pointer; }
+  label { display: block; font-weight: 600; margin-bottom: .5rem; }
+  input { width: 100%; max-width: 36rem; padding: .75rem; background: white; border: 1px solid #6b7280; border-radius: .2rem; }
+  .search-status:not(:empty) { margin: 1rem 0; }
+</style>
+<style is:global>
+  .content-search .pagination button { min-width: 2.75rem; min-height: 2.75rem; padding: .5rem; border: 1px solid var(--gold-dark); color: var(--gold-dark); cursor: pointer; }
+  .content-search .pagination span { align-self: center; }
+  nav:has(> .search-open) > [data-site-brand] { order: 0; }
+  nav:has(> .search-open) > .nav-links { order: 1; margin-left: auto; }
+  nav:has(> .search-open) > .menu-toggle { order: 4; }
+  body.menu-collapsed nav:has(> .search-open) > .search-open { order: 1; margin-left: auto; }
+  body.menu-collapsed nav:has(> .search-open) > .menu-toggle { order: 2; }
+</style>

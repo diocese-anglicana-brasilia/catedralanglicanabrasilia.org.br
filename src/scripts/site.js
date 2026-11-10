@@ -76,7 +76,8 @@ if (menuBtn && navLinks) {
     const horizontalPadding =
       Number.parseFloat(navStyles.paddingLeft) + Number.parseFloat(navStyles.paddingRight);
     const availableWidth = siteNav.clientWidth - horizontalPadding;
-    const requiredWidth = siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + 32;
+    const searchButton = siteNav.querySelector("[data-search-open]");
+    const requiredWidth = siteBrand.getBoundingClientRect().width + navLinks.scrollWidth + (searchButton?.getBoundingClientRect().width || 0) + 48;
     const shouldCollapse = requiredWidth > availableWidth;
 
     document.body.classList.toggle("menu-collapsed", shouldCollapse);
