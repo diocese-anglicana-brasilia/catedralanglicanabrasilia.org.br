@@ -191,7 +191,7 @@ collections:
             label: Membros da Junta
             widget: relation
             collection: board_members
-            display_fields: [name]
+            display_fields: ['{{name}} - {{role}}']
             multiple: true
             required: false
       - name: reverends-gallery
@@ -204,7 +204,7 @@ collections:
             label: Reverendo(a)s
             widget: relation
             collection: reverends
-            display_fields: [name]
+            display_fields: ['{{name}} - de {{start_date}} a {{end_date}}']
             sort_by:
               field: _manual
             multiple: true
