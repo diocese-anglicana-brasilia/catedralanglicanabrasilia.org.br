@@ -23,7 +23,8 @@ const localAssetPath = (url: string) => {
 test("gera os arquivos públicos de rastreamento", async () => {
   const [robots, sitemap] = await Promise.all([
     readFile(path.join(distDirectory, "robots.txt"), "utf8"),
-    readFile(path.join(distDirectory, "sitemap.xml"), "utf8"),
+    readFile(path.join(distDirectory, "sitemap-index.xml"), "utf8"),
+    readFile(path.join(distDirectory, "sitemap-0.xml"), "utf8"),
   ]);
 
   expect(robots).toContain("Sitemap: https://catedralanglicanabrasilia.org.br/sitemap.xml");

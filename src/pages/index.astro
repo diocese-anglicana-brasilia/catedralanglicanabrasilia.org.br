@@ -12,6 +12,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { newsCard, publishedNews } from "../utils/news";
+import { eventCard, orderEvents } from "../utils/events";
 
 const weddingCards = [
   {
@@ -79,7 +80,6 @@ const [news, events, locations, dean, leadership, gallery, about, contact, donat
   getEntry("pages", "donate"),
 ]);
 const lists = [
-  { id: "eventos", title: "Eventos", entries: events.map((entry) => ({ title: entry.data.name, href: `/events/${entry.id}` })) },
   { id: "locais", title: "Endereço", entries: locations.map((entry) => ({ title: entry.data.name, href: `/locations/${entry.id}` })) },
 ];
 const editorialPages = await Promise.all([
@@ -211,6 +211,14 @@ const editorialPages = await Promise.all([
         <h2 class="serif text-4xl font-bold mb-8">Notícias</h2>
         <CardGrid items={publishedNews(news).slice(0, 3).map(newsCard)} emptyMessage="Ainda não há notícias publicadas." />
         <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/news/">Ver todas as notícias</a>
+      </div>
+    </section>
+
+    <section id="eventos" class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="serif text-4xl font-bold mb-8">Eventos</h2>
+        <CardGrid items={orderEvents(events).slice(0, 3).map(eventCard)} emptyMessage="Ainda não há eventos cadastrados." />
+        <a class="inline-block mt-8 underline text-[var(--gold-dark)] font-semibold" href="/events/">Ver todos os eventos</a>
       </div>
     </section>
 

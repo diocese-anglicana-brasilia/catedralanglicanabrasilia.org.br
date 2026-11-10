@@ -1,0 +1,24 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import ContentArchive from "../../../components/ContentArchive.astro";
+import { eventCard, eventsPageHref, orderEvents } from "../../../utils/events";
+import { paginateItems } from "../../../utils/pagination";
+
+export async function getStaticPaths() {
+  const pages = paginateItems(orderEvents(await getCollection("events")));
+  return pages.slice(1).map((entries, index) => ({
+    params: { page: String(index + 2) },
+    props: { entries, currentPage: index + 2, totalPages: pages.length },
+  }));
+}
+
+interface Props {
+  entries: CollectionEntry<"events">[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { entries, currentPage, totalPages } = Astro.props;
+---
+
+<ContentArchive title="Eventos" items={entries.map(eventCard)} emptyMessage="Ainda não há eventos cadastrados." currentPage={currentPage} totalPages={totalPages} getPageHref={eventsPageHref} />

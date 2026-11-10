@@ -4,13 +4,12 @@ interface Props {
 }
 
 const { isHomePage = true } = Astro.props;
-const homeHref = isHomePage ? "#inicio" : "/#inicio";
 const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${section}`);
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur shadow-sm">
   <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegação principal">
-    <a href={homeHref} class="flex items-center gap-3" data-site-brand>
+    <a href="/" class="flex items-center gap-3" data-site-brand>
       <span class="cross-icon" aria-hidden="true"></span>
       <span class="leading-tight">
         <span class="serif text-lg font-bold tracking-wide block">Catedral Anglicana</span>
@@ -21,7 +20,7 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
       <span aria-hidden="true">☰</span><span class="sr-only" data-menu-label>Abrir menu</span>
     </button>
     <ul class="nav-links gap-7 text-sm font-medium list-none m-0 p-0" id="navLinks">
-      <li><a href={sectionHref("inicio")} class="nav-link">Home</a></li>
+      <li><a href="/" class="nav-link">Home</a></li>
       <li class="nav-group">
         <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-sobre">Sobre <span aria-hidden="true">▾</span></button>
         <ul id="submenu-sobre" class="nav-submenu" hidden>
@@ -34,8 +33,8 @@ const sectionHref = (section: string) => (isHomePage ? `#${section}` : `/#${sect
       <li class="nav-group">
         <button type="button" class="nav-group-toggle" aria-expanded="false" aria-controls="submenu-atividades">O que fazemos <span aria-hidden="true">▾</span></button>
         <ul id="submenu-atividades" class="nav-submenu" hidden>
-          <li><a href={sectionHref("noticias")} class="nav-link">Notícias</a></li>
-          <li><a href={sectionHref("eventos")} class="nav-link">Eventos</a></li>
+          <li><a href="/news/" class="nav-link">Notícias</a></li>
+          <li><a href="/events/" class="nav-link">Eventos</a></li>
         </ul>
       </li>
       <li class="nav-group">

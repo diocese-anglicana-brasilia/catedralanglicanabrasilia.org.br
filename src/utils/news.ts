@@ -1,5 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import type { CardItem } from "../types/card";
+import { DEFAULT_PAGE_SIZE, paginateItems } from "./pagination";
 
 export function newsCard(entry: CollectionEntry<"news">): CardItem {
   const image = entry.data.featured_image;
@@ -19,13 +20,10 @@ export function publishedNews<T extends Pick<CollectionEntry<"news">, "data">>(e
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-export const NEWS_PAGE_SIZE = 9;
+export const NEWS_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
 export function paginateNews<T>(entries: T[], pageSize = NEWS_PAGE_SIZE): T[][] {
-  const totalPages = Math.max(1, Math.ceil(entries.length / pageSize));
-  return Array.from({ length: totalPages }, (_, index) =>
-    entries.slice(index * pageSize, (index + 1) * pageSize),
-  );
+  return paginateItems(entries, pageSize);
 }
 
 export function newsPageHref(page: number): string {

@@ -1,0 +1,10 @@
+---
+import { getCollection } from "astro:content";
+import ContentArchive from "../../components/ContentArchive.astro";
+import { eventCard, eventsPageHref, orderEvents } from "../../utils/events";
+import { paginateItems } from "../../utils/pagination";
+
+const pages = paginateItems(orderEvents(await getCollection("events")));
+---
+
+<ContentArchive title="Eventos" items={pages[0].map(eventCard)} emptyMessage="Ainda não há eventos cadastrados." currentPage={1} totalPages={pages.length} getPageHref={eventsPageHref} />
