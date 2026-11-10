@@ -1,0 +1,20 @@
+---
+import type { CalendarEvent } from "../utils/calendar";
+import { googleCalendarUrl } from "../utils/calendar";
+
+interface Props {
+  event: CalendarEvent;
+}
+
+const { event } = Astro.props;
+const googleUrl = googleCalendarUrl(event);
+---
+
+<section class="mt-8" aria-labelledby="calendar-actions-title">
+  <h2 id="calendar-actions-title" class="serif text-2xl font-bold mb-4">Adicionar ao calendário</h2>
+  <div class="flex flex-wrap gap-4">
+    <a class="underline text-[var(--gold-dark)]" href={`/events/${event.id}.ics`} download>Baixar arquivo iCalendar (.ics)</a>
+    <a class="underline text-[var(--gold-dark)]" href={googleUrl} target="_blank" rel="noopener noreferrer">Adicionar ao Google Agenda (nova aba)</a>
+  </div>
+  {(!event.end || event.end <= event.start) && <p class="mt-3 text-sm text-gray-700">O horário de término não foi informado; confira-o ao adicionar o evento ao calendário.</p>}
+</section>

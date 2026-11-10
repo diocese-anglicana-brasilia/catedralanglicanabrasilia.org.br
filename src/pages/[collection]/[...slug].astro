@@ -1,11 +1,13 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, render, type CollectionEntry } from "astro:content";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import DateRange from "../../components/DateRange.astro";
 import { isActiveMember } from "../../utils/board-members";
 import LocationDetails from "../../components/LocationDetails.astro";
+import CalendarActions from "../../components/CalendarActions.astro";
+import { eventCalendar } from "../../utils/event-calendar";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -42,6 +44,10 @@ const title = "title" in entry.data ? entry.data.title : entry.data.name;
 const date = "date" in entry.data ? entry.data.date : undefined;
 const dateText = date?.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 const image = entry.collection === "news" ? entry.data.featured_image : undefined;
+const eventLocation = entry.collection === "events" && entry.data.location
+  ? await getEntry("locations", entry.data.location)
+  : undefined;
+const calendarEvent = entry.collection === "events" && Astro.site ? eventCalendar(entry, eventLocation, Astro.site) : undefined;
 const memberIds = entry.collection === "pages" ? entry.data.board_members ?? [] : [];
 const matchingMembers = memberIds.length
   ? await getCollection("board_members", ({ id }) => memberIds.includes(id))
@@ -68,6 +74,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
       {image && <img src={typeof image === "string" ? image : image.src} alt="" class="w-full max-h-[32rem] object-cover mb-8" />}
       {entry.collection === "events" && entry.data.description && <p class="mb-6">{entry.data.description}</p>}
+      {eventLocation && <p class="mb-6"><strong>Local: </strong><a class="underline text-[var(--gold-dark)]" href={`/locations/${eventLocation.id}`}>{eventLocation.data.name}</a></p>}
       {entry.collection === "programs" && <p class="mb-6">{entry.data.description}</p>}
       {entry.collection === "programs" && entry.data.goals?.length && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Objetivos</h2><ul class="list-disc pl-6">{entry.data.goals.map((goal) => <li>{goal}</li>)}</ul></section>}
       {entry.collection === "programs" && entry.data.impact && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Impacto</h2><p>{entry.data.impact}</p></section>}
@@ -79,6 +86,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {entry.collection === "events" && entry.data.registration_url && (
         <p class="mt-6"><a class="underline text-[var(--gold-dark)]" href={entry.data.registration_url}>Inscreva-se</a></p>
       )}
+      {calendarEvent && <CalendarActions event={calendarEvent} />}
       <p class="mt-10"><a class="underline text-[var(--gold-dark)]" href="/">Voltar à página inicial</a></p>
     </article>
   </main>
