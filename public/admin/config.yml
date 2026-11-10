@@ -1,0 +1,207 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+site_url: https://catedralanglicanabrasilia.org.br
+display_url: https://catedralanglicanabrasilia.org.br
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "_"
+
+publish_mode: editorial_workflow
+
+backend:
+  name: github
+  branch: main
+  repo: diocese-anglicana-brasilia/catedralanglicanabrasilia.org.br
+
+media_libraries:
+  cloudflare_r2:
+    access_key_id: 4f2ebcd6c0017875e447b6ba96852c6f
+    bucket: dab-site-catedral
+    account_id: 2411adaf57eb99addd225a995f0f9246
+    public_url: https://cdn.catedralanglicanabrasilia.org.br
+    prefix: cms-uploads/ # Optional
+    jurisdiction: default # Optional; 'default' | 'eu' | 'fedramp'
+
+media_folder: /public/media
+public_folder: /media
+
+
+collections:
+  - name: news
+    label: Notícias
+    label_singular: Notícia
+    folder: /content/news
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{title}} ({{date}})'
+    sortable_fields:
+      fields: [date, title]
+      default: { field: date, direction: descending }
+    fields:
+      - { name: title, label: Título }
+      - { name: date, label: Data, widget: datetime, default: '{{now}}' }
+      - name: author
+        label: Autor
+        widget: relation
+        collection: autores
+        display_fields: [name]
+        required: false
+      - name: tags
+        label: Tags
+        widget: relation
+        collection: tags
+        multiple: true
+        required: false
+      - name: status
+        label: Status
+        widget: select
+        options: [draft, published, archived]
+        default: draft
+      - { name: featured_image, label: Imagem de destaque, widget: image, required: false }
+      - { name: excerpt, label: Resumo, widget: text, required: false }
+      - { name: body, label: Conteúdo, widget: richtext }
+  - name: tags
+    label: Tags
+    label_singular: Tag
+    folder: /content/tags
+    fields:
+      - { name: title, label: Title }
+  - name: authors
+    label: Autores
+    label_singular: Autor
+    folder: /content/authors
+    identifier_field: name
+    fields:
+      - { name: name, label: Nome }
+      - { name: bio, label: Bio, widget: richtext, required: false }
+      - { name: photo, label: Foto, widget: image, required: false }
+      - { name: email, label: Email, required: false }
+  - name: locations
+    label: Locais
+    label_singular: Local
+    folder: /content/locations
+    identifier_field: name
+    fields:
+      - { name: name, label: Nome }
+      - { name: map_location, label: Mapa, type: Point, widget: Map, required: false }
+      - { name: jurisdiction, label: Jurisdição, type: Polygon , widget: Map, required: false }
+      - { name: address, label: Endereço, required: false }
+      - { name: city, label: Cidade, required: false }
+      - { name: capacity, label: Capacidade, widget: number, required: false }
+  - name: events
+    label: Eventos
+    label_singular: Evento
+    folder: /content/events
+    identifier_field: name
+    fields:
+      - { name: name, label: Nome }
+      - { name: date, label: Data, widget: datetime }
+      - name: location
+        label: Local
+        widget: relation
+        collection: locations
+        display_fields: [name]
+        required: false
+      - { name: description, label: Descrição, widget: richtext, required: false }
+      - { name: registration_url, label: URL de registro, required: false }
+      - { name: featured, label: Destaque, widget: boolean, default: false }
+  - name: board_members
+    label: Membros da Junta Paroquial
+    label_singular: Membro da Junta Paroquial
+    folder: /content/board-members
+    identifier_field: name
+    fields:
+      - { name: name, label: Name }
+      - { name: role, label: Role }
+      - { name: bio, label: Bio, widget: richtext, required: false }
+      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: email, label: Email, required: false }
+  - name: programs
+    label: Atividades
+    label_singular: Atividade
+    folder: /content/programs
+    identifier_field: name
+    fields:
+      - { name: name, label: Nome }
+      - { name: description, label: Descrição, widget: richtext }
+      - { name: goals, label: Objetivos, widget: list, required: false }
+      - { name: images, label: Imagens, widget: image, multiple: true, required: false }
+      - { name: budget, label: Orçamento, widget: number, required: false }
+      - { name: impact, label: Impacto, widget: richtext, required: false }
+  - name: reverends
+    label: Reverendo(a)s
+    label_singular: Reverendo(a)
+    folder: /content/reverends
+    identifier_field: name
+    sortable_fields:
+      fields: [start_date, end_date]
+      default: { field: start_date, direction: descending }
+    fields:
+      - { name: name, label: Nome }
+      - { name: role, label: Papel }
+      - { name: bio, label: Biografia, widget: richtext, required: false }
+      - { name: photo, label: Foto, widget: image, required: false }
+      - { name: email, label: Email, required: false }
+      - { name: start_date, label: Data de início, widget: datetime, required: true }
+      - { name: end_date, label: Data de fim, widget: datetime, required: false }
+  - name: pages
+    label: Páginas
+    files:
+      - name: about
+        label: Sobre
+        file: /content/pages/about.md
+        fields:
+          - { name: title, label: Título }
+          - { name: body, label: Conteúdo, widget: richtext }
+      - name: contact
+        label: Contato
+        file: /content/pages/contact.md
+        fields:
+          - { name: title, label: Título }
+          - { name: body, label: Conteúdo, widget: richtext }
+      - name: leadership
+        label: Liderança
+        file: /content/pages/leadership.md
+        fields:
+          - { name: title, label: Título }
+          - name: board_members
+            label: Membros da Junta
+            widget: relation
+            collection: board_members
+            display_fields: [name]
+            multiple: true
+            required: false
+          - { name: body, label: Conteúdo, widget: richtext }
+      - name: reverends_gallery
+        label: Galeria de reverendos
+        file: /content/pages/reverends_gallery.md
+        fields:
+          - { name: title, label: Título }
+          - name: reverends
+            label: Reverendo(a)s
+            widget: relation
+            collection: reverends
+            display_fields: [name]
+            multiple: true
+            required: false
+          - { name: body, label: Conteúdo, widget: richtext }
+      - name: donate
+        label: Doar
+        file: /content/pages/donate.md
+        fields:
+          - { name: title, label: Título }
+          - { name: body, label: Body, widget: richtext }
+      - name: programs
+        label: Atividades
+        file: /content/pages/programs.md
+        fields:
+          - { name: title, label: Title }
+          - name: programs
+            label: Atividades
+            widget: relation
+            collection: programs
+            display_fields: [name]
+            multiple: true
+            required: false
+          - { name: body, label: Conteúdo, widget: richtext }
