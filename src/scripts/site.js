@@ -89,27 +89,22 @@ if (menuBtn && navLinks) {
   if (document.fonts) document.fonts.ready.then(updateMenuLayout);
 }
 
-const sections = document.querySelectorAll("section[id]");
 const navItems = document.querySelectorAll(".nav-link");
 
 const updateActiveLink = () => {
-  let current = "";
-  sections.forEach((section) => {
-    const top = section.offsetTop - 120;
-    if (window.scrollY >= top) current = section.getAttribute("id");
-  });
-
+  const normalizePath = (path) => path.replace(/\/+$/, "") || "/";
+  const current = normalizePath(window.location.pathname);
   navItems.forEach((link) => {
     link.classList.remove("active");
     link.removeAttribute("aria-current");
-    if (link.getAttribute("href") === `#${current}`) {
+    const href = link.getAttribute("href");
+    if (href?.startsWith("/") && normalizePath(new URL(href, window.location.href).pathname) === current) {
       link.classList.add("active");
       link.setAttribute("aria-current", "page");
     }
   });
 };
 
-window.addEventListener("scroll", updateActiveLink, { passive: true });
 updateActiveLink();
 
 const animatedElements = document.querySelectorAll(".fade-in");

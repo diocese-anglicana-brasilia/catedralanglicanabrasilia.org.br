@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-test("permite navegar até a seção de contato", async ({ page }) => {
+test("permite navegar até a página de contato", async ({ page }) => {
   await page.goto("/");
 
   if (await page.locator("#menuBtn").isVisible()) {
@@ -9,9 +9,9 @@ test("permite navegar até a seção de contato", async ({ page }) => {
   }
 
   await page.getByRole("button", { name: "Fale conosco" }).click();
-  await page.locator('#navLinks a[href="#contato"]').click();
+  await page.locator('#navLinks a[href="/pages/contact"]').click();
 
-  await expect(page).toHaveURL(/#contato$/);
+  await expect(page).toHaveURL(/\/pages\/contact\/?$/);
   await expect(page.getByRole("heading", { name: "Contato" })).toBeVisible();
 });
 
@@ -36,7 +36,7 @@ test("adapta a navegação ao tamanho da tela", async ({ page }) => {
   await page.goto("/");
 
   const menuButton = page.locator("#menuBtn");
-  const contactLink = page.locator('#navLinks a[href="#contato"]');
+  const contactLink = page.locator('#navLinks a[href="/pages/contact"]');
 
   if (await menuButton.isVisible()) {
     await expect(menuButton).toBeVisible();
@@ -48,7 +48,7 @@ test("adapta a navegação ao tamanho da tela", async ({ page }) => {
     await expect(contactLink).toBeVisible();
 
     await contactLink.click();
-    await expect(page).toHaveURL(/#contato$/);
+    await expect(page).toHaveURL(/\/pages\/contact\/?$/);
     await expect(menuButton).toHaveAttribute("aria-expanded", "false");
   } else {
     await expect(menuButton).toBeHidden();
@@ -57,8 +57,7 @@ test("adapta a navegação ao tamanho da tela", async ({ page }) => {
   }
 });
 
-test("alinha os itens principais do menu na mesma linha no desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-chromium", "Exclusivo do menu desktop.");
+test("alinha os itens principais do menu na mesma linha no desktop", { tag: "@desktop" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#menuBtn")).toBeHidden();
 
@@ -78,8 +77,8 @@ test("agrupa os destinos e permite navegar pelos submenus", async ({ page }) => 
   if (await menuButton.isVisible()) await menuButton.click();
 
   for (const [group, links] of [
-    ["Sobre", ["Sobre (História)", "Reverenda Deã", "Galeria de reverendos", "Liderança"]],
-    ["O que fazemos", ["Notícias", "Eventos"]],
+    ["Sobre", ["Sobre nós", "Reverenda Deã", "Galeria de reverendo(a)s", "Liderança"]],
+    ["O que fazemos", ["Notícias", "Eventos", "Ações sociais"]],
     ["Fale conosco", ["Contato", "Endereço"]],
   ] as const) {
     const button = page.getByRole("button", { name: group, exact: true });
@@ -90,8 +89,16 @@ test("agrupa os destinos e permite navegar pelos submenus", async ({ page }) => 
     }
   }
 
-  await page.locator('#navLinks a[href="#contato"]').click();
-  await expect(page).toHaveURL(/#contato$/);
+  await page.locator('#navLinks a[href="/pages/contact"]').click();
+  await expect(page).toHaveURL(/\/pages\/contact\/?$/);
+});
+
+test("destaca a página atual na navegação", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('#navLinks a[href="/"]')).toHaveAttribute("aria-current", "page");
+  await page.goto("/pages/contact");
+  await expect(page.locator('#navLinks a[href="/pages/contact"]')).toHaveAttribute("aria-current", "page");
+  await expect(page.locator('#navLinks a[href="/"]')).not.toHaveAttribute("aria-current", "page");
 });
 
 test("fecha o submenu com Escape e devolve o foco ao agrupador", async ({ page }) => {
@@ -116,8 +123,7 @@ test("permite pular diretamente ao conteúdo com o teclado", async ({ page }) =>
   await expect(page.locator("#conteudo")).toBeFocused();
 });
 
-test("fecha o menu mobile ao pressionar Escape", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile-chromium", "Exclusivo do menu mobile.");
+test("fecha o menu mobile ao pressionar Escape", { tag: "@mobile" }, async ({ page }) => {
 
   await page.goto("/");
   const menuButton = page.locator("#menuBtn");
@@ -128,8 +134,7 @@ test("fecha o menu mobile ao pressionar Escape", async ({ page }, testInfo) => {
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 });
 
-test("devolve o foco ao botão ao fechar o menu mobile com Escape", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile-chromium", "Exclusivo do menu mobile.");
+test("devolve o foco ao botão ao fechar o menu mobile com Escape", { tag: "@mobile" }, async ({ page }) => {
 
   await page.goto("/");
   const menuButton = page.locator("#menuBtn");
@@ -174,7 +179,7 @@ test("mantém a navegação utilizável em larguras intermediárias", async ({ b
     ).toBe(true);
 
     const menuButton = intermediatePage.locator("#menuBtn");
-    const contactLink = intermediatePage.locator('#navLinks a[href="#contato"]');
+    const contactLink = intermediatePage.locator('#navLinks a[href="/pages/contact"]');
 
     if (await menuButton.isVisible()) {
       await expect(contactLink).toBeHidden();
@@ -187,8 +192,7 @@ test("mantém a navegação utilizável em larguras intermediárias", async ({ b
   }
 });
 
-test("oferece alvos de toque adequados no menu e nas ações mobile", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile-chromium", "Exclusivo do viewport mobile.");
+test("oferece alvos de toque adequados no menu e nas ações mobile", { tag: "@mobile" }, async ({ page }) => {
 
   await page.goto("/");
   await page.locator("#menuBtn").click();
@@ -289,8 +293,7 @@ test("mantém o conteúdo responsivo e sem rolagem horizontal", async ({ page },
   expect(layout.contactColumns).toBe(isMobile ? 1 : 2);
 });
 
-test("preserva o cabeçalho desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+test("preserva o cabeçalho desktop", { tag: "@desktop" }, async ({ page }) => {
 
   await page.goto("/");
   await expect(page.locator("header")).toHaveScreenshot("header-desktop.png", {
@@ -298,8 +301,7 @@ test("preserva o cabeçalho desktop", async ({ page }, testInfo) => {
   });
 });
 
-test("preserva o menu aberto no mobile", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile-chromium", "Referência visual mobile.");
+test("preserva o menu aberto no mobile", { tag: "@mobile" }, async ({ page }) => {
 
   await page.goto("/");
   await page.locator("#menuBtn").click();
@@ -309,8 +311,7 @@ test("preserva o menu aberto no mobile", async ({ page }, testInfo) => {
   });
 });
 
-test("preserva o visual da página 404", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+test("preserva o visual da página 404", { tag: "@desktop" }, async ({ page }) => {
 
   await page.goto("/caminho-inexistente");
   await expect(page.locator("#conteudo")).toHaveScreenshot("not-found.png", {
@@ -318,8 +319,7 @@ test("preserva o visual da página 404", async ({ page }, testInfo) => {
   });
 });
 
-test("preserva o formulário de contato em desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+test("preserva o formulário de contato em desktop", { tag: "@desktop" }, async ({ page }) => {
 
   await page.goto("/#contato");
   await expect(page.locator("[data-contact-form]")).toHaveScreenshot("contact-form-desktop.png", {
@@ -327,8 +327,7 @@ test("preserva o formulário de contato em desktop", async ({ page }, testInfo) 
   });
 });
 
-test("preserva o formulário de contato em mobile", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile-chromium", "Referência visual mobile.");
+test("preserva o formulário de contato em mobile", { tag: "@mobile" }, async ({ page }) => {
 
   await page.goto("/#contato");
   await expect(page.locator("[data-contact-form]")).toHaveScreenshot("contact-form-mobile.png", {
@@ -336,8 +335,7 @@ test("preserva o formulário de contato em mobile", async ({ page }, testInfo) =
   });
 });
 
-test("preserva os cards de sacramentos em desktop", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop-chromium", "Referência visual desktop.");
+test("preserva os cards de sacramentos em desktop", { tag: "@desktop" }, async ({ page }) => {
 
   await page.goto("/#sacramentos");
   await expect(page.locator("#sacramentos .grid")).toHaveScreenshot("sacrament-cards-desktop.png", {

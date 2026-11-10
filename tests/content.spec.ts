@@ -19,6 +19,7 @@ test("organiza notícias publicadas em páginas de até nove itens", () => {
 });
 
 test("apresenta os mesmos cards na página inicial e no arquivo de notícias", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#noticias");
   const home = page.locator("#noticias");
   await expect(home.locator(".content-card")).toHaveCount(1);
@@ -64,6 +65,7 @@ test("mantém o tamanho e a proporção dos cards com imagens de formatos difere
 });
 
 test("mostra a notícia publicada e permite abri-la a partir da página inicial", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#noticias");
   const link = page.locator("#noticias").getByRole("link", { name: "Notícia de exemplo" });
   await expect(link).toHaveAttribute("href", "/news/2026-01-01-noticia-exemplo");
@@ -79,9 +81,9 @@ test("gera páginas para conteúdos editoriais, eventos e locais", async ({ page
     ["/pages/dean", "Reverenda Deã"],
     ["/pages/donate", "Doar"],
     ["/pages/leadership", "Liderança"],
-    ["/pages/reverends_gallery", "Galeria de reverendos"],
+    ["/pages/reverends-gallery", "Galeria de reverendos"],
     ["/events/evento-exemplo", "Evento de exemplo"],
-    ["/locations/local-exemplo", "Local de exemplo"],
+    ["/locations/catedral-anglicana-da-ressurreicao", "Catedral Anglicana da Ressurreição"],
   ]) {
     const response = await page.goto(url, { waitUntil: "domcontentloaded" });
     expect(response?.status(), url).toBe(200);
