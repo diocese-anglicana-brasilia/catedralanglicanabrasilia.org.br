@@ -69,6 +69,7 @@ collections:
     label: Tags
     create: true
     label_singular: Tag
+    publish_mode: simple
     folder: src/content/tags
     fields:
       - { name: title, label: Title }
