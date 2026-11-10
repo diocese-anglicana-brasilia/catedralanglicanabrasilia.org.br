@@ -2,8 +2,8 @@
 title: Galeria de reverendos
 reverends:
   - josias-conserva
-  - magda_guedes
   - aubri-ecotem
+  - magda_guedes
 ---
 
 Com mais de 60 anos de presença anglicana no Distrito Federal, tivemos a presença de muitos reverendos e reverendas na comunidade.
