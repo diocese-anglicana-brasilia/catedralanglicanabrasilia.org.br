@@ -1,0 +1,22 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import PersonProfile from "../../components/PersonProfile.astro";
+
+export async function getStaticPaths() {
+  const members = await getCollection("board_members");
+  return members.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<"board_members">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { name, role, bio, photo } = entry.data;
+const imageSrc = typeof photo === "string" ? photo : photo?.src;
+---
+
+<PersonProfile name={name} role={role} bio={bio} imageSrc={imageSrc} backHref="/pages/leadership" backLabel="Voltar à liderança">
+  <Content />
+</PersonProfile>
