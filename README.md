@@ -18,6 +18,7 @@ cp .env.example .env
 
 ```env
 PUBLIC_CONTACT_ENDPOINT=https://seu-directus/flows/trigger/seu-flow-id
+PUBLIC_SITE_URL=https://catedralanglicanabrasilia.org.br
 ```
 
 No Directus, configure CORS para permitir a origem em que o site será servido.
@@ -54,3 +55,7 @@ npm run test:e2e -- --grep Directus
 ```
 
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.
+
+`PUBLIC_SITE_URL` define a URL canônica usada pelos metadados de SEO e pelas
+prévias em redes sociais. Caso o domínio público mude, atualize também as URLs
+em `public/robots.txt` e `public/sitemap.xml`.

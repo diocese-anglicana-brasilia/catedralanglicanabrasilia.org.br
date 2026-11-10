@@ -5,7 +5,12 @@ import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Página não encontrada | Catedral Anglicana de Brasília">
+<BaseLayout
+  title="Página não encontrada | Catedral Anglicana de Brasília"
+  description="A página solicitada não foi encontrada na Catedral Anglicana de Brasília."
+  canonicalPath="/404"
+  noindex
+>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header isHomePage={false} />
 

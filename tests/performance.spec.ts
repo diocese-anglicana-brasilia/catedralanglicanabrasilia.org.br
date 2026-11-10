@@ -1,5 +1,49 @@
 import { expect, test } from "@playwright/test";
 
+type WebVitals = {
+  cls: number;
+  lcp: number;
+};
+
+test("mantém métricas de experiência e fontes dentro do esperado", async ({ page }) => {
+  await page.addInitScript(() => {
+    const metrics = { cls: 0, lcp: 0 };
+    (window as Window & { __testWebVitals?: WebVitals }).__testWebVitals = metrics;
+
+    new PerformanceObserver((entries) => {
+      for (const entry of entries.getEntries()) {
+        metrics.lcp = entry.startTime;
+      }
+    }).observe({ type: "largest-contentful-paint", buffered: true });
+
+    new PerformanceObserver((entries) => {
+      for (const entry of entries.getEntries() as PerformanceEntryList) {
+        const layoutShift = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number };
+        if (!layoutShift.hadRecentInput) metrics.cls += layoutShift.value ?? 0;
+      }
+    }).observe({ type: "layout-shift", buffered: true });
+  });
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await page.waitForTimeout(250);
+
+  const experience = await page.evaluate(async () => {
+    await document.fonts.ready;
+
+    return {
+      metrics: (window as Window & { __testWebVitals?: WebVitals }).__testWebVitals,
+      interLoaded: document.fonts.check('16px "Inter"'),
+      playfairLoaded: document.fonts.check('16px "Playfair Display"'),
+    };
+  });
+
+  expect(experience.metrics?.lcp).toBeGreaterThan(0);
+  expect(experience.metrics?.lcp).toBeLessThanOrEqual(3000);
+  expect(experience.metrics?.cls).toBeLessThanOrEqual(0.1);
+  expect(experience.interLoaded).toBe(true);
+  expect(experience.playfairLoaded).toBe(true);
+});
+
 test("respeita o orçamento local de carregamento", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
 

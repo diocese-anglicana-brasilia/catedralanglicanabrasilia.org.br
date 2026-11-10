@@ -11,9 +11,12 @@ if (menuBtn && navLinks) {
   const siteNav = menuBtn.closest("nav");
   const siteBrand = siteNav?.querySelector("[data-site-brand]");
 
-  const closeMenu = () => {
+  const closeMenu = ({ restoreFocus = false } = {}) => {
+    const shouldRestoreFocus = restoreFocus && navLinks.contains(document.activeElement);
+
     menuBtn.setAttribute("aria-expanded", "false");
     if (menuLabel) menuLabel.textContent = "Abrir menu";
+    if (shouldRestoreFocus) menuBtn.focus();
   };
 
   menuBtn.addEventListener("click", () => {
@@ -25,7 +28,9 @@ if (menuBtn && navLinks) {
   navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+    if (event.key === "Escape" && menuBtn.getAttribute("aria-expanded") === "true") {
+      closeMenu({ restoreFocus: true });
+    }
   });
 
   const updateMenuLayout = () => {

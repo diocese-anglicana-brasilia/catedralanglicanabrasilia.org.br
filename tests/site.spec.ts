@@ -197,6 +197,22 @@ test("fecha o menu mobile ao pressionar Escape", async ({ page }, testInfo) => {
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 });
 
+test("devolve o foco ao botão ao fechar o menu mobile com Escape", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Exclusivo do menu mobile.");
+
+  await page.goto("/");
+  const menuButton = page.locator("#menuBtn");
+  const firstMenuLink = page.locator("#navLinks a").first();
+
+  await menuButton.click();
+  await page.keyboard.press("Tab");
+  await expect(firstMenuLink).toBeFocused();
+  await page.keyboard.press("Escape");
+
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+  await expect(menuButton).toBeFocused();
+});
+
 test("respeita a preferência por movimento reduzido", async ({ browser }) => {
   const context = await browser.newContext({
     reducedMotion: "reduce",
@@ -278,6 +294,38 @@ test("mantém âncoras e contatos com destinos válidos", async ({ page }) => {
 
   expect(linkIntegrity.anchors).toEqual([]);
   expect(linkIntegrity.invalidEmails).toEqual([]);
+});
+
+test("expõe metadados de SEO e dados estruturados na página inicial", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
+  await expect(page).toHaveTitle("Catedral Anglicana de Brasília");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /comunidade de fé/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://catedralanglicanabrasilia.org.br/",
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute("content", "website");
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "pt_BR");
+
+  const structuredData = await page.locator('script[type="application/ld+json"]').textContent();
+  expect(JSON.parse(structuredData ?? "{}")).toMatchObject({
+    "@type": "ReligiousOrganization",
+    name: "Catedral Anglicana de Brasília",
+    url: "https://catedralanglicanabrasilia.org.br",
+  });
+});
+
+test("impede a indexação da página 404", async ({ page }) => {
+  await page.goto("/caminho-inexistente");
+
+  await expect(page).toHaveTitle("Página não encontrada | Catedral Anglicana de Brasília");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, follow");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://catedralanglicanabrasilia.org.br/404",
+  );
 });
 
 test("não apresenta violações automáticas de acessibilidade", async ({ page }) => {
