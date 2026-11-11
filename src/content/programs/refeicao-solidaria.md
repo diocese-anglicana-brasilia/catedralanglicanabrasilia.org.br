@@ -1,7 +1,7 @@
 ---
 name: Refeição Solidária
 seo_description: Conheça a Refeição Solidária, ação mensal da Catedral Anglicana da Ressurreição que promove alimentação, acolhimento e solidariedade.
-seo_keywords: efeição solidária, ação social, solidariedade, alimentação, comunidade
+seo_keywords: refeição solidária, ação social, solidariedade, alimentação, comunidade
 description: |-
   Uma vez por mês, aos sábados, a Catedral Anglicana da Ressurreição promove a Refeição Solidária: um momento de partilha, acolhimento e cuidado com o próximo.
 
