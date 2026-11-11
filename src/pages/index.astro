@@ -77,11 +77,37 @@ const [news, events, about, contact, donate] = await Promise.all([
 ]);
 const featuredNews = publishedNews(news).slice(0, 3);
 const homeSeo = await getEntry("site_seo", "home");
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
+const cathedralId = new URL("/#catedral", siteUrl).href;
+const dioceseId = new URL("/#diocese", siteUrl).href;
+const churchId = new URL("/#ieab", siteUrl).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": cathedralId,
+      name: "Catedral Anglicana da Ressurreição",
+      url: new URL("/", siteUrl).href,
+      email: "contato@catedralanglicanabsb.org.br",
+      address: { "@type": "PostalAddress", addressLocality: "Brasília", addressRegion: "DF", addressCountry: "BR" },
+      parentOrganization: { "@id": dioceseId },
+    },
+    {
+      "@type": "Organization",
+      "@id": dioceseId,
+      name: "Diocese Anglicana de Brasília",
+      url: "https://dab.org.br/",
+      parentOrganization: { "@id": churchId },
+    },
+    { "@type": "Organization", "@id": churchId, name: "Igreja Episcopal Anglicana do Brasil", url: "https://ieab.org.br/" },
+  ],
+};
 const now = new Date();
 const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcoming(data, now)), now).slice(0, 3);
 ---
 
-<BaseLayout title="Catedral Anglicana da Ressureição" description={homeSeo?.data.seo_description} keywords={homeSeo?.data.seo_keywords}>
+<BaseLayout title="Catedral Anglicana da Ressureição" description={homeSeo?.data.seo_description} keywords={homeSeo?.data.seo_keywords} structuredData={structuredData}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header />
 

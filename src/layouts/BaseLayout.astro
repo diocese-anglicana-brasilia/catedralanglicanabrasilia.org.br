@@ -7,6 +7,7 @@ interface Props {
   keywords?: string | null;
   canonicalPath?: string;
   noindex?: boolean;
+  structuredData?: Record<string, unknown>;
 }
 
 const {
@@ -15,12 +16,13 @@ const {
   keywords,
   canonicalPath = Astro.url.pathname,
   noindex = false,
+  structuredData: pageStructuredData,
 } = Astro.props;
 const description = suppliedDescription?.trim() || "Catedral Anglicana da Ressureição: uma comunidade de fé, esperança e amor no coração do Distrito Federal.";
 const normalizedKeywords = keywords?.trim();
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
-const structuredData = {
+const structuredData = pageStructuredData ?? {
   "@context": "https://schema.org",
   "@type": "ReligiousOrganization",
   name: "Catedral Anglicana da Ressureição",
@@ -55,7 +57,7 @@ const structuredData = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.catedralanglicanabrasilia.org.br" crossorigin />

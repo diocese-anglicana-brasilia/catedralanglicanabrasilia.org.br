@@ -289,11 +289,18 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "pt_BR");
 
   const structuredData = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(JSON.parse(structuredData ?? "{}")).toMatchObject({
-    "@type": "ReligiousOrganization",
-    name: "Catedral Anglicana da Ressureição",
-    url: "https://catedralanglicanabrasilia.org.br",
-  });
+  const data = JSON.parse(structuredData ?? "{}");
+  expect(data["@context"]).toBe("https://schema.org");
+  const graph = data["@graph"];
+  const cathedral = graph.find((item: { "@id": string }) => item["@id"] === "https://catedralanglicanabrasilia.org.br/#catedral");
+  const diocese = graph.find((item: { "@id": string }) => item["@id"] === "https://catedralanglicanabrasilia.org.br/#diocese");
+  const church = graph.find((item: { "@id": string }) => item["@id"] === "https://catedralanglicanabrasilia.org.br/#ieab");
+  expect(cathedral).toMatchObject({ "@type": "Organization", name: "Catedral Anglicana da Ressurreição", parentOrganization: { "@id": diocese["@id"] } });
+  expect(diocese).toMatchObject({ "@type": "Organization", name: "Diocese Anglicana de Brasília", url: "https://dab.org.br/", parentOrganization: { "@id": church["@id"] } });
+  expect(church).toMatchObject({ "@type": "Organization", name: "Igreja Episcopal Anglicana do Brasil", url: "https://ieab.org.br/" });
+  await page.goto("/pages/about");
+  const otherPage = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() ?? "{}");
+  expect(otherPage["@type"]).toBe("ReligiousOrganization");
 });
 
 test("impede a indexação da página 404", async ({ page }) => {
