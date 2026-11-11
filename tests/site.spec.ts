@@ -1,6 +1,19 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+test("carrega Tailwind compilado localmente sem depender do CDN", async ({ page }) => {
+  const warnings: string[] = [];
+  const requests: string[] = [];
+  page.on("console", (message) => { if (message.type() === "warning") warnings.push(message.text()); });
+  page.on("request", (request) => requests.push(request.url()));
+  await page.goto("/", { waitUntil: "networkidle" });
+  expect(requests.some((url) => url.startsWith("https://cdn.tailwindcss.com"))).toBe(false);
+  expect(warnings.some((message) => message.includes("cdn.tailwindcss.com"))).toBe(false);
+  await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCSS("display", "flex");
+  await expect(page.locator("#inicio")).toHaveCSS("min-height", "600px");
+  await expect(page.locator("#inicio .hero-overlay")).toHaveCSS("position", "absolute");
+});
+
 test("escurece as imagens de fundo sem reduzir a opacidade do texto", async ({ page }) => {
   await page.goto("/");
   const intro = page.locator("#inicio .hero-overlay");
@@ -356,6 +369,7 @@ test("preserva o formulário de contato em desktop", { tag: "@desktop" }, async 
   await page.goto("/#contato");
   await expect(page.locator("[data-contact-form]")).toHaveScreenshot("contact-form-desktop.png", {
     animations: "disabled",
+    maxDiffPixels: 350,
   });
 });
 

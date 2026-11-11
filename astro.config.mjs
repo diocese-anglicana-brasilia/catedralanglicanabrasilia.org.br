@@ -1,11 +1,13 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig, memoryCache } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
 
 const BASE_URL = process.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 
 export default defineConfig({
   site: BASE_URL,
+  vite: { plugins: [tailwindcss()] },
   integrations: [
 		mdx(),
 		sitemap({

@@ -1,3 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --radius-sm: 0.125rem;
+}
+
 @font-face {
   font-family: "Aller";
   src: url("https://cdn.catedralanglicanabrasilia.org.br/Aller-Light.woff2") format("woff2"), url("/Aller-Light.woff2") format("woff2");
