@@ -261,6 +261,7 @@ collections:
           - { name: body, label: Conteúdo, widget: richtext }
   - name: site_seo
     label: SEO das páginas do site
+    publish_mode: simple
     files:
       - name: home
         label: Página inicial
