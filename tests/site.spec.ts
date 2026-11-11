@@ -280,7 +280,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
 
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
   await expect(page).toHaveTitle("Catedral Anglicana da Ressureição");
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /comunidade de fé/);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /\S/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://catedralanglicanabrasilia.org.br/",

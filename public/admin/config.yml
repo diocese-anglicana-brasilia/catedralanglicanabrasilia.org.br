@@ -44,6 +44,8 @@ collections:
       default: { field: date, direction: descending }
     fields:
       - { name: title, label: Título }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: date, label: Data, widget: datetime, default: '{{now}}' }
       - name: author
         label: Autor
@@ -92,6 +94,8 @@ collections:
     create: true
     fields:
       - { name: name, label: Nome }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: map_location, label: Mapa, type: Point, widget: map, required: false }
       - { name: jurisdiction, label: Jurisdição, type: Polygon , widget: map, required: false }
       - { name: address, label: Endereço, required: false }
@@ -106,6 +110,8 @@ collections:
     create: true
     fields:
       - { name: name, label: Nome }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: start_date, label: Data de início, widget: datetime }
       - { name: end_date, label: Data de encerramento, widget: datetime, required: false }
       - name: location
@@ -125,6 +131,8 @@ collections:
     identifier_field: name
     fields:
       - { name: name, label: Nome }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
       - { name: bio, label: Bio, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
@@ -142,6 +150,8 @@ collections:
     identifier_field: name
     fields:
       - { name: name, label: Nome }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: description, label: Descrição, widget: richtext }
       - { name: goals, label: Objetivos, widget: list, required: false }
       - { name: images, label: Imagens, widget: image, multiple: true, required: false }
@@ -159,6 +169,8 @@ collections:
       default: { field: start_date, direction: descending }
     fields:
       - { name: name, label: Nome }
+      - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+      - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
       - { name: bio, label: Biografia, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
@@ -173,24 +185,32 @@ collections:
         file: src/content/pages/about.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: contact
         label: Contato
         file: src/content/pages/contact.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: dean
         label: Reverenda Deã
         file: src/content/pages/dean.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: leadership
         label: Liderança
         file: src/content/pages/leadership.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
           - name: board_members
             label: Membros da Junta
@@ -204,6 +224,8 @@ collections:
         file: src/content/pages/reverends-gallery.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
           - name: reverends
             label: Reverendo(a)s
@@ -219,12 +241,16 @@ collections:
         file: src/content/pages/donate.md
         fields:
           - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Body, widget: richtext }
       - name: programs
         label: Atividades
         file: src/content/pages/programs.md
         fields:
           - { name: title, label: Title }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - name: programs
             label: Atividades
             widget: relation
@@ -233,3 +259,42 @@ collections:
             multiple: true
             required: false
           - { name: body, label: Conteúdo, widget: richtext }
+  - name: site_seo
+    label: SEO das páginas do site
+    files:
+      - name: home
+        label: Página inicial
+        file: src/content/site-seo/home.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+      - name: news
+        label: Lista de notícias
+        file: src/content/site-seo/news.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+      - name: events
+        label: Lista de eventos
+        file: src/content/site-seo/events.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+      - name: locations
+        label: Lista de endereços
+        file: src/content/site-seo/locations.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+      - name: programs
+        label: Lista de ações sociais
+        file: src/content/site-seo/programs.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+      - name: not-found
+        label: Página não encontrada
+        file: src/content/site-seo/not-found.md
+        fields:
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }

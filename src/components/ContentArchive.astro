@@ -5,6 +5,7 @@ import Footer from "./Footer.astro";
 import Header from "./Header.astro";
 import CardGrid from "./CardGrid.astro";
 import Pagination from "./Pagination.astro";
+import { getEntry } from "astro:content";
 
 interface Props {
   title: string;
@@ -17,9 +18,11 @@ interface Props {
 
 const { title, items, emptyMessage, currentPage, totalPages, getPageHref } = Astro.props;
 const pageTitle = currentPage === 1 ? title : `${title} — página ${currentPage}`;
+const seoId = Astro.url.pathname.split("/")[1];
+const seo = ["news", "events", "programs"].includes(seoId) ? await getEntry("site_seo", seoId) : undefined;
 ---
 
-<BaseLayout title={`${pageTitle} | Catedral Anglicana da Ressureição`}>
+<BaseLayout title={`${pageTitle} | Catedral Anglicana da Ressureição`} description={seo?.data.seo_description} keywords={seo?.data.seo_keywords}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header isHomePage={false} />
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">

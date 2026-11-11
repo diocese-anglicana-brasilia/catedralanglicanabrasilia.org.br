@@ -10,12 +10,14 @@ interface Props {
   imageSrc?: string;
   backHref: string;
   backLabel: string;
+  description?: string | null;
+  keywords?: string | null;
 }
 
-const { name, role, bio, imageSrc, backHref, backLabel } = Astro.props;
+const { name, role, bio, imageSrc, backHref, backLabel, description, keywords } = Astro.props;
 ---
 
-<BaseLayout title={`${name} | Catedral Anglicana da Ressureição`}>
+<BaseLayout title={`${name} | Catedral Anglicana da Ressureição`} description={description} keywords={keywords}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header isHomePage={false} />
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">

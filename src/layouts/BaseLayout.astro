@@ -3,18 +3,21 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
-  description?: string;
+  description?: string | null;
+  keywords?: string | null;
   canonicalPath?: string;
   noindex?: boolean;
 }
 
 const {
   title,
-  description =
-    "Catedral Anglicana da Ressureição: uma comunidade de fé, esperança e amor no coração do Distrito Federal.",
+  description: suppliedDescription,
+  keywords,
   canonicalPath = Astro.url.pathname,
   noindex = false,
 } = Astro.props;
+const description = suppliedDescription?.trim() || "Catedral Anglicana da Ressureição: uma comunidade de fé, esperança e amor no coração do Distrito Federal.";
+const normalizedKeywords = keywords?.trim();
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const structuredData = {
@@ -38,6 +41,7 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {normalizedKeywords && <meta name="keywords" content={normalizedKeywords} />}
     <meta name="theme-color" content="#f7f3ec" />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalUrl} />

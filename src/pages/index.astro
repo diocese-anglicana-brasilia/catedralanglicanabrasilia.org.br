@@ -76,11 +76,12 @@ const [news, events, about, contact, donate] = await Promise.all([
   getEntry("pages", "donate"),
 ]);
 const featuredNews = publishedNews(news).slice(0, 3);
+const homeSeo = await getEntry("site_seo", "home");
 const now = new Date();
 const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcoming(data, now)), now).slice(0, 3);
 ---
 
-<BaseLayout title="Catedral Anglicana da Ressureição">
+<BaseLayout title="Catedral Anglicana da Ressureição" description={homeSeo?.data.seo_description} keywords={homeSeo?.data.seo_keywords}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header />
 

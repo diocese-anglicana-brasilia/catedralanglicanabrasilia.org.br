@@ -2,9 +2,15 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const seoFields = {
+  seo_description: z.string().nullish(),
+  seo_keywords: z.string().nullish(),
+};
+
 const news = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/news" }),
   schema: ({ image }) => z.object({
+    ...seoFields,
     title: z.string(),
     date: z.coerce.date(),
     author: z.string().nullish(),
@@ -33,6 +39,7 @@ const authors = defineCollection({
 const locations = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/locations" }),
   schema: z.object({
+    ...seoFields,
     name: z.string(),
     map_location: z.string().nullish(),
     jurisdiction: z.string().nullish(),
@@ -46,6 +53,7 @@ const locations = defineCollection({
 const events = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
   schema: z.object({
+    ...seoFields,
     name: z.string(),
     start_date: z.coerce.date(),
     end_date: z.coerce.date().nullish(),
@@ -59,6 +67,7 @@ const events = defineCollection({
 const board_members = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/board-members" }),
   schema: ({ image }) => z.object({
+    ...seoFields,
     name: z.string(),
     role: z.string(),
     is_active: z.boolean().default(true),
@@ -71,6 +80,7 @@ const board_members = defineCollection({
 const programs = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/programs" }),
   schema: ({ image }) => z.object({
+    ...seoFields,
     name: z.string(),
     description: z.string(),
     goals: z.array(z.string()).nullish(),
@@ -83,6 +93,7 @@ const programs = defineCollection({
 const reverends = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/reverends" }),
   schema: ({ image }) => z.object({
+    ...seoFields,
     name: z.string(),
     role: z.string(),
     bio: z.string().nullish(),
@@ -96,11 +107,17 @@ const reverends = defineCollection({
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
   schema: z.object({
+    ...seoFields,
     title: z.string(),
     board_members: z.array(z.string()).nullish(),
     reverends: z.array(z.string()).nullish(),
     programs: z.array(z.string()).nullish(),
   }),
+});
+
+const site_seo = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/site-seo" }),
+  schema: z.object(seoFields),
 });
 
 export const collections = {
@@ -113,4 +130,5 @@ export const collections = {
   programs,
   reverends,
   pages,
+  site_seo,
 };

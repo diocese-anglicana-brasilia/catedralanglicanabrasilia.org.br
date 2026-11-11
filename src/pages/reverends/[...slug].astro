@@ -18,7 +18,7 @@ const { name, role, bio, photo, start_date, end_date } = entry.data;
 const imageSrc = typeof photo === "string" ? photo : photo?.src;
 ---
 
-<PersonProfile name={name} role={role} bio={bio} imageSrc={imageSrc} backHref="/pages/reverends-gallery" backLabel="Voltar à galeria de reverendo(a)s">
+<PersonProfile name={name} role={role} bio={bio} imageSrc={imageSrc} description={entry.data.seo_description} keywords={entry.data.seo_keywords} backHref="/pages/reverends-gallery" backLabel="Voltar à galeria de reverendo(a)s">
   <p slot="details" class="text-gray-600 mb-6"><DateRange start={start_date} end={end_date} /></p>
   <Content />
 </PersonProfile>
