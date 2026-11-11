@@ -8,6 +8,7 @@ import { isActiveMember } from "../../utils/board-members";
 import LocationDetails from "../../components/LocationDetails.astro";
 import CalendarActions from "../../components/CalendarActions.astro";
 import { eventCalendar } from "../../utils/event-calendar";
+import { renderEventDescription } from "../../utils/event-markdown";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -48,6 +49,7 @@ const eventLocation = entry.collection === "events" && entry.data.location
   ? await getEntry("locations", entry.data.location)
   : undefined;
 const calendarEvent = entry.collection === "events" && Astro.site ? eventCalendar(entry, eventLocation, Astro.site) : undefined;
+const eventDescription = entry.collection === "events" && entry.data.description ? renderEventDescription(entry.data.description) : undefined;
 const memberIds = entry.collection === "pages" ? entry.data.board_members ?? [] : [];
 const matchingMembers = memberIds.length
   ? await getCollection("board_members", ({ id }) => memberIds.includes(id))
@@ -73,7 +75,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
         <p class="text-gray-600 mb-6"><DateRange start={entry.data.start_date} end={entry.data.end_date} showTime timeZone="America/Sao_Paulo" /> <span>(horário de Brasília)</span></p>
       ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
       {image && <img src={typeof image === "string" ? image : image.src} alt="" class="w-full max-h-[32rem] object-cover mb-8" />}
-      {entry.collection === "events" && entry.data.description && <p class="mb-6">{entry.data.description}</p>}
+      {eventDescription && <div class="content-body text-gray-700 leading-relaxed mb-6" data-event-description set:html={eventDescription} />}
       {eventLocation && <p class="mb-6"><strong>Local: </strong><a class="underline text-[var(--gold-dark)]" href={`/locations/${eventLocation.id}`}>{eventLocation.data.name}</a></p>}
       {entry.collection === "programs" && <p class="mb-6">{entry.data.description}</p>}
       {entry.collection === "programs" && entry.data.goals?.length && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Objetivos</h2><ul class="list-disc pl-6">{entry.data.goals.map((goal) => <li>{goal}</li>)}</ul></section>}
