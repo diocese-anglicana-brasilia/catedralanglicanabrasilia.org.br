@@ -8,7 +8,7 @@ tags:
   - comunicacao
   - site
   - renovacao
-status: draft
+status: published
 excerpt: Novo portal da Catedral Anglicana da Ressurreição traz notícias, eventos e informações para aproximar ainda mais a comunidade.
 ---
 
