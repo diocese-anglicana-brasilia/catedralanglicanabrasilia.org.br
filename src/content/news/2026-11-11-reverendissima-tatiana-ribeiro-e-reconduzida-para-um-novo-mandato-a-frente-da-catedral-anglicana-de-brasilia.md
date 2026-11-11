@@ -24,7 +24,7 @@ Durante o comunicado do Bispo Maurício ao povo da Catedral, foi indicado o Segu
 
 ## Serviço
 
-Instalação da Reverenda Tatiana Ribeiro em um novo mandato como Deã da Catedral Anglicana de Brasília
+[Instalação da Reverenda Tatiana Ribeiro em um novo mandato como Deã da Catedral Anglicana de Brasília](/events/reconducao-da-rev-tati-como-dea-da-catedral)
 
 Data: 6 de dezembro de 2026
 
