@@ -10,7 +10,7 @@ tags:
   - mandato
   - ministerio-pastoral
   - servico
-status: draft
+status: published
 excerpt: Cerimônia de instalação da Revª. Tati como Deã da Catedral acontece no dia 6 de dezembro de 2026, durante a Celebração Eucarística.
 ---
 
