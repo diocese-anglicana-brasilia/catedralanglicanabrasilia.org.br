@@ -1,6 +1,18 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+test("escurece as imagens de fundo sem reduzir a opacidade do texto", async ({ page }) => {
+  await page.goto("/");
+  const intro = page.locator("#inicio .hero-overlay");
+  await expect(intro).toHaveCSS("background-image", /rgba\(10, 10, 10, 0\.5\)/);
+  for (const id of ["casamentos", "historia"]) {
+    const section = page.locator(`#${id}`);
+    await expect(section.locator(".hero-image-overlay")).toHaveCSS("background-color", "rgba(0, 0, 0, 0.65)");
+    await expect(section.locator("h2")).toHaveCSS("opacity", "1");
+  }
+  await expect(page.locator("#inicio h1")).toHaveCSS("opacity", "1");
+});
+
 test("apresenta a identidade visual com logotipo acessível e fontes solicitadas", async ({ page }) => {
   await page.goto("/");
   const logo = page.getByRole("link", { name: "Catedral Anglicana da Ressurreição" }).getByRole("img");
