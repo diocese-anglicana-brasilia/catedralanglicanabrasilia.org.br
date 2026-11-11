@@ -32,16 +32,16 @@ test("mantém métricas de experiência e fontes dentro do esperado", async ({ p
 
     return {
       metrics: (window as Window & { __testWebVitals?: WebVitals }).__testWebVitals,
-      interLoaded: document.fonts.check('16px "Inter"'),
-      playfairLoaded: document.fonts.check('16px "Playfair Display"'),
+      textFontLoaded: [...document.fonts].some((font) => font.family === "Aller" && font.status === "loaded"),
+      titleFontLoaded: [...document.fonts].some((font) => font.family === "Alegreya Sans SC" && font.status === "loaded"),
     };
   });
 
   expect(experience.metrics?.lcp).toBeGreaterThan(0);
   expect(experience.metrics?.lcp).toBeLessThanOrEqual(3000);
   expect(experience.metrics?.cls).toBeLessThanOrEqual(0.1);
-  expect(experience.interLoaded).toBe(true);
-  expect(experience.playfairLoaded).toBe(true);
+  expect(experience.textFontLoaded).toBe(true);
+  expect(experience.titleFontLoaded).toBe(true);
 });
 
 test("respeita o orçamento local de carregamento", async ({ page }) => {

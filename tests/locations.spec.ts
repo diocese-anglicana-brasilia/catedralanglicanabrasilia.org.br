@@ -28,7 +28,7 @@ test("abre o endereço físico e carrega seu mapa", async ({ page }) => {
   await expect(map).toHaveClass(/leaflet-container/);
   await expect(map.locator(".leaflet-interactive")).toHaveCount(1);
   await expect(page.getByRole("link", { name: /Abrir endereço no OpenStreetMap/ })).toHaveAttribute("href", /mlat=-15\.817964&mlon=-47\.9091572/);
-  await page.getByRole("link", { name: "Catedral Anglicana da Ressurreição" }).click();
+  await page.getByRole("main").getByRole("link", { name: "Catedral Anglicana da Ressurreição" }).click();
   await expect(page.getByRole("region", { name: "Mapa do endereço" })).toHaveClass(/leaflet-container/);
 });
 

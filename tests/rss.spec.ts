@@ -30,7 +30,7 @@ test("disponibiliza um RSS válido com a notícia publicada", async ({ page, req
     };
   }, body);
   expect(feed.error).toBeUndefined();
-  expect(feed.title).toBe("Notícias | Catedral Anglicana de Brasília");
+  expect(feed.title).toBe("Notícias | Catedral Anglicana da Ressureição");
   expect(feed.language).toBe("pt-BR");
   expect(feed.items).toContainEqual({
     title: "Notícia de exemplo",

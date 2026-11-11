@@ -1,6 +1,26 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+test("apresenta a identidade visual com logotipo acessível e fontes solicitadas", async ({ page }) => {
+  await page.goto("/");
+  const logo = page.getByRole("link", { name: "Catedral Anglicana da Ressurreição" }).getByRole("img");
+  await expect(logo).toHaveAttribute("src", "https://cdn.catedralanglicanabrasilia.org.br/logo_horizontal.png");
+  await expect(logo).toBeVisible();
+  const pattern = page.locator("footer [data-footer-pattern]");
+  await expect(pattern).toBeVisible();
+  await expect(pattern).toHaveAttribute("aria-hidden", "true");
+  await expect(pattern.locator("pattern")).toHaveAttribute("width", "1361");
+  const positions = await page.locator("footer").evaluate((footer) => ({
+    imageBottom: footer.querySelector("[data-footer-pattern]")!.getBoundingClientRect().bottom,
+    titleTop: footer.querySelector("[data-footer-title]")!.getBoundingClientRect().top,
+  }));
+  expect(positions.imageBottom).toBeLessThanOrEqual(positions.titleTop);
+  await expect(page.locator("h1")).toHaveCSS("font-family", /Alegreya Sans SC/);
+  await expect(page.locator("h1")).toHaveCSS("font-weight", "300");
+  await expect(page.locator("body")).toHaveCSS("font-family", /Aller/);
+  await expect(page.locator("body")).toHaveCSS("font-weight", "300");
+});
+
 test("permite navegar até a página de contato", async ({ page }) => {
   await page.goto("/");
 
@@ -234,7 +254,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
   await page.goto("/");
 
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
-  await expect(page).toHaveTitle("Catedral Anglicana de Brasília");
+  await expect(page).toHaveTitle("Catedral Anglicana da Ressureição");
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /comunidade de fé/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -246,7 +266,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
   const structuredData = await page.locator('script[type="application/ld+json"]').textContent();
   expect(JSON.parse(structuredData ?? "{}")).toMatchObject({
     "@type": "ReligiousOrganization",
-    name: "Catedral Anglicana de Brasília",
+    name: "Catedral Anglicana da Ressureição",
     url: "https://catedralanglicanabrasilia.org.br",
   });
 });
@@ -254,7 +274,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
 test("impede a indexação da página 404", async ({ page }) => {
   await page.goto("/caminho-inexistente");
 
-  await expect(page).toHaveTitle("Página não encontrada | Catedral Anglicana de Brasília");
+  await expect(page).toHaveTitle("Página não encontrada | Catedral Anglicana da Ressureição");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, follow");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",

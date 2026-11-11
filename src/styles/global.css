@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Aller";
+  src: url("https://cdn.catedralanglicanabrasilia.org.br/Aller-Light.woff2") format("woff2"), url("/Aller-Light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
 :root {
   --gold: #c9a96e;
   --gold-dark: #806127;
@@ -15,7 +23,8 @@ section[id] {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Aller", sans-serif;
+  font-weight: 300;
   background: var(--cream);
   color: var(--ink);
 }
@@ -32,9 +41,15 @@ body {
   border: 0;
 }
 
-.serif {
-  font-family: "Playfair Display", serif;
+.serif, :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "Alegreya Sans SC", sans-serif;
+  font-weight: 300 !important;
 }
+
+.site-brand { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: min(43vw, 200px); height: 70px; overflow: hidden; }
+.site-brand img { display: block; width: 120%; height: auto; max-width: none; flex-shrink: 0; }
+.site-footer { padding-bottom: 2.5rem; margin: 0; }
+.footer-pattern { display: block; width: 100%; height: 100px; margin-bottom: 2rem; }
 
 .content-body :is(p, ul, ol, blockquote, h2, h3) {
   margin-block: 1rem;
