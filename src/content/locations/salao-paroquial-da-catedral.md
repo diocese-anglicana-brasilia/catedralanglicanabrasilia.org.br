@@ -5,5 +5,5 @@ seo_keywords: salão de festas, local de eventos, asa sul brasília
 map_location: '{"type":"Point","coordinates":[-47.9089714,-15.8178436]}'
 address: EQS 309/310, Asa Sul, Térreo
 city: Brasília
-capacity: 50
+capacity: 70
 ---
