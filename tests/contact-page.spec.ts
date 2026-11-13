@@ -16,3 +16,19 @@ test("mantém o formulário somente na página de contato", async ({ page }) => 
   await expect(form.getByRole("button", { name: "Enviar mensagem" })).toBeDisabled();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+test("exibe o Instagram da Catedral na página de contato e no rodapé", async ({ page }) => {
+  const instagram = "https://www.instagram.com/catedralanglicanadebrasilia/";
+  await page.goto("/pages/contact");
+  for (const area of [page.getByRole("main"), page.locator("footer")]) {
+    const link = area.getByRole("link", { name: "Instagram", exact: true });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", instagram);
+  }
+  await expect(page.getByRole("main").getByRole("link", { name: "Instagram", exact: true })).toHaveText("Instagram");
+  const footerLink = page.locator("footer").getByRole("link", { name: "Instagram", exact: true });
+  await expect(footerLink.locator("svg[aria-hidden='true']")).toBeVisible();
+  await expect(footerLink).toHaveText("");
+  await page.goto("/");
+  await expect(page.locator("footer").getByRole("link", { name: "Instagram", exact: true })).toHaveAttribute("href", instagram);
+});

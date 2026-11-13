@@ -9,6 +9,7 @@ import LocationDetails from "../../components/LocationDetails.astro";
 import CalendarActions from "../../components/CalendarActions.astro";
 import ContactDetails from "../../components/ContactDetails.astro";
 import ContactForm from "../../components/ContactForm.astro";
+import SocialLinks from "../../components/SocialLinks.astro";
 import { contactDetails } from "../../utils/contact-details";
 import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription } from "../../utils/event-markdown";
@@ -108,6 +109,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
           <div>
             <div class="content-body text-gray-700 leading-relaxed mb-8"><Content /></div>
             <ContactDetails items={contactDetails} />
+            <div class="mt-8 text-[var(--gold-dark)]"><SocialLinks /></div>
           </div>
           <section aria-labelledby="contact-form-title">
             <h2 id="contact-form-title" class="serif text-2xl font-bold mb-4">Envie uma mensagem</h2>

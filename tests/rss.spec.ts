@@ -1,4 +1,13 @@
 import { expect, test } from "@playwright/test";
+
+test("apresenta o RSS no rodapé como ícone acessível", async ({ page }) => {
+  await page.goto("/");
+  const link = page.locator("footer").getByRole("link", { name: "Feed RSS de notícias" });
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute("href", "/rss.xml");
+  await expect(link).toHaveText("");
+  await expect(link.locator("svg[aria-hidden='true']")).toBeVisible();
+});
 import { publishedNews } from "../src/utils/news";
 
 test("seleciona apenas notícias publicadas e ordena por data", () => {
