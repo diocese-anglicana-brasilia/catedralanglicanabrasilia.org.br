@@ -18,11 +18,8 @@ export default defineConfig({
     provider: memoryCache()
   },
   image: {
+    // As imagens do CDN da Catedral são entregues diretamente, sem download no build.
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.catedralanglicanabrasilia.org.br"
-      },
       {
         protocol: "https",
         hostname: "**.dab.org.br"
