@@ -11,8 +11,8 @@ interface Props {
 const { geometry, type, title, headingLevel = 2 } = Astro.props;
 const Heading = headingLevel === 2 ? "h2" : "h3";
 const parsed = parseGeometry(geometry, type);
-const osmUrl = parsed?.type === "Point"
-  ? `https://www.openstreetmap.org/?mlat=${parsed.coordinates[1]}&mlon=${parsed.coordinates[0]}#map=17/${parsed.coordinates[1]}/${parsed.coordinates[0]}`
+const coordinates = parsed?.type === "Point"
+  ? encodeURIComponent(`${parsed.coordinates[1]},${parsed.coordinates[0]}`)
   : undefined;
 ---
 
@@ -20,7 +20,10 @@ const osmUrl = parsed?.type === "Point"
   <Heading class="serif text-2xl font-bold mb-4">{title}</Heading>
   {parsed ? <>
     <div class="location-map" data-geometry={JSON.stringify(parsed)} role="region" aria-label={title} tabindex="0"></div>
-    {osmUrl && <p class="mt-3"><a class="underline text-[var(--gold-dark)]" href={osmUrl} target="_blank" rel="noopener noreferrer">Abrir endereço no OpenStreetMap (nova aba)</a></p>}
+    {coordinates && <p class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+      <a class="underline text-[var(--gold-dark)]" href={`https://www.google.com/maps/search/?api=1&query=${coordinates}`} target="_blank" rel="noopener noreferrer">Abrir endereço no Google Maps (nova aba)</a>
+      <a class="underline text-[var(--gold-dark)]" href={`https://waze.com/ul?ll=${coordinates}&navigate=yes`} target="_blank" rel="noopener noreferrer">Abrir endereço no Waze (nova aba)</a>
+    </p>}
     <noscript><p>Ative o JavaScript para visualizar o mapa interativo.</p></noscript>
   </> : <p>Mapa indisponível: coordenadas inválidas.</p>}
 </section>}

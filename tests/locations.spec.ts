@@ -22,14 +22,18 @@ test("aceita apenas links web válidos para locais online", () => {
 test("abre o endereço físico e carrega seu mapa", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.abort());
   await page.goto("/locations/catedral-anglicana-da-ressurreicao");
-  await expect(page.getByRole("heading", { level: 1, name: "Endereços" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Catedral Anglicana da Ressurreição" })).toBeVisible();
   await expect(page.getByText("EQS 309/310, Asa Sul — Brasília")).toBeVisible();
   const map = page.getByRole("region", { name: "Mapa do endereço" });
   await expect(map).toHaveClass(/leaflet-container/);
   await expect(map.locator(".leaflet-interactive")).toHaveCount(1);
-  await expect(page.getByRole("link", { name: /Abrir endereço no OpenStreetMap/ })).toHaveAttribute("href", /mlat=-15\.817964&mlon=-47\.9091572/);
-  await page.getByRole("main").getByRole("link", { name: "Catedral Anglicana da Ressurreição" }).click();
-  await expect(page.getByRole("region", { name: "Mapa do endereço" })).toHaveClass(/leaflet-container/);
+  const googleMaps = page.getByRole("link", { name: /Abrir endereço no Google Maps/ });
+  const waze = page.getByRole("link", { name: /Abrir endereço no Waze/ });
+  await expect(googleMaps).toHaveAttribute("href", "https://www.google.com/maps/search/?api=1&query=-15.817964%2C-47.9091572");
+  await expect(waze).toHaveAttribute("href", "https://waze.com/ul?ll=-15.817964%2C-47.9091572&navigate=yes");
+  await expect(googleMaps).toHaveAttribute("target", "_blank");
+  await expect(waze).toHaveAttribute("target", "_blank");
+  await expect(page.getByRole("link", { name: /Abrir endereço no OpenStreetMap/ })).toHaveCount(0);
 });
 
 test("inicializa um segundo mapa com a região poligonal", async ({ page }) => {
