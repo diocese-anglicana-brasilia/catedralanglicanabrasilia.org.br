@@ -2,7 +2,6 @@
 import ActionLink from "../components/ActionLink.astro";
 import BackgroundScreen from "../components/BackgroundScreen.astro";
 import ContactDetails from "../components/ContactDetails.astro";
-import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
 import FeatureSplit from "../components/FeatureSplit.astro";
 import Header from "../components/Header.astro";
@@ -13,6 +12,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, getEntry } from "astro:content";
 import { newsCard, publishedNews } from "../utils/news";
 import { eventCard, isCurrentOrUpcoming, orderEvents } from "../utils/events";
+import { contactDetails } from "../utils/contact-details";
 import { locationData } from "../utils/structured-data";
 
 const weddingCards = [
@@ -42,33 +42,6 @@ const sacramentCards = [
   {
     title: "Unção dos Enfermos",
     description: "Ministério de cura e consolação, oferecido a quem enfrenta enfermidades, cirurgias ou momentos de fragilidade.",
-  },
-];
-
-const contactDetails = [
-  {
-    icon: "📍",
-    label: "Endereço",
-    value: "EQS 309/310, Asa Sul, Brasília/DF",
-    href: "/locations/catedral-anglicana-da-ressurreicao"
-  },
-  {
-    icon: "✉",
-    label: "E-mail",
-    value: "anglicana309sul@gmail.com",
-    href: "mailto:anglicana309sul@gmail.com",
-  },
-  {
-    icon: "☎",
-    label: "Telefone e WhatsApp",
-    value: "(61) 3879-0382",
-    href: "https://wa.me/556138790382"
-  },
-  {
-    icon: "🕐",
-    label: "Cultos dominicais",
-    value: "Domingos às 10h — Santa Eucaristia",
-    href: "/events/"
   },
 ];
 
@@ -243,16 +216,13 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
     </section>}
 
     <section id="contato" class="py-24 bg-[var(--cream)]">
-      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+      <div class="max-w-4xl mx-auto px-6">
         <div class="fade-in">
           <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold-dark)] mb-3">Fale conosco</div>
           <h2 class="serif text-4xl md:text-5xl font-bold mb-6">Contato</h2>
           <p class="text-gray-700 leading-relaxed mb-8">Será uma alegria recebê-lo em nossa comunidade. Entre em contato para visitas, informações sobre sacramentos, agendamentos ou qualquer dúvida.</p>
           <ContactDetails items={contactDetails} />
-          {contact && <p class="mt-6"><a class="underline text-[var(--gold-dark)]" href="/pages/contact">Mais informações de contato</a></p>}
-        </div>
-        <div class="fade-in">
-          <ContactForm />
+          {contact && <p class="mt-8"><ActionLink href="/pages/contact">Entre em contato</ActionLink></p>}
         </div>
       </div>
     </section>

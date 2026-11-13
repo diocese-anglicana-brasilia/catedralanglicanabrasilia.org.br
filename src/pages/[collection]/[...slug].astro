@@ -7,6 +7,9 @@ import DateRange from "../../components/DateRange.astro";
 import { isActiveMember } from "../../utils/board-members";
 import LocationDetails from "../../components/LocationDetails.astro";
 import CalendarActions from "../../components/CalendarActions.astro";
+import ContactDetails from "../../components/ContactDetails.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { contactDetails } from "../../utils/contact-details";
 import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription } from "../../utils/event-markdown";
 import { eventLocationData, locationData } from "../../utils/structured-data";
@@ -100,7 +103,18 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {entry.collection === "programs" && entry.data.goals?.length && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Objetivos</h2><ul class="list-disc pl-6">{entry.data.goals.map((goal) => <li>{goal}</li>)}</ul></section>}
       {entry.collection === "programs" && entry.data.impact && <section class="mb-6"><h2 class="serif text-2xl font-bold mb-4">Impacto</h2><p>{entry.data.impact}</p></section>}
       {entry.collection === "locations" && <LocationDetails location={entry.data} />}
-      <div class="content-body text-gray-700 leading-relaxed"><Content /></div>
+      {entry.collection === "pages" && entry.id === "contact" ? (
+        <div class="grid md:grid-cols-2 gap-10 mt-8">
+          <div>
+            <div class="content-body text-gray-700 leading-relaxed mb-8"><Content /></div>
+            <ContactDetails items={contactDetails} />
+          </div>
+          <section aria-labelledby="contact-form-title">
+            <h2 id="contact-form-title" class="serif text-2xl font-bold mb-4">Envie uma mensagem</h2>
+            <ContactForm />
+          </section>
+        </div>
+      ) : <div class="content-body text-gray-700 leading-relaxed"><Content /></div>}
       {relatedMembers.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Junta Paroquial</h2><ul class="space-y-3">{relatedMembers.map(({ id, data }) => <li><strong>{isActiveMember(data) ? <a class="underline text-[var(--gold-dark)]" href={`/board-members/${id}`}>{data.name}</a> : data.name}</strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
       {relatedReverends.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Reverendo(a)s</h2><ul class="space-y-3">{relatedReverends.map(({ id, data }) => <li><strong><a class="underline text-[var(--gold-dark)]" href={`/reverends/${id}`}>{data.name}</a></strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
       {relatedPrograms.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Atividades</h2><ul class="space-y-3">{relatedPrograms.map(({ data }) => <li><strong>{data.name}</strong><p>{data.description}</p></li>)}</ul></section>}
