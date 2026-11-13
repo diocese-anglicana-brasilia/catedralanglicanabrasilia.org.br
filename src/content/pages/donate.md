@@ -13,4 +13,6 @@ Se você deseja colaborar, pode fazer uma doação por Pix usando os dados abaix
 - **CNPJ:** 02.705.051/0001-44
 - **Instituição:** Banco Bradesco
 
+![QR Code Pix para doações à Catedral](https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/qrcode_pix_catedral.png)
+
 Antes de confirmar a transferência, confira os dados do destinatário no aplicativo do seu banco. Agradecemos por caminhar conosco e apoiar a missão da Catedral!
