@@ -24,16 +24,11 @@ const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabra
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const structuredData = pageStructuredData ?? {
   "@context": "https://schema.org",
-  "@type": "ReligiousOrganization",
-  name: "Catedral Anglicana da Ressureição",
-  url: siteUrl,
-  email: "contato@catedralanglicanabsb.org.br",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Brasília",
-    addressRegion: "DF",
-    addressCountry: "BR",
-  },
+  "@type": "WebPage",
+  name: title,
+  url: canonicalUrl,
+  description,
+  inLanguage: "pt-BR",
 };
 ---
 
@@ -62,10 +57,10 @@ const structuredData = pageStructuredData ?? {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.catedralanglicanabrasilia.org.br" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@300&display=swap" rel="stylesheet" />
-    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.catedralanglicanabrasilia.org.br/media/public/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.catedralanglicanabrasilia.org.br/media/public/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.catedralanglicanabrasilia.org.br/media/public/favicon-16x16.png">
-    <link rel="manifest" href="https://cdn.catedralanglicanabrasilia.org.br/media/public/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-16x16.png">
+    <link rel="manifest" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/site.webmanifest">
   </head>
   <body>
     <slot />

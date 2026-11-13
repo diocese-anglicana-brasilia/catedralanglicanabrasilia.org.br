@@ -9,6 +9,7 @@ import LocationDetails from "../../components/LocationDetails.astro";
 import CalendarActions from "../../components/CalendarActions.astro";
 import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription } from "../../utils/event-markdown";
+import { eventLocationData, locationData } from "../../utils/structured-data";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -50,6 +51,24 @@ const eventLocation = entry.collection === "events" && entry.data.location
   : undefined;
 const calendarEvent = entry.collection === "events" && Astro.site ? eventCalendar(entry, eventLocation, Astro.site) : undefined;
 const eventDescription = entry.collection === "events" && entry.data.description ? renderEventDescription(entry.data.description) : undefined;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
+const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
+const publisher = { "@type": "Organization", "@id": new URL("/#catedral", siteUrl).href, name: "Catedral Anglicana da Ressurreição", url: new URL("/", siteUrl).href };
+const structuredData = entry.collection === "news" ? {
+  "@context": "https://schema.org", "@type": "NewsArticle", headline: entry.data.title, url: pageUrl,
+  datePublished: entry.data.date.toISOString(), inLanguage: "pt-BR", publisher,
+  ...(entry.data.excerpt && { description: entry.data.excerpt }),
+  ...(image && { image: new URL(typeof image === "string" ? image : image.src, siteUrl).href }),
+} : entry.collection === "events" ? {
+  "@context": "https://schema.org", "@type": "Event", name: entry.data.name, url: pageUrl,
+  startDate: entry.data.start_date.toISOString(),
+  ...(entry.data.end_date && { endDate: entry.data.end_date.toISOString() }),
+  ...(entry.data.seo_description && { description: entry.data.seo_description }),
+  ...(eventLocation && eventLocationData(eventLocation, siteUrl) && { location: eventLocationData(eventLocation, siteUrl) }),
+} : entry.collection === "locations" ? {
+  "@context": "https://schema.org", ...locationData(entry, siteUrl),
+  ...(entry.data.seo_description && { description: entry.data.seo_description }),
+} : undefined;
 const memberIds = entry.collection === "pages" ? entry.data.board_members ?? [] : [];
 const matchingMembers = memberIds.length
   ? await getCollection("board_members", ({ id }) => memberIds.includes(id))
@@ -65,7 +84,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
   : [];
 ---
 
-<BaseLayout title={`${title} | Catedral Anglicana da Ressureição`} description={entry.data.seo_description} keywords={entry.data.seo_keywords}>
+<BaseLayout title={`${title} | Catedral Anglicana da Ressureição`} description={entry.data.seo_description} keywords={entry.data.seo_keywords} structuredData={structuredData}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header isHomePage={false} />
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">

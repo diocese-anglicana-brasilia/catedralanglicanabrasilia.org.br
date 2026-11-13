@@ -65,7 +65,7 @@ test("informa que o formulário está indisponível e oferece contato por e-mail
   const form = page.locator("[data-contact-form]");
   await expect(form.getByRole("button", { name: "Enviar mensagem" })).toBeDisabled();
   await expect(form.getByRole("status")).toContainText("temporariamente indisponível");
-  await expect(form.getByRole("link")).toHaveAttribute("href", "mailto:contato@catedralanglicanabsb.org.br");
+  await expect(form.getByRole("link")).toHaveAttribute("href", "mailto:anglicana309sul@gmail.com");
   await expect(form).not.toHaveAttribute("data-contact-endpoint");
 });
 
@@ -300,7 +300,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
   expect(church).toMatchObject({ "@type": "Organization", name: "Igreja Episcopal Anglicana do Brasil", url: "https://ieab.org.br/" });
   await page.goto("/pages/about");
   const otherPage = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() ?? "{}");
-  expect(otherPage["@type"]).toBe("ReligiousOrganization");
+  expect(otherPage["@type"]).toBe("WebPage");
 });
 
 test("impede a indexação da página 404", async ({ page }) => {

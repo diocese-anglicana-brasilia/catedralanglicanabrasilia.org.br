@@ -13,6 +13,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, getEntry } from "astro:content";
 import { newsCard, publishedNews } from "../utils/news";
 import { eventCard, isCurrentOrUpcoming, orderEvents } from "../utils/events";
+import { locationData } from "../utils/structured-data";
 
 const weddingCards = [
   {
@@ -48,23 +49,26 @@ const contactDetails = [
   {
     icon: "📍",
     label: "Endereço",
-    value: "Brasília — Distrito Federal, Brasil",
+    value: "EQS 309/310, Asa Sul, Brasília/DF",
+    href: "/locations/catedral-anglicana-da-ressurreicao"
   },
   {
     icon: "✉",
     label: "E-mail",
-    value: "contato@catedralanglicanabsb.org.br",
-    href: "mailto:contato@catedralanglicanabsb.org.br",
+    value: "anglicana309sul@gmail.com",
+    href: "mailto:anglicana309sul@gmail.com",
   },
   {
     icon: "☎",
-    label: "Telefone",
-    value: "(61) 0000-0000",
+    label: "Telefone e WhatsApp",
+    value: "(61) 3879-0382",
+    href: "https://wa.me/556138790382"
   },
   {
     icon: "🕐",
     label: "Cultos dominicais",
     value: "Domingos às 10h — Santa Eucaristia",
+    href: "/events/"
   },
 ];
 
@@ -81,6 +85,7 @@ const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabra
 const cathedralId = new URL("/#catedral", siteUrl).href;
 const dioceseId = new URL("/#diocese", siteUrl).href;
 const churchId = new URL("/#ieab", siteUrl).href;
+const cathedralLocation = await getEntry("locations", "catedral-anglicana-da-ressurreicao");
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -89,10 +94,11 @@ const structuredData = {
       "@id": cathedralId,
       name: "Catedral Anglicana da Ressurreição",
       url: new URL("/", siteUrl).href,
-      email: "contato@catedralanglicanabsb.org.br",
-      address: { "@type": "PostalAddress", addressLocality: "Brasília", addressRegion: "DF", addressCountry: "BR" },
+      logo: "https://cdn.catedralanglicanabrasilia.org.br/logo_horizontal.png",
+      ...(cathedralLocation && { location: { "@id": locationData(cathedralLocation, siteUrl)["@id"] } }),
       parentOrganization: { "@id": dioceseId },
     },
+    ...(cathedralLocation ? [{ ...locationData(cathedralLocation, siteUrl), "@type": "Church" }] : []),
     {
       "@type": "Organization",
       "@id": dioceseId,

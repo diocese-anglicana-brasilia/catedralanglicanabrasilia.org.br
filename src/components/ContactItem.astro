@@ -17,7 +17,7 @@ const { icon, label, value, href } = Astro.props;
     <div class="font-bold">{label}</div>
     {
       href ? (
-        <a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href={href}>{value}</a>
+        <a class="text-gray-600 text-sm underline hover:text-[var(--gold-dark)]" href={href} target="_blank" rel="noopener noreferrer">{value}</a>
       ) : (
         <div class="text-gray-600 text-sm">{value}</div>
       )
