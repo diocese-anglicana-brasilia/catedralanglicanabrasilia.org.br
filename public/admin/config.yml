@@ -26,6 +26,20 @@ media_libraries:
     public_url: https://cdn.catedralanglicanabrasilia.org.br
     prefix: cms-uploads/ # Optional
     jurisdiction: default # Optional; 'default' | 'eu' | 'fedramp'
+  default:
+    config:
+      max_file_size: 0
+  all:
+    max_file_size: 10240000
+    filename_template: '{{year}}{{month}}{{day}}-{{uuid_short}}'
+    slugify_filename: true
+    transformations:
+      raster_image: # original format
+        format: webp # new format, only `webp` is supported
+        quality: 85 # default: 85
+      svg:
+        optimize: true
+
 
 media_folder: /public/media
 public_folder: /media
