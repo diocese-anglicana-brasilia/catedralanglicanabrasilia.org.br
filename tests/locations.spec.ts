@@ -21,7 +21,7 @@ test("aceita apenas links web válidos para locais online", () => {
 
 test("abre o endereço físico e carrega seu mapa", async ({ page }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) => route.abort());
-  await page.goto("/locations/");
+  await page.goto("/locations/catedral-anglicana-da-ressurreicao");
   await expect(page.getByRole("heading", { level: 1, name: "Endereços" })).toBeVisible();
   await expect(page.getByText("EQS 309/310, Asa Sul — Brasília")).toBeVisible();
   const map = page.getByRole("region", { name: "Mapa do endereço" });
