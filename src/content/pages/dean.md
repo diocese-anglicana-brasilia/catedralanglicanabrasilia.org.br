@@ -1,5 +1,7 @@
 ---
 title: Reverendíssima Deã Tati Ribeiro
+seo_description: A reverenda Tati Ribeiro é deã da Catedral Anglicana da Ressurreição, em Brasília, desde 2018. Sua trajetória reúne atuação pastoral, formação teológica, trabalho com jovens e diálogo ecumênico e inter-religioso.
+seo_keywords: reverenda Tatiana Ribeiro, reverenda Tati, deã, Catedral Anglicana da Ressurreição, Diocese Anglicana de Brasília, IEAB, ordenação de mulheres, ecumenismo, formação teológica.
 ---
 
 ![Mulher parda, sorrindo, de cabelos curtos, olhando diretamente para a câmera, de braços cruzados e brincos dourados. Usa uma camiseta de manga longa e um colar de muitas cordas, de variadas cores. Ao fundo, desfocado, há um jardim verde.](https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261113-28b6f9395ad7.webp "Reverenda Tatiana Ribeiro")
