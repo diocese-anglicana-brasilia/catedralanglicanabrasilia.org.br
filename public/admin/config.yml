@@ -243,13 +243,6 @@ collections:
                 display_fields: ['{{name}} - {{role}}']
                 multiple: true
                 required: false
-          - name: board_members
-            label: Membros da Junta (legado)
-            widget: relation
-            collection: board_members
-            display_fields: ['{{name}} - {{role}}']
-            multiple: true
-            required: false
       - name: reverends-gallery
         label: Galeria de reverendos
         file: src/content/pages/reverends-gallery.md
