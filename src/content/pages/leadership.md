@@ -18,7 +18,7 @@ board_members:
 
 Uma comunidade não é feita só de pessoas clérigas. Como nos ensina Paulo, em 1ª Coríntios 12, o Corpo de Cristo é feito de muitos membros, pessoas com muitos dons e talentos.
 
-Abaixo, veja quem são as pessoas e o que fazem na igreja.
+Conheça as pessoas que servem à comunidade e colaboram na missão da Catedral em seus diferentes departamentos.
 
 \-----------
 
