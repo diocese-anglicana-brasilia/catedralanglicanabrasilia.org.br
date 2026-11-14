@@ -7,6 +7,19 @@ const seoFields = {
   seo_keywords: z.string().nullish(),
 };
 
+const monthOrDate = z.preprocess((value) => {
+  if (typeof value !== "string") return value;
+  const monthYear = /^(\d{2})\/(\d{4})$/.exec(value);
+  const fullDate = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+  if (!monthYear && !fullDate) return value;
+  const year = monthYear ? monthYear[2] : fullDate![3];
+  const month = monthYear ? monthYear[1] : fullDate![2];
+  const day = monthYear ? "01" : fullDate![1];
+  const iso = `${year}-${month}-${day}`;
+  const date = new Date(`${iso}T00:00:00.000Z`);
+  return Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== iso ? new Date(NaN) : date;
+}, z.coerce.date().nullish());
+
 const news = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/news" }),
   schema: ({ image }) => z.object({
@@ -72,7 +85,7 @@ const board_members = defineCollection({
     role: z.string(),
     is_active: z.boolean().default(true),
     indexable: z.boolean().default(false),
-    start_date: z.coerce.date().nullish(),
+    start_date: monthOrDate,
     bio: z.string().nullish(),
     photo: image().optional(),
     email: z.string().nullish(),
@@ -101,8 +114,8 @@ const reverends = defineCollection({
     bio: z.string().nullish(),
     photo: image().optional(),
     email: z.string().nullish(),
-    start_date: z.coerce.date(),
-    end_date: z.coerce.date().nullish(),
+    start_date: monthOrDate.pipe(z.date()),
+    end_date: monthOrDate,
   }),
 });
 

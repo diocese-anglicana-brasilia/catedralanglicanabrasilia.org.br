@@ -14,7 +14,7 @@ const Heading = headingLevel === 2 ? "h2" : "h3";
 <article class="content-card">
   {item.image && <div class="content-card-media"><img src={item.image.src} alt={item.image.alt} loading="lazy" /></div>}
   <div class="content-card-content">
-    {item.date && <div class="content-card-date">{item.dateLabel && `${item.dateLabel} `}<DateRange start={item.date} end={item.endDate} timeZone={item.dateTimeZone} /></div>}
+    {item.date && <div class="content-card-date">{item.dateLabel && `${item.dateLabel} `}<DateRange start={item.date} end={item.endDate} timeZone={item.dateTimeZone} precision={item.datePrecision} /></div>}
     <Heading class="serif content-card-title">{item.href ? <a href={item.href} rel={item.rel}>{item.title}</a> : item.title}</Heading>
     {item.description && <p class="content-card-description">{item.description}</p>}
   </div>

@@ -148,7 +148,7 @@ collections:
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
-      - { name: start_date, label: Desde quando exerce o cargo, widget: datetime, date_format: DD/MM/YYYY, time_format: false, required: false }
+      - { name: start_date, label: Desde quando exerce o cargo, widget: datetime, date_format: MM/YYYY, time_format: false, required: false }
       - { name: indexable, label: Permitir indexação da página por buscadores?, widget: boolean, default: false, required: true }
       - { name: bio, label: Bio, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
@@ -191,8 +191,8 @@ collections:
       - { name: bio, label: Biografia, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
-      - { name: start_date, label: Data de início, widget: datetime, required: true }
-      - { name: end_date, label: Data de fim, widget: datetime, required: false }
+      - { name: start_date, label: Data de início, widget: datetime, required: true, date_format: MM/YYYY, time_format: false }
+      - { name: end_date, label: Data de fim, widget: datetime, required: false, date_format: MM/YYYY, time_format: false }
   - name: pages
     label: Páginas
     files:
@@ -238,11 +238,16 @@ collections:
               - { name: description, label: Descrição, widget: richtext, required: false }
               - name: members
                 label: Lideranças
-                widget: relation
-                collection: board_members
-                display_fields: ['{{name}} - {{role}}']
-                multiple: true
+                label_singular: Liderança
+                widget: list
                 required: false
+                hint: Arraste as lideranças para definir a ordem de exibição.
+                field:
+                  name: member
+                  label: Liderança
+                  widget: relation
+                  collection: board_members
+                  display_fields: ['{{name}} - {{role}}']
       - name: reverends-gallery
         label: Galeria de reverendos
         file: src/content/pages/reverends-gallery.md

@@ -4,13 +4,14 @@ interface Props {
   end?: Date | null;
   showTime?: boolean;
   timeZone?: string;
+  precision?: "day" | "month";
 }
 
-const { start, end, showTime = false, timeZone = "UTC" } = Astro.props;
+const { start, end, showTime = false, timeZone = "UTC", precision = "day" } = Astro.props;
 const formatter = new Intl.DateTimeFormat("pt-BR", {
   timeZone,
-  day: "2-digit",
-  month: "2-digit",
+  ...(precision === "day" ? { day: "2-digit" as const } : {}),
+  month: precision === "month" ? "long" : "2-digit",
   year: "numeric",
   ...(showTime ? { hour: "2-digit", minute: "2-digit", hourCycle: "h23" as const } : {}),
 });
