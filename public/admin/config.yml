@@ -259,13 +259,16 @@ collections:
           - { name: body, label: Conteúdo, widget: richtext }
           - name: reverends
             label: Reverendo(a)s
-            widget: relation
-            collection: reverends
-            display_fields: ['{{name}} - de {{start_date}} a {{end_date}}']
-            sort_by:
-              field: _manual
-            multiple: true
+            label_singular: Reverendo(a)
+            widget: list
             required: false
+            hint: Arraste para ordenar a linha do tempo; a primeira pessoa aparece no topo.
+            field:
+              name: reverend
+              label: Reverendo(a)
+              widget: relation
+              collection: reverends
+              display_fields: ['{{name}} — {{start_date}} a {{end_date}}']
       - name: donate
         label: Doar
         file: src/content/pages/donate.md

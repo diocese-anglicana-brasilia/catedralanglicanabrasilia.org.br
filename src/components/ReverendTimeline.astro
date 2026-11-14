@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DateRange from "./DateRange.astro";
+
+interface Props { reverends: CollectionEntry<"reverends">[] }
+const { reverends } = Astro.props;
+---
+
+<ol class="reverend-timeline">
+  {reverends.map(({ id, data }) => {
+    const image = typeof data.photo === "string" ? data.photo : data.photo?.src;
+    return <li class="reverend-timeline-item">
+      <div class="reverend-timeline-content">
+        {image && <img class="reverend-timeline-photo" src={image} alt={`Fotografia de ${data.name}`} loading="lazy" />}
+        <div>
+          <p class="reverend-timeline-date"><DateRange start={data.start_date} end={data.end_date} precision="month" /></p>
+          <h3 class="serif reverend-timeline-name"><a href={`/reverends/${id}`}>{data.name}</a></h3>
+          <p class="reverend-timeline-role">{data.role}</p>
+          {data.bio && <p class="reverend-timeline-bio">{data.bio}</p>}
+        </div>
+      </div>
+    </li>;
+  })}
+</ol>
+
+<style>
+  .reverend-timeline { list-style: none; margin: 1.5rem 0 0 0.5rem; padding: 0 0 0 1.75rem; border-left: 2px solid var(--gold); }
+  .reverend-timeline-item { position: relative; padding-bottom: 2.5rem; }
+  .reverend-timeline-item:last-child { padding-bottom: 0; }
+  .reverend-timeline-item::before { content: ""; position: absolute; left: calc(-1.75rem - 7px); top: 0.35rem; width: 12px; height: 12px; border-radius: 50%; background: var(--gold-dark); border: 2px solid white; }
+  .reverend-timeline-content { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .reverend-timeline-photo { width: 5.5rem; height: 5.5rem; object-fit: cover; border-radius: 50%; flex: none; }
+  .reverend-timeline-date { color: #595959; font-size: 0.875rem; }
+  .reverend-timeline-name { font-size: 1.5rem; line-height: 1.2; margin-top: 0.4rem; }
+  .reverend-timeline-name a { color: var(--gold-dark); text-decoration: underline; }
+  .reverend-timeline-role { margin-top: 0.3rem; color: #374151; }
+  .reverend-timeline-bio { margin-top: 0.6rem; color: #4b5563; }
+  @media (max-width: 420px) { .reverend-timeline-photo { width: 4rem; height: 4rem; } .reverend-timeline-content { gap: 0.75rem; } }
+</style>
