@@ -4,7 +4,6 @@ departments:
   - name: Equipe pastoral
     description: Responsável por dirigir a comunidade espiritualmente, ensinando e ouvindo seus anseios.
     members:
-      - mauricio-andrade
       - tati-ribeiro
   - name: Junta Paroquial
     description: |-
