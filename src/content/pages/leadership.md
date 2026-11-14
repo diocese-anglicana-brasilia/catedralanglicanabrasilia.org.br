@@ -4,8 +4,8 @@ departments:
   - name: Equipe pastoral
     description: Responsável por dirigir a comunidade espiritualmente, ensinando e ouvindo seus anseios.
     members:
-      - tati-ribeiro
       - mauricio-andrade
+      - tati-ribeiro
   - name: Junta Paroquial
     description: |-
       A Junta Paroquial é responsável por liderar a igreja no âmbito administrativo,  cuidar do patrimônio e zelar pelo bom andamento do culto e preservação institucional.
