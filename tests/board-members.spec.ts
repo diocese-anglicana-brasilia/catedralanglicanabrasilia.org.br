@@ -41,7 +41,7 @@ test("preserva a data completa nas listagens de notícias e eventos", async ({ p
     await page.goto(url);
     const dates = page.locator(".content-card time");
     expect(await dates.count()).toBeGreaterThan(0);
-    for (const date of await dates.all()) await expect(date).toHaveText(/^\d{2}\/\d{2}\/\d{4}$/);
+    for (const date of await dates.all()) await expect(date).toHaveText(url === "/news/" ? /^\d{2}\/\d{2}\/\d{4}, às \d{2}:\d{2}:\d{2}$/ : /^\d{2}\/\d{2}\/\d{4}$/);
   }
 });
 

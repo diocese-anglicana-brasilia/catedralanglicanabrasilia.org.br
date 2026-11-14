@@ -11,7 +11,8 @@
 </dialog>
 
 <script>
-  type Card = { title: string; href: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; image?: { src: string; alt: string } };
+  import { formatNewsDate } from "../utils/news-date";
+  type Card = { title: string; href: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; dateStyle?: "news"; image?: { src: string; alt: string } };
   type WorkerResult = { id: number; error?: boolean; results: Card[]; total: number; page: number };
   document.querySelectorAll<HTMLElement>("[data-content-search]").forEach((section) => {
     const input = section.querySelector<HTMLInputElement>('input[type="search"]')!;
@@ -42,7 +43,7 @@
       if (item.date) {
         const wrapper = document.createElement("div"); wrapper.className = "content-card-date";
         const formatter = new Intl.DateTimeFormat("pt-BR", { timeZone: item.dateTimeZone || "UTC", day: "2-digit", month: "2-digit", year: "numeric" });
-        const time = (value: string) => { const node = document.createElement("time"); node.dateTime = value; node.textContent = formatter.format(new Date(value)); return node; };
+        const time = (value: string) => { const node = document.createElement("time"); node.dateTime = value; node.textContent = item.dateStyle === "news" ? formatNewsDate(new Date(value)) : formatter.format(new Date(value)); return node; };
         if (item.endDate) wrapper.append("Início: ");
         wrapper.append(time(item.date));
         if (item.endDate) wrapper.append(" · Fim: ", time(item.endDate));

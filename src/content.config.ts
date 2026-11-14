@@ -1,7 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { eventsLoader } from "./loaders/events";
+import { dateFieldsLoader, eventsLoader } from "./loaders/events";
 import { parseEventTime } from "./utils/event-time";
 
 const seoFields = {
@@ -23,11 +23,11 @@ const monthOrDate = z.preprocess((value) => {
 }, z.coerce.date().nullish());
 
 const news = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/news" }),
+  loader: dateFieldsLoader("news", ["date"]),
   schema: ({ image }) => z.object({
     ...seoFields,
     title: z.string(),
-    date: z.coerce.date(),
+    date: z.preprocess(parseEventTime, z.coerce.date()),
     author: z.string().nullish(),
     tags: z.array(z.string()).nullish(),
     status: z.enum(["draft", "published", "archived"]).default("draft"),

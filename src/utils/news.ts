@@ -9,6 +9,8 @@ export function newsCard(entry: CollectionEntry<"news">): CardItem {
     title: entry.data.title,
     href: `/news/${entry.id}`,
     date: entry.data.date,
+    dateStyle: "news",
+    dateTimeZone: "America/Sao_Paulo",
     description: entry.data.excerpt,
     image: src ? { src, alt: "" } : undefined,
   };

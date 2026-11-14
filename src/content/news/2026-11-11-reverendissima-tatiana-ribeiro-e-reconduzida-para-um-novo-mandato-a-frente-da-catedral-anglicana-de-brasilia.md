@@ -2,7 +2,7 @@
 title: Reverendíssima Tatiana Ribeiro é reconduzida para um novo mandato à frente da Catedral Anglicana de Brasília
 seo_description: Reverenda Tatiana Ribeiro, que já atua como Deã, foi reconduzida para um novo mandato à frente da Catedral Anglicana de Brasília.
 seo_keywords: reverenda tati ribeiro, mandato, liderança
-date: 2026-11-11T16:21:00
+date: 2026-11-11T13:21:00-03:00
 author: comunicacao-catedral
 tags:
   - reverenda-tati

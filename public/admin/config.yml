@@ -60,7 +60,7 @@ collections:
       - { name: title, label: Título }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
-      - { name: date, label: Data, widget: datetime, default: '{{now}}' }
+      - { name: date, label: Data, widget: datetime, input_timezone: America/Sao_Paulo, hint: Horário de Brasília, default: '{{now}}' }
       - name: author
         label: Autor
         widget: relation

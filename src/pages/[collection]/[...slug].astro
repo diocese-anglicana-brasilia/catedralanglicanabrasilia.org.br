@@ -16,6 +16,7 @@ import { contactDetails } from "../../utils/contact-details";
 import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription, renderMarkdown } from "../../utils/event-markdown";
 import { eventLocationData, locationData } from "../../utils/structured-data";
+import { formatNewsDate } from "../../utils/news-date";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -51,6 +52,9 @@ const { Content } = await render(entry);
 const title = "title" in entry.data ? entry.data.title : entry.data.name;
 const date = "date" in entry.data ? entry.data.date : undefined;
 const dateText = date?.toLocaleDateString("pt-BR", { timeZone: "UTC" });
+const author = entry.collection === "news" && entry.data.author ? await getEntry("authors", entry.data.author) : undefined;
+const authorPhoto = author?.data.photo;
+const authorPhotoSrc = (typeof authorPhoto === "string" ? authorPhoto : authorPhoto?.src) || "https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261114-90e953160594.webp";
 const image = entry.collection === "news" ? entry.data.featured_image : undefined;
 const eventLocation = entry.collection === "events" && entry.data.location
   ? await getEntry("locations", entry.data.location)
@@ -117,7 +121,8 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       <h1 class="serif text-4xl md:text-5xl font-bold mb-6">{title}</h1>
       {entry.collection === "events" ? (
         <p class="text-gray-600 mb-6"><DateRange start={entry.data.start_date} end={entry.data.end_date} showTime timeZone="America/Sao_Paulo" /> <span>(horário de Brasília)</span></p>
-      ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{dateText}</time></p>}
+      ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{entry.collection === "news" ? formatNewsDate(date, true) : dateText}</time></p>}
+      {author && <div class="flex items-center gap-3 mb-6"><img src={authorPhotoSrc} alt="" class="w-12 h-12 rounded-full object-cover" /><span class="text-gray-700">{author.data.name}</span></div>}
       {image && <img src={typeof image === "string" ? image : image.src} alt="" class="w-full max-h-[32rem] object-cover mb-8" />}
       {eventDescription && <div class="content-body text-gray-700 leading-relaxed mb-6" data-event-description set:html={eventDescription} />}
       {eventLocation && <p class="mb-6"><strong>Local: </strong><a class="underline text-[var(--gold-dark)]" href={`/locations/${eventLocation.id}`}>{eventLocation.data.name}</a></p>}
