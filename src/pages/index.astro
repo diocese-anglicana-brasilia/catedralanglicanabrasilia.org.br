@@ -53,6 +53,7 @@ const [news, events, about, contact, donate] = await Promise.all([
   getEntry("pages", "donate"),
 ]);
 const featuredNews = publishedNews(news).slice(0, 3);
+const historyImage = "https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png";
 const homeSeo = await getEntry("site_seo", "home");
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const cathedralId = new URL("/#catedral", siteUrl).href;
@@ -109,6 +110,19 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
         </div>
       </div>
     </section>
+
+    <BackgroundScreen
+      id="horarios-culto"
+      class="mt-2"
+      imageSrc={historyImage}
+      overlayClass="hero-image-overlay"
+      contentClass="max-w-4xl mx-auto px-6 text-center text-white fade-in"
+    >
+      <div class="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-3">Celebre conosco</div>
+      <h2 class="serif text-4xl md:text-6xl font-bold mb-6">Horários do culto</h2>
+      <p class="text-lg md:text-xl font-light leading-relaxed mb-8">Domingos às 10h — Santa Eucaristia. Venha celebrar e caminhar em comunidade conosco.</p>
+      <ActionLink href="/events/" variant="light-outline">Ver agenda da igreja</ActionLink>
+    </BackgroundScreen>
 
     <FeatureSplit
       id="doacoes"
@@ -185,7 +199,7 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
 
     <BackgroundScreen
       id="historia"
-      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png"
+      imageSrc={historyImage}
       overlayClass="hero-image-overlay"
       contentClass="max-w-4xl mx-auto px-6 text-white fade-in"
     >

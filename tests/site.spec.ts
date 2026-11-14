@@ -1,6 +1,21 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+test("apresenta os horários do culto entre a abertura e as doações", async ({ page }) => {
+  await page.goto("/");
+  const section = page.locator("#horarios-culto");
+  await expect(section).toHaveCSS("margin-top", "8px");
+  await expect(section.getByRole("heading", { name: "Horários do culto" })).toBeAttached();
+  await expect(section).toContainText("Domingos às 10h");
+  await expect(section.getByRole("link", { name: "Ver agenda da igreja" })).toHaveAttribute("href", "/events/");
+  await expect(section.locator(".hero-image-overlay")).toHaveCSS("background-color", "rgba(0, 0, 0, 0.65)");
+  const backgrounds = await Promise.all([section.evaluate((element) => getComputedStyle(element).backgroundImage), page.locator("#historia").evaluate((element) => getComputedStyle(element).backgroundImage)]);
+  expect(backgrounds[0]).toBe(backgrounds[1]);
+  expect(await section.evaluate((element) => element.previousElementSibling?.id)).toBe("inicio");
+  expect(await section.evaluate((element) => element.nextElementSibling?.id)).toBe("doacoes");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test("carrega Tailwind compilado localmente sem depender do CDN", async ({ page }) => {
   const warnings: string[] = [];
   const requests: string[] = [];

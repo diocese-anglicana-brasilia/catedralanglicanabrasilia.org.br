@@ -4,13 +4,14 @@ interface Props {
   imageSrc: string;
   overlayClass: string;
   contentClass: string;
+  class?: string;
 }
 
-const { id, imageSrc, overlayClass, contentClass } = Astro.props;
+const { id, imageSrc, overlayClass, contentClass, class: className } = Astro.props;
 const backgroundStyle = `background-image: url('${imageSrc}');`;
 ---
 
-<section id={id} class="relative py-28 img-section" style={backgroundStyle}>
+<section id={id} class:list={["relative py-28 img-section", className]} style={backgroundStyle}>
   <div class:list={["absolute inset-0", overlayClass]}></div>
   <div class:list={["relative z-10", contentClass]}>
     <slot />
