@@ -1,6 +1,8 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { eventsLoader } from "./loaders/events";
+import { parseEventTime } from "./utils/event-time";
 
 const seoFields = {
   seo_description: z.string().nullish(),
@@ -64,12 +66,12 @@ const locations = defineCollection({
 });
 
 const events = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
+  loader: eventsLoader(),
   schema: z.object({
     ...seoFields,
     name: z.string(),
-    start_date: z.coerce.date(),
-    end_date: z.coerce.date().nullish(),
+    start_date: z.preprocess(parseEventTime, z.coerce.date()),
+    end_date: z.preprocess(parseEventTime, z.coerce.date().nullish()),
     location: z.string().nullish(),
     description: z.string().nullish(),
     registration_url: z.string().nullish(),

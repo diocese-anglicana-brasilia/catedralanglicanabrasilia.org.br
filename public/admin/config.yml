@@ -126,8 +126,8 @@ collections:
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
-      - { name: start_date, label: Data de início, widget: datetime }
-      - { name: end_date, label: Data de encerramento, widget: datetime, required: false }
+      - { name: start_date, label: Data de início, widget: datetime, input_timezone: America/Sao_Paulo, hint: Horário de Brasília }
+      - { name: end_date, label: Data de encerramento, widget: datetime, input_timezone: America/Sao_Paulo, hint: Horário de Brasília, required: false }
       - name: location
         label: Local
         widget: relation
