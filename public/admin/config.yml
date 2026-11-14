@@ -97,7 +97,7 @@ collections:
     identifier_field: name
     fields:
       - { name: name, label: Nome }
-      - { name: bio, label: Bio, widget: richtext, required: false }
+      - { name: bio, label: Bio, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
   - name: locations
@@ -134,7 +134,7 @@ collections:
         collection: locations
         display_fields: [name]
         required: false
-      - { name: description, label: Descrição, widget: richtext, required: false }
+      - { name: description, label: Descrição, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: registration_url, label: URL de registro, required: false }
       - { name: featured, label: Destaque, widget: boolean, default: false }
   - name: board_members
@@ -150,7 +150,7 @@ collections:
       - { name: role, label: Cargo }
       - { name: start_date, label: Desde quando exerce o cargo, widget: datetime, date_format: MM/YYYY, time_format: false, required: false }
       - { name: indexable, label: Permitir indexação da página por buscadores?, widget: boolean, default: false, required: true }
-      - { name: bio, label: Bio, widget: richtext, required: false }
+      - { name: bio, label: Bio, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
       - widget: boolean
@@ -168,11 +168,12 @@ collections:
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
-      - { name: description, label: Descrição, widget: richtext }
+      - { name: description, label: Descrição, widget: richtext, editor_components: [image, code-block] }
       - { name: goals, label: Objetivos, widget: list, required: false }
       - { name: images, label: Imagens, widget: image, multiple: true, required: false }
       - { name: budget, label: Orçamento, widget: number, required: false }
-      - { name: impact, label: Impacto, widget: richtext, required: false }
+      - { name: impact, label: Impacto, widget: richtext, required: false, editor_components: [image, code-block] }
+      - { name: body, label: Conteúdo, widget: richtext, required: false }
   - name: reverends
     label: Reverendo(a)s
     label_singular: Reverendo(a)
@@ -188,7 +189,7 @@ collections:
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
-      - { name: bio, label: Biografia, widget: richtext, required: false }
+      - { name: bio, label: Biografia, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
       - { name: start_date, label: Data de início, widget: datetime, required: true, date_format: MM/YYYY, time_format: false }
@@ -235,7 +236,7 @@ collections:
             hint: Organize os departamentos na ordem em que devem aparecer.
             fields:
               - { name: name, label: Departamento }
-              - { name: description, label: Descrição, widget: richtext, required: false }
+              - { name: description, label: Descrição, widget: richtext, required: false, editor_components: [image, code-block] }
               - name: members
                 label: Lideranças
                 label_singular: Liderança
