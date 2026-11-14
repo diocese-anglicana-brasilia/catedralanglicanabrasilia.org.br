@@ -138,8 +138,8 @@ collections:
       - { name: registration_url, label: URL de registro, required: false }
       - { name: featured, label: Destaque, widget: boolean, default: false }
   - name: board_members
-    label: Membros da Junta Paroquial
-    label_singular: Membro da Junta Paroquial
+    label: Lideranças
+    label_singular: Liderança
     folder: src/content/board-members
     create: true
     identifier_field: name
@@ -148,6 +148,8 @@ collections:
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
+      - { name: start_date, label: Desde quando exerce o cargo, widget: datetime, date_format: DD/MM/YYYY, time_format: false, required: false }
+      - { name: indexable, label: Permitir indexação da página por buscadores?, widget: boolean, default: false, required: true }
       - { name: bio, label: Bio, widget: richtext, required: false }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
@@ -211,7 +213,7 @@ collections:
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: dean
-        label: Reverenda Deã
+        label: Reverendíssima Deã
         file: src/content/pages/dean.md
         fields:
           - { name: title, label: Título }
@@ -226,8 +228,23 @@ collections:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
+          - name: departments
+            label: Departamentos e lideranças
+            widget: list
+            required: false
+            hint: Organize os departamentos na ordem em que devem aparecer.
+            fields:
+              - { name: name, label: Departamento }
+              - { name: description, label: Descrição, widget: richtext, required: false }
+              - name: members
+                label: Lideranças
+                widget: relation
+                collection: board_members
+                display_fields: ['{{name}} - {{role}}']
+                multiple: true
+                required: false
           - name: board_members
-            label: Membros da Junta
+            label: Membros da Junta (legado)
             widget: relation
             collection: board_members
             display_fields: ['{{name}} - {{role}}']

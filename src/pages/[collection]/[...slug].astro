@@ -7,6 +7,7 @@ import DateRange from "../../components/DateRange.astro";
 import { isActiveMember } from "../../utils/board-members";
 import LocationDetails from "../../components/LocationDetails.astro";
 import CalendarActions from "../../components/CalendarActions.astro";
+import CardGrid from "../../components/CardGrid.astro";
 import ContactDetails from "../../components/ContactDetails.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import SocialLinks from "../../components/SocialLinks.astro";
@@ -78,6 +79,23 @@ const matchingMembers = memberIds.length
   ? await getCollection("board_members", ({ id }) => memberIds.includes(id))
   : [];
 const relatedMembers = memberIds.flatMap((id) => matchingMembers.filter((member) => member.id === id));
+const departments = entry.collection === "pages" ? entry.data.departments ?? [] : [];
+const departmentMembers = departments.length ? await getCollection("board_members") : [];
+const leadershipGroups = departments.map((department) => ({
+  name: department.name,
+  items: department.members.flatMap((id) => departmentMembers.filter((member) => member.id === id)).map(({ id, data }) => {
+    const image = typeof data.photo === "string" ? data.photo : data.photo?.src;
+    return {
+      title: data.name,
+      href: isActiveMember(data) ? `/board-members/${id}` : undefined,
+      rel: isActiveMember(data) && !data.indexable ? "nofollow" : undefined,
+      description: data.role,
+      date: data.start_date ?? undefined,
+      dateLabel: "Desde",
+      image: image ? { src: image, alt: `Fotografia de ${data.name}` } : undefined,
+    };
+  }),
+}));
 const reverendIds = entry.collection === "pages" ? entry.data.reverends ?? [] : [];
 const matchingReverends = reverendIds.length
   ? await getCollection("reverends", ({ id }) => reverendIds.includes(id))
@@ -117,7 +135,8 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
           </section>
         </div>
       ) : <div class="content-body text-gray-700 leading-relaxed"><Content /></div>}
-      {relatedMembers.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Junta Paroquial</h2><ul class="space-y-3">{relatedMembers.map(({ id, data }) => <li><strong>{isActiveMember(data) ? <a class="underline text-[var(--gold-dark)]" href={`/board-members/${id}`}>{data.name}</a> : data.name}</strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
+      {leadershipGroups.map(({ name, items }) => <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">{name}</h2><CardGrid items={items} emptyMessage="Nenhuma liderança cadastrada." /></section>)}
+      {departments.length === 0 && relatedMembers.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Junta Paroquial</h2><CardGrid items={relatedMembers.map(({ id, data }) => ({ title: data.name, href: isActiveMember(data) ? `/board-members/${id}` : undefined, rel: !data.indexable ? "nofollow" : undefined, description: data.role, date: data.start_date ?? undefined, dateLabel: "Desde", image: data.photo ? { src: typeof data.photo === "string" ? data.photo : data.photo.src, alt: `Fotografia de ${data.name}` } : undefined }))} emptyMessage="Nenhuma liderança cadastrada." /></section>}
       {relatedReverends.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Reverendo(a)s</h2><ul class="space-y-3">{relatedReverends.map(({ id, data }) => <li><strong><a class="underline text-[var(--gold-dark)]" href={`/reverends/${id}`}>{data.name}</a></strong> — {data.role}{data.bio && <p>{data.bio}</p>}</li>)}</ul></section>}
       {relatedPrograms.length > 0 && <section class="mt-8"><h2 class="serif text-2xl font-bold mb-4">Atividades</h2><ul class="space-y-3">{relatedPrograms.map(({ data }) => <li><strong>{data.name}</strong><p>{data.description}</p></li>)}</ul></section>}
       {entry.collection === "events" && entry.data.registration_url && (

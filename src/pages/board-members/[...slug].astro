@@ -18,6 +18,6 @@ const { name, role, bio, photo } = entry.data;
 const imageSrc = typeof photo === "string" ? photo : photo?.src;
 ---
 
-<PersonProfile name={name} role={role} bio={bio} imageSrc={imageSrc} description={entry.data.seo_description} keywords={entry.data.seo_keywords} backHref="/pages/leadership" backLabel="Voltar à liderança">
+<PersonProfile name={name} role={role} bio={bio} imageSrc={imageSrc} description={entry.data.seo_description} keywords={entry.data.seo_keywords} noindex={!entry.data.indexable} backHref="/pages/leadership" backLabel="Voltar à liderança">
   <Content />
 </PersonProfile>
