@@ -126,10 +126,11 @@ if ("IntersectionObserver" in window) {
   animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
-document.querySelector("[data-contact-form]")?.addEventListener("submit", async (event) => {
+document.querySelectorAll("[data-contact-form], [data-prayer-form]").forEach((formElement) => formElement.addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
-  const endpoint = form.dataset.contactEndpoint;
+  const prayer = form.hasAttribute("data-prayer-form");
+  const endpoint = prayer ? form.dataset.prayerEndpoint : form.dataset.contactEndpoint;
   if (!endpoint) return;
   const button = form.querySelector('button[type="submit"]');
   const status = form.querySelector("[data-form-status]");
@@ -153,7 +154,7 @@ document.querySelector("[data-contact-form]")?.addEventListener("submit", async 
     const result = await response.json();
     if (!response.ok || result?.ok !== true) throw new Error("Envio não confirmado");
     form.reset();
-    status.textContent = "Mensagem enviada. Obrigado pelo contato!";
+    status.textContent = prayer ? "Pedido enviado. Obrigado por compartilhar." : "Mensagem enviada. Obrigado pelo contato!";
   } catch {
     status.textContent = "Não foi possível enviar sua mensagem. Tente novamente ou escreva para anglicana309sul@gmail.com.";
   } finally {
@@ -161,4 +162,4 @@ document.querySelector("[data-contact-form]")?.addEventListener("submit", async 
     const widget = form.querySelector(".cf-turnstile");
     if (widget && window.turnstile) window.turnstile.reset(widget);
   }
-});
+}));

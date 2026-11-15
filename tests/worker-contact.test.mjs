@@ -27,6 +27,29 @@ const envFor = (db) => ({ DB: db, ALLOWED_ORIGINS: origin, TURNSTILE_SECRET: "te
 const request = (body, requestOrigin = origin) => new Request("https://worker.test/contact", { method: "POST", headers: { Origin: requestOrigin, "Content-Type": "application/json" }, body: JSON.stringify(body) });
 const sample = { nome: "Pessoa Teste", email: "person@example.org", assunto: "Batismo", mensagem: "Mensagem de teste", turnstileToken: "token-valid" };
 
+test("recebe pedido de oração anônimo validado e inclui no resumo semanal", async () => {
+  const db = database(); const env = envFor(db); const sent = [];
+  const previousFetch = globalThis.fetch;
+  globalThis.fetch = async (url, options) => String(url).includes("siteverify") ? Response.json({ success: true, hostname: "example.org" }) : (sent.push(JSON.parse(options.body)), Response.json({ messageId: "ok" }, { status: 201 }));
+  const prayer = (data, requestOrigin = origin) => new Request("https://worker.test/prayer", { method: "POST", headers: { Origin: requestOrigin, "Content-Type": "application/json" }, body: JSON.stringify(data) });
+  try {
+    const input = { nome: "", mensagem: "Peço oração pela minha família.", turnstileToken: "token-valid" };
+    assert.equal((await worker.fetch(prayer(input, "https://other.example"), env, { waitUntil() {} })).status, 403);
+    assert.equal((await worker.fetch(prayer({ ...input, mensagem: " " }), env, { waitUntil() {} })).status, 400);
+    assert.equal((await worker.fetch(prayer(input), env, { waitUntil() {} })).status, 201);
+    const saved = db.sqlite.prepare("SELECT name, message, notified_at FROM prayer_requests").get();
+    assert.equal(saved.name, null); assert.equal(saved.message, input.mensagem); assert.equal(saved.notified_at, null);
+    assert.equal(sent.length, 0);
+    const nextSaturday = new Date();
+    nextSaturday.setUTCDate(nextSaturday.getUTCDate() + ((6 - nextSaturday.getUTCDay() + 7) % 7 || 7));
+    nextSaturday.setUTCHours(12, 0, 0, 0);
+    await worker.scheduled({ cron: "0 12 * * 6", scheduledTime: nextSaturday.getTime() }, env);
+    assert.equal(sent.length, 1);
+    assert.ok(sent[0].textContent.includes(input.mensagem));
+    assert.ok(sent[0].textContent.includes("Pedido anônimo"));
+  } finally { globalThis.fetch = previousFetch; }
+});
+
 test("recusa origem não autorizada, dados inválidos e proteção antispam inválida", async () => {
   const db = database(); const env = envFor(db);
   assert.equal((await worker.fetch(request(sample, "https://other.example"), env, { waitUntil() {} })).status, 403);

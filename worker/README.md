@@ -1,8 +1,8 @@
 # Formulários: Worker e D1
 
-O site continua estático. O Worker recebe contatos em `POST /contact`, verifica o Turnstile no servidor e grava no D1 antes de confirmar o recebimento. O conteúdo não é publicado no Git nem no site. O e-mail imediato contém nome, e-mail, assunto e mensagem completos, enviados ao destinatário configurado. Ainda não existe painel de consulta ou formulário de pedidos de oração.
+O site continua estático. O Worker recebe contatos em `POST /contact` e pedidos de oração em `POST /prayer`, verifica o Turnstile no servidor e grava no D1 antes de confirmar o recebimento. O conteúdo não é publicado no Git nem no site. O e-mail imediato de contato contém nome, e-mail, assunto e mensagem completos. Os pedidos de oração são enviados em resumo semanal. Ainda não existe painel de consulta.
 
-Os dados de oração e as notificações semanais estão preparados no banco, mas ainda não há endpoint público nem formulário para registrar pedidos. Não use essa parte em produção sem definir a coleta, o aviso de privacidade, as permissões, a retenção e o processo de exclusão.
+O formulário aceita pedidos anônimos e informa que serão armazenados e enviados por e-mail. Antes de ativá-lo em produção, defina a política de privacidade, permissões de acesso, retenção e processo de exclusão.
 
 ## Passo a passo: criar o banco e publicar o Worker
 
@@ -51,7 +51,7 @@ Estes comandos são executados na raiz do projeto. Eles criam recursos reais na 
 
    Esse comando publica de fato o Worker e seus agendamentos; não é uma simulação. Anote a URL exibida, normalmente terminada em `workers.dev`. Confirme no painel que o Worker está associado ao banco D1 correto e que os agendamentos aparecem. Para atualizar um segredo posteriormente, use o painel da Cloudflare ou `wrangler secret put NOME --config worker/wrangler.production.toml`; esse último cria e publica uma nova versão do Worker.
 
-8. **Ative o formulário no build do site.** Na configuração privada de variáveis do serviço que compila o Astro, defina `PUBLIC_CONTACT_API_URL` com a URL do Worker seguida de `/contact` e `PUBLIC_TURNSTILE_SITE_KEY` com a chave **pública** do widget. Essas duas informações ficam visíveis no site gerado; nunca use a chave secreta do Turnstile nelas. Recompile e publique o site. Para testes locais, essas variáveis também podem ser definidas no arquivo `.env`, que não deve ser versionado.
+8. **Ative os formulários no build do site.** Na configuração de variáveis do serviço que compila o Astro, defina `PUBLIC_CONTACT_API_URL` com a URL do Worker seguida de `/contact`, `PUBLIC_PRAYER_API_URL` com a mesma URL seguida de `/prayer` e `PUBLIC_TURNSTILE_SITE_KEY` com a chave **pública** do widget. Essas informações ficam visíveis no site gerado; nunca use a chave secreta do Turnstile nelas. Cada formulário permanece desativado se sua URL ou a chave pública não estiver configurada. Recompile e publique o site. Para testes locais, essas variáveis também podem ser definidas no arquivo `.env`, que não deve ser versionado.
 
 9. **Proteja e confira a operação.** Configure limitação de requisições e proteção contra abuso na Cloudflare; o Turnstile e o CORS não substituem essas medidas. Envie uma mensagem fictícia pelo formulário publicado, confirme o registro no D1 e o recebimento dos dados completos no e-mail autorizado. Restrinja o acesso ao banco e à caixa de e-mail, defina retenção e exclusão dos dados e configure monitoramento e backups. Não use dados reais no teste inicial.
 
@@ -62,7 +62,7 @@ Referências: [criação de banco D1](https://developers.cloudflare.com/d1/get-s
 - `worker/wrangler.toml` é uma configuração local com identificador de banco fictício. Não é uma configuração de produção pronta.
 - Copie essa configuração para `worker/wrangler.production.toml` (ignorado pelo Git), defina nela o identificador real do D1 e ajuste `ALLOWED_ORIGINS` aos endereços reais do site. Não publique a configuração local com o ID fictício.
 - Configure `TURNSTILE_SECRET`, `BREVO_API_KEY`, `MAIL_FROM` e `MAIL_TO` como segredos do Worker no painel da Cloudflare ou por `wrangler secret put`, sem passá-los como argumentos ou registrá-los no Git. `MAIL_FROM` precisa ser um remetente autorizado pelo Brevo; `MAIL_TO` é o destinatário dos avisos.
-- Na compilação do site, `PUBLIC_CONTACT_API_URL` é a URL pública do Worker terminada em `/contact`, e `PUBLIC_TURNSTILE_SITE_KEY` é a chave **pública** do widget. A chave secreta do Turnstile jamais pertence ao frontend. Sem ambas as configurações, o formulário continua desativado.
+- Na compilação do site, configure `PUBLIC_CONTACT_API_URL` para `/contact`, `PUBLIC_PRAYER_API_URL` para `/prayer` e `PUBLIC_TURNSTILE_SITE_KEY` com a chave **pública**. A chave secreta do Turnstile jamais pertence ao frontend.
 - O Worker permite apenas origens configuradas, limita o tamanho da requisição e valida o desafio Turnstile. CORS não é autenticação nem limitação de tráfego: configure também proteção contra abuso e limites de requisições na Cloudflare antes de expor o endpoint.
 - Os dados completos do contato são transmitidos ao Brevo e à caixa de e-mail configurada, além de armazenados no D1. Restrinja o acesso ao banco e à caixa de e-mail a pessoas autorizadas. Não registre dados pessoais no terminal, nos testes com serviços reais, em issues ou no repositório.
 - Defina backups, prazo de retenção, exclusão e aviso de privacidade antes da ativação. Pedidos de oração podem conter dados pessoais sensíveis; o resumo configurado contém o texto completo e será transmitido ao Brevo e à caixa de e-mail.

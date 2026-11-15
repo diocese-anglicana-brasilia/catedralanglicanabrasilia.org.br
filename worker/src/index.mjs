@@ -75,7 +75,8 @@ export default {
     const origin = request.headers.get("Origin");
     if (!allowed(origin, env)) return new Response(null, { status: 403, headers: { "Cache-Control": "no-store" } });
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });
-    if (request.method !== "POST" || new URL(request.url).pathname !== "/contact") return response(404, { ok: false }, origin);
+    const path = new URL(request.url).pathname;
+    if (request.method !== "POST" || !["/contact", "/prayer"].includes(path)) return response(404, { ok: false }, origin);
     if (!env.DB || !env.TURNSTILE_SECRET || !env.BREVO_API_KEY || !env.MAIL_FROM || !env.MAIL_TO) return response(503, { ok: false }, origin);
     try {
       if (!request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return response(400, { ok: false }, origin);
@@ -83,15 +84,21 @@ export default {
       if (raw === null) return response(413, { ok: false }, origin);
       let data;
       try { data = JSON.parse(raw); } catch { return response(400, { ok: false }, origin); }
-      if (!data || typeof data !== "object" || ["nome", "email", "assunto", "mensagem", "turnstileToken"].some((key) => typeof data[key] !== "string")) return response(400, { ok: false }, origin);
-      const name = data.nome.trim(), email = data.email.trim(), subject = data.assunto.trim(), message = data.mensagem.trim();
-      if (!name || name.length > 150 || !validEmail(email) || email.length > 254 || !subject || subject.length > 120 || !message || message.length > 5000 || !data.turnstileToken || data.turnstileToken.length > 2048) return response(400, { ok: false }, origin);
+      const fields = path === "/contact" ? ["nome", "email", "assunto", "mensagem", "turnstileToken"] : ["nome", "mensagem", "turnstileToken"];
+      if (!data || typeof data !== "object" || fields.some((key) => typeof data[key] !== "string")) return response(400, { ok: false }, origin);
+      const name = data.nome.trim(), message = data.mensagem.trim();
+      if (name.length > 150 || !message || message.length > 600 || !data.turnstileToken || data.turnstileToken.length > 2048) return response(400, { ok: false }, origin);
+      if (path === "/contact" && (!name || !validEmail(data.email.trim()) || data.email.trim().length > 254 || !data.assunto.trim() || data.assunto.trim().length > 120)) return response(400, { ok: false }, origin);
       const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ secret: env.TURNSTILE_SECRET, response: data.turnstileToken }), signal: AbortSignal.timeout(10_000) });
       if (!verification.ok) return response(503, { ok: false }, origin);
       const result = await verification.json();
       if (!result.success || result.hostname !== new URL(origin).hostname) return response(403, { ok: false }, origin);
-      await env.DB.prepare("INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)").bind(crypto.randomUUID(), name, email, subject, message, nowIso()).run();
-      ctx.waitUntil(notifyPending(env));
+      if (path === "/contact") {
+        await env.DB.prepare("INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)").bind(crypto.randomUUID(), name, data.email.trim(), data.assunto.trim(), message, nowIso()).run();
+        ctx.waitUntil(notifyPending(env));
+      } else {
+        await env.DB.prepare("INSERT INTO prayer_requests (id, name, message, created_at) VALUES (?, ?, ?, ?)").bind(crypto.randomUUID(), name || null, message, nowIso()).run();
+      }
       return response(201, { ok: true }, origin);
     } catch {
       return response(503, { ok: false }, origin);
