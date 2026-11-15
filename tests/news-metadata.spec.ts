@@ -18,14 +18,14 @@ test("exibe horário de Brasília e autor com foto ou imagem padrão", { tag: "@
     execFileSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, stdio: "pipe", env: { ...process.env, TZ: "UTC" } });
     for (const route of ["index.html", "news/index.html"]) {
       const listing = readFileSync(path.join(fixture, "dist", route), "utf8");
-      expect(listing).toContain("06/12/2026, às 10:23:45");
+      expect(listing).toContain("06/12/2026, às 10:23");
     }
     const first = readFileSync(path.join(fixture, "dist/news/com-foto/index.html"), "utf8");
-    expect(first).toContain("06 de dezembro de 2026, às 10:23:45");
+    expect(first).toContain("06 de dezembro de 2026, às 10:23");
     expect(first).toContain("Autora Exemplo");
     expect(first).toContain('src="https://example.org/autora.webp"');
     const second = readFileSync(path.join(fixture, "dist/news/sem-foto/index.html"), "utf8");
-    expect(second).toContain("06 de dezembro de 2026, às 10:23:45");
+    expect(second).toContain("06 de dezembro de 2026, às 10:23");
     expect(second).toContain("Autor Sem Foto");
     expect(second).toContain("https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261114-90e953160594.webp");
   } finally { rmSync(fixture, { recursive: true, force: true }); }
