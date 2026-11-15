@@ -126,6 +126,39 @@ if ("IntersectionObserver" in window) {
   animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
-document.querySelector("[data-contact-form]")?.addEventListener("submit", (event) => {
+document.querySelector("[data-contact-form]")?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
+  const endpoint = form.dataset.contactEndpoint;
+  if (!endpoint) return;
+  const button = form.querySelector('button[type="submit"]');
+  const status = form.querySelector("[data-form-status]");
+  if (button.disabled) return;
+  const token = new FormData(form).get("cf-turnstile-response");
+  if (typeof token !== "string" || !token) {
+    status.textContent = "Conclua a verificação de segurança antes de enviar.";
+    return;
+  }
+  button.disabled = true;
+  status.textContent = "Enviando mensagem...";
+  try {
+    const data = new FormData(form);
+    data.delete("cf-turnstile-response");
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...Object.fromEntries(data.entries()), turnstileToken: token }),
+      signal: AbortSignal.timeout(15000),
+    });
+    const result = await response.json();
+    if (!response.ok || result?.ok !== true) throw new Error("Envio não confirmado");
+    form.reset();
+    status.textContent = "Mensagem enviada. Obrigado pelo contato!";
+  } catch {
+    status.textContent = "Não foi possível enviar sua mensagem. Tente novamente ou escreva para anglicana309sul@gmail.com.";
+  } finally {
+    button.disabled = false;
+    const widget = form.querySelector(".cf-turnstile");
+    if (widget && window.turnstile) window.turnstile.reset(widget);
+  }
 });

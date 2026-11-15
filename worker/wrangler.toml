@@ -1,0 +1,19 @@
+name = "catedral-formularios"
+main = "src/index.mjs"
+compatibility_date = "2026-10-26"
+
+[vars]
+ALLOWED_ORIGINS = "https://catedralanglicanabrasilia.org.br,http://localhost:4321"
+
+[secrets]
+required = ["TURNSTILE_SECRET", "BREVO_API_KEY", "MAIL_FROM", "MAIL_TO"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "catedral-formularios"
+# Valor de exemplo; substitua localmente pelo identificador do banco antes de publicar.
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["*/5 * * * *", "0 11-13 * * 6"]
