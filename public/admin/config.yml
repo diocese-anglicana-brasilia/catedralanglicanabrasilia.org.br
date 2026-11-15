@@ -97,6 +97,7 @@ collections:
     identifier_field: name
     fields:
       - { name: name, label: Nome }
+      - { name: profile_enabled, label: Criar página pública do autor?, widget: boolean, default: false, required: true }
       - { name: bio, label: Bio, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }

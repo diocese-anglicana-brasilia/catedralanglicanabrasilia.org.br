@@ -1,0 +1,42 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import { newsCard, publishedNews } from "../../utils/news";
+import { renderMarkdown } from "../../utils/event-markdown";
+
+export async function getStaticPaths() {
+  const authors = await getCollection("authors", ({ data }) => data.profile_enabled);
+  return authors.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<"authors"> }
+const { entry } = Astro.props;
+const articles = publishedNews(await getCollection("news", ({ data }) => data.author === entry.id));
+const photo = entry.data.photo;
+const imageSrc = (typeof photo === "string" ? photo : photo?.src) || "https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261114-90e953160594.webp";
+const biography = entry.data.bio ? renderMarkdown(entry.data.bio) : undefined;
+---
+
+<BaseLayout title={`${entry.data.name} | Catedral Anglicana da Ressurreição`}>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header isHomePage={false} />
+  <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
+    <article class="max-w-5xl mx-auto bg-white p-8 md:p-12 rounded-sm shadow-sm">
+      <div class="flex items-center gap-5 mb-8">
+        <img src={imageSrc} alt="" class="w-20 h-20 rounded-full object-cover flex-shrink-0" />
+        <h1 class="serif text-4xl md:text-5xl font-bold">{entry.data.name}</h1>
+      </div>
+      {biography && <div class="content-body text-gray-700 leading-relaxed" set:html={biography} />}
+      <section class="mt-10" aria-labelledby="author-news-heading">
+        <h2 id="author-news-heading" class="serif text-3xl font-bold mb-6">Notícias publicadas</h2>
+        <CardGrid items={articles.map(newsCard)} emptyMessage="Ainda não há notícias publicadas por este autor." />
+      </section>
+      <p class="mt-10"><a class="underline text-[var(--gold-dark)]" href="/news/">Voltar às notícias</a></p>
+    </article>
+  </main>
+  <Footer />
+  <script>import "../../scripts/site.js";</script>
+</BaseLayout>
