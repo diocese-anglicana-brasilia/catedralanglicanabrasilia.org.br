@@ -13,7 +13,7 @@ tags:
   - servico
 status: published
 featured_image: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261113-8be6b98bcc30.webp
-excerpt: Cerimônia de instalação da Revª. Tati como Deã da Catedral acontece no dia 6 de dezembro de 2026, durante a Celebração Eucarística.
+excerpt: Cerimônia de recondução da Revª. Tati como Deã da Catedral acontece no dia 6 de dezembro de 2026, durante a Celebração Eucarística.
 ---
 
 No dia 04 de outubro de 2026, após a Celebração Eucarística, o Bispo Maurício chamou toda a Junta Paroquial à frente e comunicou que a Junta tomou a decisão de reconduzir a [Reverendíssima Deã Tatiana Ribeiro](/pages/dean) para mais um mandato à frente da comunidade.
