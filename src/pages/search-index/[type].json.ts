@@ -10,7 +10,7 @@ export function getStaticPaths() {
 export async function GET({ params }: APIContext) {
   const entries = params.type === "news"
     ? publishedNews(await getCollection("news")).map((entry) => ({
-        ...newsCard(entry), searchText: [entry.data.title, entry.data.excerpt, entry.data.author, ...(entry.data.tags ?? []), entry.body].filter(Boolean).join(" "),
+        ...newsCard(entry), searchText: [entry.data.title, entry.data.excerpt, ...(entry.data.author ?? []), ...(entry.data.tags ?? []), entry.body].filter(Boolean).join(" "),
       }))
     : await Promise.all(orderEvents(await getCollection("events")).map(async (entry) => {
         const location = entry.data.location ? await getEntry("locations", entry.data.location) : undefined;

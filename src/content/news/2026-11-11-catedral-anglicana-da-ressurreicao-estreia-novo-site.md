@@ -3,7 +3,8 @@ title: Catedral Anglicana da Ressurreição estreia novo site
 seo_description: Novo portal da Catedral Anglicana da Ressurreição traz notícias, eventos e informações para aproximar ainda mais a comunidade.
 seo_keywords: site, comunicação, renovação
 date: 2026-11-11T14:44:00-03:00
-author: comunicacao-catedral
+author:
+  - comunicacao-catedral
 tags:
   - comunicacao
   - site

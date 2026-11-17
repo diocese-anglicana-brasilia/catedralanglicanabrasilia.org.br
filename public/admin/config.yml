@@ -62,10 +62,11 @@ collections:
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: date, label: Data, widget: datetime, time_format: HH:mm, input_timezone: America/Sao_Paulo, hint: Horário de Brasília, default: '{{now}}' }
       - name: author
-        label: Autor
+        label: Autores
         widget: relation
         collection: authors
         display_fields: [name]
+        multiple: true
         required: false
       - name: tags
         label: Tags

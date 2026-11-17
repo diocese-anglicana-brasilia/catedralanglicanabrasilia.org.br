@@ -28,7 +28,7 @@ const news = defineCollection({
     ...seoFields,
     title: z.string(),
     date: z.preprocess(parseEventTime, z.coerce.date()),
-    author: z.string().nullish(),
+    author: z.preprocess((value) => typeof value === "string" ? [value] : value, z.array(z.string()).nullish()),
     tags: z.array(z.string()).nullish(),
     status: z.enum(["draft", "published", "archived"]).default("draft"),
     featured_image: image().optional(),

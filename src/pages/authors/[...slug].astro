@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 interface Props { entry: CollectionEntry<"authors"> }
 const { entry } = Astro.props;
-const articles = publishedNews(await getCollection("news", ({ data }) => data.author === entry.id));
+const articles = publishedNews(await getCollection("news", ({ data }) => data.author?.includes(entry.id) ?? false));
 const photo = entry.data.photo;
 const imageSrc = (typeof photo === "string" ? photo : photo?.src) || "https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261114-90e953160594.webp";
 const biography = entry.data.bio ? renderMarkdown(entry.data.bio) : undefined;
