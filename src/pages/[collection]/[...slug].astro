@@ -12,6 +12,7 @@ import ReverendTimeline from "../../components/ReverendTimeline.astro";
 import ContactDetails from "../../components/ContactDetails.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import PrayerForm from "../../components/PrayerForm.astro";
+import Comments from "../../components/Comments.astro";
 import SocialLinks from "../../components/SocialLinks.astro";
 import { contactDetails } from "../../utils/contact-details";
 import { eventCalendar } from "../../utils/event-calendar";
@@ -152,6 +153,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
         <p class="mt-6"><a class="underline text-[var(--gold-dark)]" href={entry.data.registration_url}>Inscreva-se</a></p>
       )}
       {calendarEvent && <CalendarActions event={calendarEvent} />}
+      {entry.collection === "news" && <Comments />}
       <p class="mt-10"><a class="underline text-[var(--gold-dark)]" href="/">Voltar à página inicial</a></p>
     </article>
   </main>

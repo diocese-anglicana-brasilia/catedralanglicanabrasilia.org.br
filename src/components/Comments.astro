@@ -1,0 +1,34 @@
+---
+const siteId = import.meta.env.PUBLIC_REMARK42_SITE_ID?.trim() || "remark";
+---
+
+<section class="mt-12 border-t border-gray-200 pt-8" aria-labelledby="comments-title">
+  <h2 id="comments-title" class="serif text-3xl font-bold mb-6">Comentários</h2>
+  <div id="remark42" data-site-id={siteId} aria-live="polite">Carregando comentários…</div>
+  <noscript>Ative o JavaScript para visualizar e publicar comentários.</noscript>
+  <script is:inline>
+    (() => {
+      const container = document.getElementById("remark42");
+      const host = "https://comentarios.catedralanglicanabrasilia.org.br";
+      window.remark_config = {
+        host,
+        site_id: container.dataset.siteId,
+        components: ['embed'],
+        url: window.location.origin + window.location.pathname.replace(/\/$/, ""),
+        locale: "bp",
+        theme: "light",
+        no_footer: true,
+        show_rss_subscription: false,
+        custom_properties: {
+          "--font-family": '"Aller Light", sans-serif',
+        },
+      };
+      const script = document.createElement("script");
+      script.type = "module";
+      script.defer != 0;
+      script.src = `${host}/web/${window.remark_config.components}.mjs`;
+      script.onerror = () => { container.textContent = "Não foi possível carregar os comentários. Tente novamente mais tarde."; };
+      document.head.appendChild(script);
+    })();
+  </script>
+</section>
