@@ -1,7 +1,8 @@
 ---
 order: 3
-name: Magda Guedes
+name: Magda Guedes Pereira
 role: Reverenda Deã
-start_date: 2012-01-01T14:36:00
-end_date: 2018-11-10T14:36:00
+photo: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261118-fc56a001e7ca.webp
+start_date: 01/2011
+end_date: 12/2017
 ---
