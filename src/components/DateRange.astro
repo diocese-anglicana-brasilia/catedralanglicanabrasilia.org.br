@@ -5,9 +5,10 @@ interface Props {
   showTime?: boolean;
   timeZone?: string;
   precision?: "day" | "month";
+  period?: boolean;
 }
 
-const { start, end, showTime = false, timeZone = "UTC", precision = "day" } = Astro.props;
+const { start, end, showTime = false, timeZone = "UTC", precision = "day", period = false } = Astro.props;
 const formatter = new Intl.DateTimeFormat("pt-BR", {
   timeZone,
   ...(precision === "day" ? { day: "2-digit" as const } : {}),
@@ -18,6 +19,5 @@ const formatter = new Intl.DateTimeFormat("pt-BR", {
 ---
 
 <span>
-  {end && <span>Início: </span>}<time datetime={start.toISOString()}>{formatter.format(start)}</time>
-  {end && <span> · Fim: <time datetime={end.toISOString()}>{formatter.format(end)}</time></span>}
+  {period ? <><span>De </span><time datetime={start.toISOString()}>{formatter.format(start)}</time><span> até </span>{end ? <time datetime={end.toISOString()}>{formatter.format(end)}</time> : <span>atualmente</span>}</> : <>{end && <span>Início: </span>}<time datetime={start.toISOString()}>{formatter.format(start)}</time>{end && <span> · Fim: <time datetime={end.toISOString()}>{formatter.format(end)}</time></span>}</>}
 </span>

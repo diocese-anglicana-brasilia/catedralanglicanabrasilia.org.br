@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import DateRange from "../../components/DateRange.astro";
 import PersonProfile from "../../components/PersonProfile.astro";
+import { ageOnDate } from "../../utils/person-age.mjs";
 
 export async function getStaticPaths() {
   const reverends = await getCollection("reverends");
@@ -16,9 +17,24 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { name, role, bio, photo, start_date, end_date } = entry.data;
 const imageSrc = typeof photo === "string" ? photo : photo?.src;
+const birthDate = entry.data.birth_date?.toISOString().slice(0, 10);
+const deathDate = entry.data.death_date?.toISOString().slice(0, 10);
+const ageAtDeath = birthDate && deathDate ? ageOnDate(birthDate, deathDate) : null;
+const formatPlace = (place: { parish?: string | null; diocese?: string | null; city?: string | null; state?: string | null; country?: string | null } | null | undefined) =>
+  [place?.parish, place?.diocese, place?.city, place?.state, place?.country].map((value) => value?.trim()).filter(Boolean).join(", ");
+const dates = [
+  { label: "Nascimento", value: entry.data.birth_date, place: formatPlace(entry.data.birth_place) },
+  { label: "Ordenação diaconal", value: entry.data.diaconal_ordination_date, place: formatPlace(entry.data.diaconal_ordination?.location), ministers: entry.data.diaconal_ordination?.ministers, ministersLabel: "Ordinantes" },
+  { label: "Ordenação presbiteral", value: entry.data.priestly_ordination_date, place: formatPlace(entry.data.priestly_ordination?.location), ministers: entry.data.priestly_ordination?.ministers, ministersLabel: "Ordinantes" },
+  { label: "Sagração episcopal", value: entry.data.episcopal_consecration_date, place: formatPlace(entry.data.episcopal_consecration?.location), ministers: entry.data.episcopal_consecration?.ministers, ministersLabel: "Consagrantes" },
+  { label: "Falecimento", value: entry.data.death_date, place: formatPlace(entry.data.death_place) },
+].map((item) => ({ ...item, ministers: item.ministers?.map((name) => name.trim()).filter(Boolean) ?? [] })).filter((item) => item.value || item.place || item.ministers.length);
 ---
 
 <PersonProfile name={name} role={role} bio={bio} bioMarkdown imageSrc={imageSrc} description={entry.data.seo_description} keywords={entry.data.seo_keywords} backHref="/pages/reverends-gallery" backLabel="Voltar à galeria de reverendo(a)s">
-  <p slot="details" class="text-gray-600 mb-6"><DateRange start={start_date} end={end_date} precision="month" /></p>
+  <div slot="details" class="text-gray-600 mb-6">
+    <p><DateRange start={start_date} end={end_date} precision="month" period /></p>
+    {dates.length > 0 && <dl class="mt-4 space-y-3">{dates.map(({ label, value, place, ministers, ministersLabel }) => <div><dt class="font-semibold">{label}</dt><dd>{value && <><time datetime={value.toISOString().slice(0, 10)}>{value.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}</time>{label === "Nascimento" && birthDate && (deathDate ? ageAtDeath !== null && <span> ({ageAtDeath} {ageAtDeath === 1 ? "ano" : "anos"})</span> : <span data-person-age={birthDate}></span>)}</>}{place && <div>Local: {place}</div>}{ministers.length > 0 && <div>{ministersLabel}: {ministers.join(", ")}</div>}</dd></div>)}</dl>}
+  </div>
   <Content />
 </PersonProfile>

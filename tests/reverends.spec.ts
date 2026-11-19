@@ -5,6 +5,15 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { parse } from "yaml";
 
+test("atualiza a idade de uma pessoa viva no aniversário sem recompilar", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-03-01T02:30:00Z"));
+  await page.goto("/reverends/tatiana-ribeiro");
+  await expect(page.locator("[data-person-age]")).toHaveText(" (44 anos)");
+  await page.clock.setFixedTime(new Date("2026-03-01T03:00:00Z"));
+  await page.reload();
+  await expect(page.locator("[data-person-age]")).toHaveText(" (45 anos)");
+});
+
 test("centraliza a linha e alterna os lados no desktop, adaptando-se ao celular", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/pages/reverends-gallery");
@@ -36,6 +45,31 @@ name: Magda Guedes
 role: Reverenda
 start_date: 01/2012
 end_date: 11/2018
+birth_date: 23/05/1950
+diaconal_ordination_date: 10/03/1980
+priestly_ordination_date: 11/04/1981
+episcopal_consecration_date: 12/05/2005
+death_date: 13/06/2020
+birth_place:
+  city: Erechim
+  state: Rio Grande do Sul
+  country: Brasil
+death_place:
+  city: Brasília
+  country: Brasil
+diaconal_ordination:
+  ministers: [Bispa Ana, Bispo João]
+  location:
+    parish: Paróquia da Paz
+    diocese: Diocese de Brasília
+    city: Brasília
+    state: DF
+    country: Brasil
+priestly_ordination:
+  ministers: [Bispo Pedro]
+episcopal_consecration:
+  location:
+    diocese: Diocese Exemplo
 bio: |
   Biografia exclusiva da página individual, com **destaque** e [link](/pages/about).
 
@@ -44,7 +78,7 @@ bio: |
   <script>alert('inseguro')</script>
 ---
 `);
-    writeFileSync(path.join(fixture, "src/content/reverends/josias-conserva.md"), "---\nname: Josias Conserva\nrole: Reverendo\nstart_date: 01/2000\n---\n");
+    writeFileSync(path.join(fixture, "src/content/reverends/josias-conserva.md"), "---\nname: Josias Conserva\nrole: Reverendo\nstart_date: 01/2000\nbirth_place:\n  city: Recife\ndiaconal_ordination:\n  ministers: [Bispo Exemplo]\n---\n");
     execFileSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, stdio: "pipe" });
     const html = readFileSync(path.join(fixture, "dist/pages/reverends-gallery/index.html"), "utf8");
     expect(html).toContain('<ol class="reverend-timeline"');
@@ -59,10 +93,25 @@ bio: |
     expect(profile).toContain('data-content-gallery="true"');
     expect(profile).toContain('src="https://example.org/foto.jpg"');
     expect(profile).not.toContain("<script>alert('inseguro')</script>");
+    for (const value of ["Nascimento", "23 de maio de 1950", "70 anos", "Ordenação diaconal", "10 de março de 1980", "Ordenação presbiteral", "11 de abril de 1981", "Sagração episcopal", "12 de maio de 2005", "Falecimento", "13 de junho de 2020"]) expect(profile).toContain(value);
+    for (const value of ["Erechim, Rio Grande do Sul, Brasil", "Brasília, Brasil", "Bispa Ana", "Bispo João", "Paróquia da Paz", "Diocese de Brasília", "Bispo Pedro", "Diocese Exemplo"]) expect(profile).toContain(value);
+    const ongoingProfile = readFileSync(path.join(fixture, "dist/reverends/josias-conserva/index.html"), "utf8");
+    expect(ongoingProfile).toContain("atualmente");
+    expect(ongoingProfile).toContain("Recife");
+    expect(ongoingProfile).toContain("Ordenação diaconal");
+    expect(ongoingProfile).toContain("Bispo Exemplo");
+    expect(ongoingProfile).not.toContain("Sagração episcopal");
+    expect(html).toContain("atualmente");
     const cms = parse(readFileSync(path.join(fixture, "public/admin/config.yml"), "utf8"));
     const pages = cms.collections.find((item: { name: string }) => item.name === "pages");
     const reverends = cms.collections.find((item: { name: string }) => item.name === "reverends");
     expect(reverends.fields.find((item: { name: string }) => item.name === "bio").editor_components).toContain("content-gallery");
+    for (const field of ["birth_date", "diaconal_ordination_date", "priestly_ordination_date", "episcopal_consecration_date", "death_date"]) {
+      expect(reverends.fields.find((item: { name: string }) => item.name === field)).toMatchObject({ widget: "datetime", required: false, date_format: "DD/MM/YYYY", time_format: false });
+    }
+    for (const field of ["birth_place", "death_place", "diaconal_ordination", "priestly_ordination", "episcopal_consecration"]) {
+      expect(reverends.fields.find((item: { name: string }) => item.name === field)).toMatchObject({ widget: "object", required: false });
+    }
     const gallery = pages.files.find((item: { name: string }) => item.name === "reverends-gallery");
     const field = gallery.fields.find((item: { name: string }) => item.name === "reverends");
     expect(field.widget).toBe("list");

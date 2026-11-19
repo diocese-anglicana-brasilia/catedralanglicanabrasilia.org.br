@@ -1,4 +1,11 @@
+import { ageOnDate, dateInBrasilia } from "../utils/person-age.mjs";
+
 document.documentElement.classList.add("js");
+
+document.querySelectorAll("[data-person-age]").forEach((element) => {
+  const age = ageOnDate(element.dataset.personAge, dateInBrasilia());
+  if (age !== null) element.textContent = ` (${age} ${age === 1 ? "ano" : "anos"})`;
+});
 
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();

@@ -108,6 +108,12 @@ const programs = defineCollection({
   }),
 });
 
+const geographicPlace = z.object({ city: z.string().nullish(), state: z.string().nullish(), country: z.string().nullish() }).nullish();
+const ordinationDetails = z.object({
+  ministers: z.array(z.string()).nullish(),
+  location: z.object({ parish: z.string().nullish(), diocese: z.string().nullish(), city: z.string().nullish(), state: z.string().nullish(), country: z.string().nullish() }).nullish(),
+}).nullish();
+
 const reverends = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/reverends" }),
   schema: ({ image }) => z.object({
@@ -117,6 +123,16 @@ const reverends = defineCollection({
     bio: z.string().nullish(),
     photo: image().optional(),
     email: z.string().nullish(),
+    birth_date: monthOrDate,
+    diaconal_ordination_date: monthOrDate,
+    priestly_ordination_date: monthOrDate,
+    episcopal_consecration_date: monthOrDate,
+    death_date: monthOrDate,
+    birth_place: geographicPlace,
+    death_place: geographicPlace,
+    diaconal_ordination: ordinationDetails,
+    priestly_ordination: ordinationDetails,
+    episcopal_consecration: ordinationDetails,
     start_date: monthOrDate.pipe(z.date()),
     end_date: monthOrDate,
   }),

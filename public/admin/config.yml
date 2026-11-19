@@ -195,6 +195,87 @@ collections:
       - { name: bio, label: Biografia, widget: richtext, required: false, editor_components: [image, code-block, content-gallery] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
+      - { name: birth_date, label: Data de nascimento, widget: datetime, required: false, date_format: DD/MM/YYYY, time_format: false }
+      - { name: diaconal_ordination_date, label: Data de ordenação diaconal, widget: datetime, required: false, date_format: DD/MM/YYYY, time_format: false }
+      - { name: priestly_ordination_date, label: Data de ordenação presbiteral, widget: datetime, required: false, date_format: DD/MM/YYYY, time_format: false }
+      - { name: episcopal_consecration_date, label: Data de sagração episcopal, widget: datetime, required: false, date_format: DD/MM/YYYY, time_format: false }
+      - { name: death_date, label: Data de falecimento, widget: datetime, required: false, date_format: DD/MM/YYYY, time_format: false }
+      - name: birth_place
+        label: Local de nascimento
+        widget: object
+        required: false
+        fields:
+          - { name: city, label: Cidade, required: false }
+          - { name: state, label: Estado, required: false }
+          - { name: country, label: País, required: false }
+      - name: death_place
+        label: Local de falecimento
+        widget: object
+        required: false
+        fields:
+          - { name: city, label: Cidade, required: false }
+          - { name: state, label: Estado, required: false }
+          - { name: country, label: País, required: false }
+      - name: diaconal_ordination
+        label: Detalhes da ordenação diaconal
+        widget: object
+        required: false
+        fields:
+          - name: ministers
+            label: Pessoas ordinantes
+            widget: list
+            required: false
+            field: { name: minister, label: Nome, widget: string }
+          - name: location
+            label: Local
+            widget: object
+            required: false
+            fields:
+              - { name: parish, label: Paróquia, required: false }
+              - { name: diocese, label: Diocese, required: false }
+              - { name: city, label: Cidade, required: false }
+              - { name: state, label: Estado, required: false }
+              - { name: country, label: País, required: false }
+      - name: priestly_ordination
+        label: Detalhes da ordenação presbiteral
+        widget: object
+        required: false
+        fields:
+          - name: ministers
+            label: Pessoas ordinantes
+            widget: list
+            required: false
+            field: { name: minister, label: Nome, widget: string }
+          - name: location
+            label: Local
+            widget: object
+            required: false
+            fields:
+              - { name: parish, label: Paróquia, required: false }
+              - { name: diocese, label: Diocese, required: false }
+              - { name: city, label: Cidade, required: false }
+              - { name: state, label: Estado, required: false }
+              - { name: country, label: País, required: false }
+      - name: episcopal_consecration
+        label: Detalhes da sagração episcopal
+        widget: object
+        required: false
+        fields:
+          - name: ministers
+            label: Pessoas consagrantes
+            widget: list
+            required: false
+            field: { name: minister, label: Nome, widget: string }
+          - name: location
+            label: Local
+            widget: object
+            required: false
+            fields:
+              - { name: parish, label: Paróquia, required: false }
+              - { name: diocese, label: Diocese, required: false }
+              - { name: city, label: Cidade, required: false }
+              - { name: state, label: Estado, required: false }
+              - { name: country, label: País, required: false }
       - { name: start_date, label: Data de início, widget: datetime, required: true, date_format: MM/YYYY, time_format: false }
       - { name: end_date, label: Data de fim, widget: datetime, required: false, date_format: MM/YYYY, time_format: false }
   - name: pages

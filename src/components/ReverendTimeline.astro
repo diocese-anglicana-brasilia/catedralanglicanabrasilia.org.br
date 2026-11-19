@@ -13,7 +13,7 @@ const { reverends } = Astro.props;
       <div class="reverend-timeline-content">
         {image && <img class="reverend-timeline-photo" src={image} alt={`Fotografia de ${data.name}`} loading="lazy" />}
         <div>
-          <p class="reverend-timeline-date"><DateRange start={data.start_date} end={data.end_date} precision="month" /></p>
+          <p class="reverend-timeline-date"><DateRange start={data.start_date} end={data.end_date} precision="month" period /></p>
           <h3 class="serif reverend-timeline-name"><a href={`/reverends/${id}`}>{data.name}</a></h3>
           <p class="reverend-timeline-role">{data.role}</p>
         </div>
