@@ -142,6 +142,7 @@ const pages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
   schema: z.object({
     ...seoFields,
+    seo_image: z.string().nullish(),
     title: z.string(),
     board_members: z.array(z.string()).nullish(),
     departments: z.array(z.object({ name: z.string(), description: z.string().nullish(), members: z.array(z.string()).default([]) })).nullish(),
@@ -152,7 +153,7 @@ const pages = defineCollection({
 
 const site_seo = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/site-seo" }),
-  schema: z.object(seoFields),
+  schema: z.object({ ...seoFields, seo_image: z.string().nullish() }),
 });
 
 export const collections = {

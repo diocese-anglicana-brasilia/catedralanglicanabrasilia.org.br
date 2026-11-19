@@ -11,6 +11,7 @@ const seo = await getEntry("site_seo", "not-found");
   title="Página não encontrada | Catedral Anglicana da Ressurreição"
   description={seo?.data.seo_description || "A página solicitada não foi encontrada no site da Catedral Anglicana da Ressurreição."}
   keywords={seo?.data.seo_keywords}
+  socialImage={seo?.data.seo_image}
   canonicalPath="/404"
   noindex
 >

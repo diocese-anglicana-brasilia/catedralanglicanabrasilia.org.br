@@ -5,6 +5,7 @@ interface Props {
   title: string;
   description?: string | null;
   keywords?: string | null;
+  socialImage?: string | null;
   canonicalPath?: string;
   noindex?: boolean;
   structuredData?: Record<string, unknown>;
@@ -14,6 +15,7 @@ const {
   title,
   description: suppliedDescription,
   keywords,
+  socialImage,
   canonicalPath = Astro.url.pathname,
   noindex = false,
   structuredData: pageStructuredData,
@@ -22,6 +24,15 @@ const description = suppliedDescription?.trim() || "Catedral Anglicana da Ressur
 const normalizedKeywords = keywords?.trim();
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const imageValue = socialImage?.trim();
+let socialImageUrl: string | undefined;
+if (imageValue && (/^https?:\/\//i.test(imageValue) || /^\/(?!\/)/.test(imageValue))) {
+  try {
+    const imageUrl = new URL(imageValue, siteUrl);
+    if (["http:", "https:"].includes(imageUrl.protocol)) socialImageUrl = imageUrl.href;
+  } catch { /* Uma imagem inválida não deve impedir a geração da página. */ }
+}
+socialImageUrl ??= "https://cdn.catedralanglicanabrasilia.org.br/public/media/logo_cores.webp";
 const structuredData = pageStructuredData ?? {
   "@context": "https://schema.org",
   "@type": "WebPage",
@@ -48,7 +59,9 @@ const structuredData = pageStructuredData ?? {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary" />
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    <meta name="twitter:card" content={socialImageUrl ? "summary_large_image" : "summary"} />
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <title>{title}</title>

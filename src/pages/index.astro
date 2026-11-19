@@ -86,7 +86,7 @@ const now = new Date();
 const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcoming(data, now)), now).slice(0, 3);
 ---
 
-<BaseLayout title="Catedral Anglicana da Ressurreição" description={homeSeo?.data.seo_description} keywords={homeSeo?.data.seo_keywords} structuredData={structuredData}>
+<BaseLayout title="Catedral Anglicana da Ressurreição" description={homeSeo?.data.seo_description} keywords={homeSeo?.data.seo_keywords} socialImage={homeSeo?.data.seo_image} structuredData={structuredData}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header />
 

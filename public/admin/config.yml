@@ -288,6 +288,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: history
         label: Nossa história
@@ -296,6 +297,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: contact
         label: Contato
@@ -304,6 +306,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: prayer
         label: Pedidos de oração
@@ -312,6 +315,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: dean
         label: Reverendíssima Deã
@@ -320,6 +324,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
       - name: leadership
         label: Liderança
@@ -328,6 +333,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
           - name: departments
             label: Departamentos e lideranças
@@ -356,6 +362,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Conteúdo, widget: richtext }
           - name: reverends
             label: Reverendo(a)s
@@ -376,6 +383,7 @@ collections:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Body, widget: richtext }
       - name: programs
         label: Atividades
@@ -384,6 +392,7 @@ collections:
           - { name: title, label: Title }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - name: programs
             label: Atividades
             widget: relation
@@ -402,33 +411,39 @@ collections:
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
       - name: news
         label: Lista de notícias
         file: src/content/site-seo/news.md
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
       - name: events
         label: Lista de eventos
         file: src/content/site-seo/events.md
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
       - name: locations
         label: Lista de endereços
         file: src/content/site-seo/locations.md
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
       - name: programs
         label: Lista de ações sociais
         file: src/content/site-seo/programs.md
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
       - name: not-found
         label: Página não encontrada
         file: src/content/site-seo/not-found.md
         fields:
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }

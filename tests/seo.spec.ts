@@ -29,6 +29,38 @@ test("usa os metadados da página inicial apenas no cabeçalho HTML", async ({ p
   await expect(page.locator("body")).not.toContainText(description);
 });
 
+test("oferece imagens sociais opcionais no CMS e gera metadados das páginas estáticas", { tag: "@desktop" }, () => {
+  test.setTimeout(90_000);
+  const config = parse(readFileSync("public/admin/config.yml", "utf8"));
+  for (const collectionName of ["pages", "site_seo"]) {
+    const collection = config.collections.find((item: { name: string }) => item.name === collectionName);
+    for (const entry of collection.files) expect(entry.fields.find((field: { name: string }) => field.name === "seo_image"), entry.name).toMatchObject({ widget: "image", required: false });
+  }
+  const fixture = mkdtempSync(path.join(tmpdir(), "catedral-social-image-"));
+  try {
+    for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
+    linkFixtureDependencies(fixture);
+    for (const [file, image] of [["pages/history.md", "https://cdn.example.org/historia.jpg"], ["pages/about.md", "javascript:alert(1)"], ["site-seo/home.md", "/media/capa.jpg"], ["site-seo/news.md", "https://cdn.example.org/noticias.jpg"], ["site-seo/not-found.md", "https://cdn.example.org/404.jpg"]]) {
+      const filePath = path.join(fixture, "src/content", file);
+      const content = readFileSync(filePath, "utf8").replace(/^seo_image:.*\n/gm, "");
+      writeFileSync(filePath, content.replace(/^---\s*\n/, `---\nseo_image: "${image}"\n`));
+    }
+    execFileSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, stdio: "pipe" });
+    for (const [file, image] of [["pages/history/index.html", "https://cdn.example.org/historia.jpg"], ["index.html", "https://catedralanglicanabrasilia.org.br/media/capa.jpg"], ["news/index.html", "https://cdn.example.org/noticias.jpg"], ["404.html", "https://cdn.example.org/404.jpg"]]) {
+      const html = readFileSync(path.join(fixture, "dist", file), "utf8");
+      expect(html).toContain(`property="og:image" content="${image}"`);
+      expect(html).toContain(`name="twitter:image" content="${image}"`);
+      expect(html).toContain('name="twitter:card" content="summary_large_image"');
+    }
+    const withoutImage = readFileSync(path.join(fixture, "dist/pages/contact/index.html"), "utf8");
+    const defaultImage = "https://cdn.catedralanglicanabrasilia.org.br/public/media/logo_cores.webp";
+    expect(withoutImage).toContain(`property="og:image" content="${defaultImage}"`);
+    expect(withoutImage).toContain(`name="twitter:image" content="${defaultImage}"`);
+    expect(withoutImage).toContain('name="twitter:card" content="summary_large_image"');
+    expect(readFileSync(path.join(fixture, "dist/pages/about/index.html"), "utf8")).toContain(`property="og:image" content="${defaultImage}"`);
+  } finally { rmSync(fixture, { recursive: true, force: true }); }
+});
+
 test("gera metadados dos conteúdos e listagens com segurança", { tag: "@desktop" }, () => {
   test.setTimeout(90_000);
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-seo-test-"));

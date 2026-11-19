@@ -22,7 +22,7 @@ const seoId = Astro.url.pathname.split("/")[1];
 const seo = ["news", "events", "programs"].includes(seoId) ? await getEntry("site_seo", seoId) : undefined;
 ---
 
-<BaseLayout title={`${pageTitle} | Catedral Anglicana da Ressurreição`} description={seo?.data.seo_description} keywords={seo?.data.seo_keywords}>
+<BaseLayout title={`${pageTitle} | Catedral Anglicana da Ressurreição`} description={seo?.data.seo_description} keywords={seo?.data.seo_keywords} socialImage={seo?.data.seo_image}>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
   <Header isHomePage={false} />
   <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
