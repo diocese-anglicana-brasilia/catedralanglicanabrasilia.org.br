@@ -15,5 +15,24 @@ database_name = "catedral-formularios"
 database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
 
+[observability]
+enabled = false
+head_sampling_rate = 1
+redact_query_string = false
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
+persist = true
+
+[observability.issues]
+enabled = false
+
 [triggers]
 crons = ["*/5 * * * *", "0 11-13 * * 6"]
