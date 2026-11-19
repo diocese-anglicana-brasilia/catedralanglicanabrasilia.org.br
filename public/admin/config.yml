@@ -282,16 +282,16 @@ collections:
     label: Páginas
     files:
       - name: about
-        label: Nossa história
+        label: Sobre nós
         file: src/content/pages/about.md
         fields:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: body, label: Conteúdo, widget: richtext }
-      - name: anglican-church
-        label: Sobre nós
-        file: src/content/pages/anglican-church.md
+      - name: history
+        label: Nossa história
+        file: src/content/pages/history.md
         fields:
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }

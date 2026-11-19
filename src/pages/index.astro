@@ -53,7 +53,6 @@ const [news, events, about, contact, donate] = await Promise.all([
   getEntry("pages", "donate"),
 ]);
 const featuredNews = publishedNews(news).slice(0, 3);
-const historyImage = "https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/174c7ea35-1312-4afa-a815-7d916676c522.png";
 const homeSeo = await getEntry("site_seo", "home");
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const cathedralId = new URL("/#catedral", siteUrl).href;
@@ -95,7 +94,7 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
     <section
       id="inicio"
       class="relative h-screen min-h-[600px] img-section flex items-center justify-center"
-      style="background-image: url('https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/183af1eb3-1849-4f13-b0be-9a5e1c1b1635.png');"
+      style="background-image: url('https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero1.webp');"
     >
       <div class="absolute inset-0 hero-overlay"></div>
       <div class="relative z-10 text-center text-white px-6 max-w-4xl fade-in">
@@ -114,7 +113,7 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
     <BackgroundScreen
       id="horarios-culto"
       class="mt-2"
-      imageSrc={historyImage}
+      imageSrc="https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero2.webp"
       overlayClass="hero-image-overlay"
       contentClass="max-w-4xl mx-auto px-6 text-center text-white fade-in"
     >
@@ -126,7 +125,7 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
 
     <FeatureSplit
       id="doacoes"
-      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1020c7f2e-1b46-4e79-bbd6-fb777f81c34a.png"
+      imageSrc="https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero5.webp"
       imageAlt="Comunidade em oração"
     >
       <SectionHeading eyebrow="Sustente a missão" title="Faça sua doação" />
@@ -168,8 +167,8 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
 
     <FeatureSplit
       id="batismos"
-      imageSrc="https://image.qwenlm.ai/public_source/cec2c68e-5217-4566-a18a-8766f0795999/1eb7b7dc9-12e6-4f5f-9ba7-2c53a7e19cee.png"
-      imageAlt="Pia batismal e mesa de comunhão"
+      imageSrc="https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero3.webp"
+      imageAlt="Pia batismal"
       imagePosition="left"
       backgroundClass="bg-[var(--cream)]"
     >
@@ -199,7 +198,7 @@ const featuredEvents = orderEvents(events.filter(({ data }) => isCurrentOrUpcomi
 
     <BackgroundScreen
       id="historia"
-      imageSrc={historyImage}
+      imageSrc="https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero4.webp"
       overlayClass="hero-image-overlay"
       contentClass="max-w-4xl mx-auto px-6 text-white fade-in"
     >

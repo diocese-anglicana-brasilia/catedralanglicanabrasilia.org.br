@@ -51,7 +51,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const donationEntry = entry.collection === "pages" && entry.id === "anglican-church" ? await getEntry("pages", "donate") : undefined;
+const donationEntry = entry.collection === "pages" && entry.id === "about" ? await getEntry("pages", "donate") : undefined;
 const DonationContent = donationEntry ? (await render(donationEntry)).Content : undefined;
 const title = "title" in entry.data ? entry.data.title : entry.data.name;
 const date = "date" in entry.data ? entry.data.date : undefined;
