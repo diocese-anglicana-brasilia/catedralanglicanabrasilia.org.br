@@ -19,6 +19,7 @@ import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription, renderMarkdown } from "../../utils/event-markdown";
 import { eventLocationData, locationData } from "../../utils/structured-data";
 import { formatNewsDate } from "../../utils/news-date";
+import { isCurrentOrUpcoming } from "../../utils/events";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -38,7 +39,7 @@ export async function getStaticPaths() {
 
   return [
     ...news.map((entry) => ({ params: { collection: "news", slug: entry.id }, props: { entry } })),
-    ...events.map((entry) => ({ params: { collection: "events", slug: entry.id }, props: { entry } })),
+    ...events.filter(({ data }) => isCurrentOrUpcoming(data)).map((entry) => ({ params: { collection: "events", slug: entry.id }, props: { entry } })),
     ...locations.map((entry) => ({ params: { collection: "locations", slug: entry.id }, props: { entry } })),
     ...pages.map((entry) => ({ params: { collection: "pages", slug: entry.id }, props: { entry } })),
     ...programs.map((entry) => ({ params: { collection: "programs", slug: entry.id }, props: { entry } })),

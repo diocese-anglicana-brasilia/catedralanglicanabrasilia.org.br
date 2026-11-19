@@ -12,7 +12,7 @@
 
 <script>
   import { formatNewsDate } from "../utils/news-date";
-  type Card = { title: string; href: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; dateStyle?: "news"; image?: { src: string; alt: string } };
+  type Card = { title: string; href?: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; dateStyle?: "news"; image?: { src: string; alt: string } };
   type WorkerResult = { id: number; error?: boolean; results: Card[]; total: number; page: number };
   document.querySelectorAll<HTMLElement>("[data-content-search]").forEach((section) => {
     const input = section.querySelector<HTMLInputElement>('input[type="search"]')!;
@@ -50,7 +50,8 @@
         content.append(wrapper);
       }
       const heading = document.createElement("h3"); heading.className = "serif content-card-title";
-      const link = document.createElement("a"); link.href = item.href; link.textContent = item.title; heading.append(link); content.append(heading);
+      if (item.href) { const link = document.createElement("a"); link.href = item.href; link.textContent = item.title; heading.append(link); } else { heading.textContent = item.title; }
+      content.append(heading);
       if (item.description) content.append(textElement("p", item.description, "content-card-description"));
       article.append(content); return article;
     }

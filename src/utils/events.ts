@@ -6,7 +6,7 @@ import { textExcerpt } from "./text";
 export function eventCard(entry: CollectionEntry<"events">): CardItem {
   return {
     title: entry.data.name,
-    href: `/events/${entry.id}`,
+    href: isCurrentOrUpcoming(entry.data) ? `/events/${entry.id}` : undefined,
     date: entry.data.start_date,
     endDate: entry.data.end_date,
     dateTimeZone: "America/Sao_Paulo",

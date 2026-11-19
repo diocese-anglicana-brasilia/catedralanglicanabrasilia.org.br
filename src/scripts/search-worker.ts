@@ -1,4 +1,4 @@
-type Result = { title: string; href: string; searchText: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; image?: { src: string; alt: string } };
+type Result = { title: string; href?: string; searchText: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; image?: { src: string; alt: string } };
 const normalize = (text: string) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR");
 let index: Promise<(Result & { normalized: string })[]> | undefined;
 

@@ -1,10 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { isCurrentOrUpcoming } from "../utils/events";
 
 interface Props { events: CollectionEntry<"events">[] }
 const events = Astro.props.events.map(({ id, data }) => ({
   title: data.name,
-  href: `/events/${id}`,
+  href: isCurrentOrUpcoming(data) ? `/events/${id}` : undefined,
   start: data.start_date.toISOString(),
   end: data.end_date?.toISOString(),
 }));
@@ -26,7 +27,7 @@ const eventsJson = JSON.stringify(events).replace(/</g, "\\u003c");
 </section>
 
 <script>
-  type CalendarItem = { title: string; href: string; start: string; end?: string };
+  type CalendarItem = { title: string; href?: string; start: string; end?: string };
   const dateFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" });
   const monthFormatter = new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC", month: "long", year: "numeric" });
 
@@ -65,10 +66,15 @@ const eventsJson = JSON.stringify(events).replace(/</g, "\\u003c");
           const list = document.createElement("ul");
           matching.forEach((event) => {
             const item = document.createElement("li");
-            const link = document.createElement("a");
-            link.href = event.href;
-            link.textContent = event.title;
-            item.append(link); list.append(item);
+            if (event.href) {
+              const link = document.createElement("a");
+              link.href = event.href;
+              link.textContent = event.title;
+              item.append(link);
+            } else {
+              item.textContent = event.title;
+            }
+            list.append(item);
           });
           cell.append(list);
         }

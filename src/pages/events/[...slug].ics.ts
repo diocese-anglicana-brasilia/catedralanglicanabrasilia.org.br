@@ -2,10 +2,11 @@ import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import type { APIContext } from "astro";
 import { calendarIcs } from "../../utils/calendar";
 import { eventCalendar } from "../../utils/event-calendar";
+import { isCurrentOrUpcoming } from "../../utils/events";
 
 export async function getStaticPaths() {
   const events = await getCollection("events");
-  return events.map((event) => ({ params: { slug: event.id }, props: { event } }));
+  return events.filter(({ data }) => isCurrentOrUpcoming(data)).map((event) => ({ params: { slug: event.id }, props: { event } }));
 }
 
 export async function GET({ props, site }: APIContext) {
