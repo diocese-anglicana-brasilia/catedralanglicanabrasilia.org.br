@@ -192,7 +192,7 @@ collections:
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
       - { name: role, label: Cargo }
-      - { name: bio, label: Biografia, widget: richtext, required: false, editor_components: [image, code-block] }
+      - { name: bio, label: Biografia, widget: richtext, required: false, editor_components: [image, code-block, content-gallery] }
       - { name: photo, label: Foto, widget: image, required: false }
       - { name: email, label: Email, required: false }
       - { name: start_date, label: Data de início, widget: datetime, required: true, date_format: MM/YYYY, time_format: false }
