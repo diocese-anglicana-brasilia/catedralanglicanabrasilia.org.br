@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -10,7 +11,9 @@ test("gera página apenas para autor habilitado e lista suas notícias publicada
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-autores-"));
   try {
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const content = path.join(fixture, "src/content");
     writeFileSync(path.join(content, "authors/habilitado.md"), "---\nname: Autora Ativa\nbio: Texto da **biografia**.\nphoto: https://example.org/autora.jpg\nprofile_enabled: true\n---\n");
     writeFileSync(path.join(content, "authors/desabilitado.md"), "---\nname: Autor Desativado\nprofile_enabled: false\n---\n");

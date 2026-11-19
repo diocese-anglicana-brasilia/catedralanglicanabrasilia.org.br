@@ -14,7 +14,7 @@ test("carrega comentários apenas nas notícias, com configuração em portuguê
   await expect(page.getByRole("heading", { name: "Comentários" })).toBeVisible();
   await expect(page.locator("#remark42")).toHaveText("Comentários disponíveis");
   const config = await page.evaluate(() => (window as any).__remarkTestConfig);
-  expect(config).toMatchObject({ host: "https://comentarios.catedralanglicanabrasilia.org.br", site_id: "remark", locale: "bp", custom_properties: { "--font-family": '"Aller", sans-serif' } });
+  expect(config).toMatchObject({ host: "https://comentarios.catedralanglicanabrasilia.org.br", site_id: "catedral-brasilia", locale: "bp", custom_properties: { "--font-family": '"Aller Light", sans-serif' } });
   expect(config.url).toBe(new URL(href!, "http://127.0.0.1:4322").href.replace(/\/$/, ""));
   expect(loads).toBe(1);
   await page.goto("/pages/contact");

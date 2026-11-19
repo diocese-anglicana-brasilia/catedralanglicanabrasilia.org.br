@@ -22,15 +22,16 @@ test("apresenta os mesmos cards na página inicial e no arquivo de notícias", a
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#noticias");
   const home = page.locator("#noticias");
-  await expect(home.locator(".content-card")).toHaveCount(1);
-  await expect(home.getByText("Conteúdo fictício para testar o cadastro de notícias.")).toBeVisible();
-  await expect(home.locator("time")).toHaveText("01/01/2026");
+  const homeLinks = await home.locator(".content-card h3 a").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  expect(homeLinks.length).toBeGreaterThan(0);
+  expect(homeLinks.length).toBeLessThanOrEqual(3);
   await home.getByRole("link", { name: "Ver todas as notícias" }).click();
   await expect(page).toHaveURL(/\/news\/$/);
   await expect(page.getByRole("heading", { level: 1, name: "Notícias" })).toBeVisible();
-  await expect(page.locator(".content-card")).toHaveCount(1);
-  await page.locator(".content-card").getByRole("link", { name: "Notícia de exemplo" }).click();
-  await expect(page).toHaveURL(/\/news\/2026-01-01-noticia-exemplo\/?$/);
+  const listingLinks = await page.locator("main .content-card .content-card-title a").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  expect(listingLinks.slice(0, homeLinks.length)).toEqual(homeLinks);
+  await page.locator("main .content-card .content-card-title a").first().click();
+  await expect(page).toHaveURL(new RegExp(`${homeLinks[0]}/?$`));
 });
 
 test("mantém o tamanho e a proporção dos cards com imagens de formatos diferentes", async ({ page }) => {
@@ -67,22 +68,24 @@ test("mantém o tamanho e a proporção dos cards com imagens de formatos difere
 test("mostra a notícia publicada e permite abri-la a partir da página inicial", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/#noticias");
-  const link = page.locator("#noticias").getByRole("link", { name: "Notícia de exemplo" });
-  await expect(link).toHaveAttribute("href", "/news/2026-01-01-noticia-exemplo");
+  const link = page.locator("#noticias .content-card h3 a").first();
+  const title = await link.textContent();
+  const href = await link.getAttribute("href");
+  expect(href).toMatch(/^\/news\//);
   await link.click();
-  await expect(page.getByRole("heading", { level: 1, name: "Notícia de exemplo" })).toBeVisible();
-  await expect(page.getByText("Esta notícia é apenas um exemplo e não deve ser publicada.")).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: title!.trim() })).toBeVisible();
+  await expect(page.locator("main article")).toBeVisible();
 });
 
 test("gera páginas para conteúdos editoriais, eventos e locais", async ({ page }) => {
   for (const [url, title] of [
-    ["/pages/about", "Sobre e História"],
+    ["/pages/about", "Sobre nós"],
     ["/pages/contact", "Contato"],
-    ["/pages/dean", "Reverenda Deã"],
+    ["/pages/dean", "Reverendíssima Deã Tati Ribeiro"],
     ["/pages/donate", "Doar"],
     ["/pages/leadership", "Liderança"],
     ["/pages/reverends-gallery", "Galeria de reverendos"],
-    ["/events/evento-exemplo", "Evento de exemplo"],
+    ["/events/reconducao-da-rev-tati-como-dea-da-catedral", "Recondução da Rev. Tati como Deã da Catedral"],
     ["/locations/catedral-anglicana-da-ressurreicao", "Catedral Anglicana da Ressurreição"],
   ]) {
     const response = await page.goto(url, { waitUntil: "domcontentloaded" });

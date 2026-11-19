@@ -49,7 +49,7 @@ test("inicializa um segundo mapa com a região poligonal", async ({ page }) => {
     await route.fulfill({ response, body: html.replace("</body>", `${fixture}</body>`) });
   });
   await page.goto("/locations/");
-  await expect(page.getByRole("region", { name: "Mapa do endereço" })).toHaveClass(/leaflet-container/);
+  for (const map of await page.getByRole("region", { name: "Mapa do endereço" }).all()) await expect(map).toHaveClass(/leaflet-container/);
   const region = page.getByRole("region", { name: "Mapa da região" });
   await expect(region).toHaveClass(/leaflet-container/);
   await expect(region.locator(".leaflet-interactive")).toHaveCount(1);

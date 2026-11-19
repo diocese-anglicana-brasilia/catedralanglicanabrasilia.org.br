@@ -1,7 +1,8 @@
 import { test } from "node:test";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -11,7 +12,9 @@ test("constrói notícias com imagens remotas no Markdown sem buscar o CDN", () 
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) {
       cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
     }
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const source = path.join(fixture, "src/content/news/teste-imagem-remota.md");
     writeFileSync(source, '---\ntitle: Teste de imagem\ndate: 2026-11-13\nstatus: published\n---\n\n![Descrição de teste](https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/imagem-inexistente-teste.webp "Título de teste")\n');
     const result = spawnSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, encoding: "utf8", timeout: 60_000 });

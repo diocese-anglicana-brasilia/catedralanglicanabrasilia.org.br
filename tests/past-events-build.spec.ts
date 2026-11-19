@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -9,7 +10,9 @@ test("mantém histórico sem links quebrados e gera páginas somente para evento
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-eventos-passados-"));
   try {
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const events = path.join(fixture, "src/content/events");
     writeFileSync(path.join(events, "passado-teste.md"), "---\nname: Encontro antigo de teste\nstart_date: 2000-01-01T10:00:00-03:00\nend_date: 2000-01-01T12:00:00-03:00\n---\n");
     writeFileSync(path.join(events, "vigente-teste.md"), "---\nname: Encontro vigente de teste\nstart_date: 2000-01-01T10:00:00-03:00\nend_date: 2099-01-01T12:00:00-03:00\n---\n");

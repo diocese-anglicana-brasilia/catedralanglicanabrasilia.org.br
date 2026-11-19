@@ -42,6 +42,10 @@ auditoria automática de acessibilidade com axe-core.
 npm run test:e2e
 ```
 
+A suíte gera em `dist/` uma versão de teste com o envio real dos formulários
+desativado; as requisições dos testes de envio são simuladas. Depois dos testes,
+execute `npm run build` para gerar novamente a versão com a configuração normal.
+
 O conteúdo da página inicial está em `src/pages/index.astro`. Os elementos globais ficam em `src/components` e os estilos e comportamentos compartilhados em `src/styles` e `src/scripts`.
 
 O feed de notícias está disponível em `/rss.xml`. Ele inclui apenas notícias

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -16,7 +17,9 @@ test("interpreta horários sem fuso como Brasília e preserva fusos explícitos"
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-fuso-"));
   try {
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const events = path.join(fixture, "src/content/events");
     writeFileSync(path.join(events, "fuso-local.md"), "---\nname: Horário de Brasília\nstart_date: 2026-12-06T10:00:00\nend_date: 2026-12-06T12:30:00\n---\n");
     writeFileSync(path.join(events, "fuso-explicito.md"), "---\nname: Fuso explícito\nstart_date: 2026-12-06T13:00:00Z\nend_date: 2026-12-06T12:30:00-03:00\n---\n");

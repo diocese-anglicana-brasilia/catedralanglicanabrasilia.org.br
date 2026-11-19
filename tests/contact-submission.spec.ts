@@ -4,7 +4,7 @@ test.beforeEach(async ({ page }) => {
   await page.route("**/pages/contact", async (route) => {
     const response = await route.fetch();
     const html = await response.text();
-    await route.fulfill({ response, body: html.replace("data-contact-form", 'data-contact-form data-contact-endpoint="https://forms.example.test/contact"').replace(/(<button[^>]*type="submit"[^>]*) disabled/, "$1") });
+    await route.fulfill({ response, body: html.replace(/\sdata-contact-endpoint="[^"]*"/, "").replace("data-contact-form", 'data-contact-form data-contact-endpoint="https://forms.example.test/contact"').replace(/<div class="cf-turnstile"[^>]*><\/div>/, "").replace(/<script[^>]*challenges\.cloudflare\.com[^>]*><\/script>/, "").replace(/(<button[^>]*type="submit"[^>]*) disabled/, "$1") });
   });
 });
 

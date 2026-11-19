@@ -1,4 +1,5 @@
-import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -35,13 +36,15 @@ test("gera metadados dos conteúdos e listagens com segurança", { tag: "@deskto
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) {
       cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
     }
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const entries = [
-      ["news/2026-01-01-noticia-exemplo.md", "news/2026-01-01-noticia-exemplo"],
-      ["events/evento-exemplo.md", "events/evento-exemplo"],
+      ["news/2026-11-11-catedral-anglicana-da-ressurreicao-estreia-novo-site.md", "news/2026-11-11-catedral-anglicana-da-ressurreicao-estreia-novo-site"],
+      ["events/reconducao-da-rev-tati-como-dea-da-catedral.md", "events/reconducao-da-rev-tati-como-dea-da-catedral"],
       ["locations/catedral-anglicana-da-ressurreicao.md", "locations/catedral-anglicana-da-ressurreicao"],
       ["pages/about.md", "pages/about"],
-      ["board-members/caio-costa.md", "board-members/caio-costa"],
+      ["board-members/tati-ribeiro.md", "board-members/tati-ribeiro"],
       ["reverends/josias-conserva.md", "reverends/josias-conserva"],
       ["site-seo/news.md", "news"],
       ["site-seo/events.md", "events"],
@@ -51,7 +54,7 @@ test("gera metadados dos conteúdos e listagens com segurança", { tag: "@deskto
     ];
     for (const [source] of entries) {
       const file = path.join(fixture, "src/content", source);
-      const content = readFileSync(file, "utf8");
+      const content = readFileSync(file, "utf8").replace(/^seo_(?:description|keywords):.*\n/gm, "");
       writeFileSync(file, content.replace(/^---\s*\n/, `---\nseo_description: 'Descrição "especial" & segura'\nseo_keywords: "igreja, fé"\n`));
     }
     const program = path.join(fixture, "src/content/programs/programa-teste.md");

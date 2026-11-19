@@ -33,13 +33,13 @@ test("não inventa horário de encerramento e prepara o Google Agenda", () => {
 });
 
 test("oferece ações de calendário na página e um arquivo estático para download", async ({ page, request }) => {
-  await page.goto("/events/evento-exemplo");
+  await page.goto("/events/reconducao-da-rev-tati-como-dea-da-catedral");
   const download = page.getByRole("link", { name: /baixar arquivo icalendar/i });
-  await expect(download).toHaveAttribute("href", "/events/evento-exemplo.ics");
-  const response = await request.get("/events/evento-exemplo.ics");
+  await expect(download).toHaveAttribute("href", "/events/reconducao-da-rev-tati-como-dea-da-catedral.ics");
+  const response = await request.get("/events/reconducao-da-rev-tati-como-dea-da-catedral.ics");
   expect(response.status()).toBe(200);
   const ics = (await response.text()).replace(/\r\n /g, "");
-  expect(ics).toContain("SUMMARY:Evento de exemplo");
-  expect(ics).toContain("DTSTART:20260101T120000Z");
+  expect(ics).toContain("SUMMARY:Recondução da Rev. Tati como Deã da Catedral");
+  expect(ics).toContain("DTSTART:20261206T130000Z");
   await expect(page.getByRole("link", { name: /google agenda/i })).toHaveAttribute("href", /^https:\/\/calendar\.google\.com\/calendar\/render\?/);
 });

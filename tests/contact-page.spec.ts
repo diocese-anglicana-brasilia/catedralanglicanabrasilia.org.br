@@ -12,7 +12,7 @@ test("mantém o formulário somente na página de contato", async ({ page }) => 
   const form = page.locator("[data-contact-form]");
   await expect(form).toBeVisible();
   await expect(form.getByRole("status")).toContainText("temporariamente indisponível");
-  for (const label of ["Nome", "E-mail", "Assunto", "Mensagem"]) await expect(form.getByLabel(label, { exact: true })).toBeVisible();
+  for (const label of ["Nome", "E-mail", "Assunto", "Mensagem"]) await expect(form.getByLabel(label)).toBeVisible();
   await expect(form.getByRole("button", { name: "Enviar mensagem" })).toBeDisabled();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

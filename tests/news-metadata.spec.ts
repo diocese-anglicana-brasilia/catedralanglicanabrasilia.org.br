@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -9,8 +10,13 @@ test("exibe horário de Brasília e autor com foto ou imagem padrão", { tag: "@
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-noticia-"));
   try {
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const content = path.join(fixture, "src/content");
+    const news = path.join(content, "news");
+    rmSync(news, { recursive: true });
+    mkdirSync(news);
     writeFileSync(path.join(content, "authors/com-foto.md"), "---\nname: Autora Exemplo\nphoto: https://example.org/autora.webp\n---\n");
     writeFileSync(path.join(content, "authors/sem-foto.md"), "---\nname: Autor Sem Foto\n---\n");
     writeFileSync(path.join(content, "news/com-foto.md"), "---\ntitle: Notícia Com Foto\ndate: 2026-12-06T10:23:45\nauthor: com-foto\nstatus: published\n---\nTexto\n");

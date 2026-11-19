@@ -2,12 +2,13 @@
 interface Props {
   id: string;
   label: string;
+  required?: boolean;
 }
 
-const { id, label } = Astro.props;
+const { id, label, required = false } = Astro.props;
 ---
 
 <div>
-  <label class="block text-sm font-semibold mb-1" for={id}>{label}</label>
+  <label class="block text-sm font-semibold mb-1" for={id}>{label}{required && <span aria-hidden="true"> (obrigatório)</span>}</label>
   <slot />
 </div>

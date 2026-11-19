@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { linkFixtureDependencies } from "./fixture-dependencies.mjs";
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -42,7 +43,9 @@ test("renderiza galerias em textos de notícias e atividades, entre imagens e pa
   const fixture = mkdtempSync(path.join(tmpdir(), "catedral-galeria-"));
   try {
     for (const name of ["src", "public", "package.json", "astro.config.mjs", "tsconfig.json"]) cpSync(path.resolve(name), path.join(fixture, name), { recursive: true });
-    symlinkSync(path.resolve("node_modules"), path.join(fixture, "node_modules"), "dir");
+    linkFixtureDependencies(fixture);
+    const astroConfig = path.join(fixture, "astro.config.mjs");
+    writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
     const gallery = '<figure data-content-gallery="true"><div><img src="https://example.org/1.jpg" alt="Pessoas reunidas"><img src="https://example.org/2.jpg" alt="Altar"></div><figcaption>Celebração</figcaption></figure>';
     const body = `Antes.\n\n![Imagem única](https://example.org/unica.jpg)\n\n${gallery}\n\nDepois.`;
     writeFileSync(path.join(fixture, "src/content/news/galeria-teste.md"), `---\ntitle: Galeria teste\ndate: 2026-11-01\nstatus: published\n---\n${body}\n`);

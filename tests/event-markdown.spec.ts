@@ -14,8 +14,8 @@ test("renderiza a formatação da descrição sem aceitar HTML ou links perigoso
 test("renderiza a descrição em Markdown do evento como parágrafos e links", async ({ page }) => {
   await page.goto("/events/reconducao-da-rev-tati-como-dea-da-catedral");
   const article = page.locator("main article");
-  await expect(article.getByRole("link", { name: "Reverenda Tati Ribeiro" })).toHaveAttribute("href", "/pages/dean");
+  await expect(article.getByRole("link", { name: "Reverendíssima Tati Ribeiro" })).toHaveAttribute("href", "/pages/dean");
   await expect(article.getByRole("link", { name: "Junta Paroquial" })).toHaveAttribute("href", "/pages/leadership");
-  await expect(article.locator("[data-event-description] p")).toHaveCount(2);
-  await expect(article).not.toContainText("[Reverenda Tati Ribeiro](/pages/dean)");
+  await expect(article.locator("[data-event-description] p").filter({ hasText: "Uma grande festa" })).toBeVisible();
+  await expect(article).not.toContainText("[Reverendíssima Tati Ribeiro](/pages/dean)");
 });

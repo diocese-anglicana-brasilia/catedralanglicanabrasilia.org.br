@@ -27,7 +27,7 @@ test("gera os arquivos públicos de rastreamento", async () => {
     readFile(path.join(distDirectory, "sitemap-0.xml"), "utf8"),
   ]);
 
-  expect(robots).toContain("Sitemap: https://catedralanglicanabrasilia.org.br/sitemap.xml");
+  expect(robots).toContain("Sitemap: https://catedralanglicanabrasilia.org.br/sitemap-index.xml");
   expect(sitemap).toContain("https://catedralanglicanabrasilia.org.br/");
 });
 

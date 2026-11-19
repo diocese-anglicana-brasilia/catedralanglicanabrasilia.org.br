@@ -1,9 +1,13 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("abre a pesquisa global no cabeçalho e encontra notícias e eventos", async ({ page }) => {
+test("abre a pesquisa global no cabeçalho e encontra notícias e eventos", async ({ page, context }) => {
   const requests: string[] = [];
-  page.on("request", (request) => { if (request.url().includes("/search-index/")) requests.push(request.url()); });
+  await context.route("**/search-index/*.json", (route) => {
+    const url = route.request().url(); requests.push(url);
+    const news = url.includes("news.json");
+    return route.fulfill({ json: [{ title: news ? "Notícia de exemplo" : "Evento de exemplo", href: news ? "/news/exemplo" : "/events/exemplo", searchText: "exemplo" }] });
+  });
   await page.goto("/");
   const open = page.getByRole("button", { name: "Abrir pesquisa" });
   await expect(open).toBeVisible();
@@ -34,9 +38,13 @@ test("mantém a janela de pesquisa acessível e sem rolagem horizontal", async (
   await expect(dialog.getByRole("button", { name: "Fechar pesquisa" })).toBeFocused();
 });
 
-test("pesquisa o texto completo das notícias publicadas, ignorando acentos", async ({ page }) => {
+test("pesquisa o texto completo das notícias publicadas, ignorando acentos", async ({ page, context }) => {
   let requests = 0;
-  page.on("request", (request) => { if (request.url().endsWith("/search-index/news.json")) requests++; });
+  await context.route("**/search-index/*.json", (route) => {
+    const news = route.request().url().includes("news.json");
+    if (news) requests++;
+    return route.fulfill({ json: news ? [{ title: "Notícia de exemplo", href: "/news/exemplo", searchText: "não deve ser publicada" }] : [] });
+  });
   await page.goto("/news/");
   expect(requests).toBe(0);
   await page.getByRole("button", { name: "Abrir pesquisa" }).click();
@@ -48,10 +56,11 @@ test("pesquisa o texto completo das notícias publicadas, ignorando acentos", as
   await expect(page.getByText("Nenhum resultado encontrado.")).toBeVisible();
   await dialog.getByRole("searchbox", { name: "Pesquisar notícias e eventos" }).clear();
   await dialog.getByRole("button", { name: "Fechar pesquisa" }).click();
-  await expect(page.locator(".content-card").getByRole("link", { name: "Notícia de exemplo" })).toBeVisible();
+  await expect(page.locator("main .content-card").first()).toBeVisible();
 });
 
-test("pesquisa o conteúdo completo de eventos", async ({ page }) => {
+test("pesquisa o conteúdo completo de eventos", async ({ page, context }) => {
+  await context.route("**/search-index/*.json", (route) => route.fulfill({ json: route.request().url().includes("events.json") ? [{ title: "Evento de exemplo", href: "/events/exemplo", searchText: "programação real" }] : [] }));
   await page.goto("/events/");
   await page.getByRole("button", { name: "Abrir pesquisa" }).click();
   const dialog = page.getByRole("dialog", { name: "Pesquisar no site" });
@@ -60,8 +69,9 @@ test("pesquisa o conteúdo completo de eventos", async ({ page }) => {
   await expect(dialog.getByRole("status")).toContainText("1 resultado");
 });
 
-test("paginação da pesquisa limita resultados a nove", async ({ page }) => {
-  await page.route("**/search-index/news.json", (route) => route.fulfill({ json: Array.from({ length: 11 }, (_, index) => ({
+test("paginação da pesquisa limita resultados a nove", async ({ page, context }) => {
+  await context.route("**/search-index/events.json", (route) => route.fulfill({ json: [] }));
+  await context.route("**/search-index/news.json", (route) => route.fulfill({ json: Array.from({ length: 11 }, (_, index) => ({
     title: `Resultado ${index + 1}`, href: `/news/${index + 1}`, searchText: "palavra", date: "2026-01-01T12:00:00.000Z",
   })) }));
   await page.goto("/news/");
@@ -72,14 +82,14 @@ test("paginação da pesquisa limita resultados a nove", async ({ page }) => {
   await expect(page.locator("[data-search-results] .content-card")).toHaveCount(2);
 });
 
-test("exibe erro recuperável se o índice não puder ser carregado", async ({ page }) => {
-  await page.route("**/search-index/news.json", (route) => route.abort());
+test("exibe erro recuperável se o índice não puder ser carregado", async ({ page, context }) => {
+  await context.route("**/search-index/news.json", (route) => route.abort());
   await page.goto("/news/");
   await page.getByRole("button", { name: "Abrir pesquisa" }).click();
   await page.getByRole("searchbox", { name: "Pesquisar notícias e eventos" }).fill("teste");
   await expect(page.getByRole("status")).toContainText("Não foi possível carregar a pesquisa");
   await page.getByRole("button", { name: "Fechar pesquisa" }).click();
-  await expect(page.locator(".content-card").getByRole("link", { name: "Notícia de exemplo" })).toBeVisible();
+  await expect(page.locator("main .content-card").first()).toBeVisible();
 });
 
 test("mantém a listagem disponível sem JavaScript", async ({ browser }) => {
@@ -87,6 +97,6 @@ test("mantém a listagem disponível sem JavaScript", async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("/news/");
   await expect(page.getByRole("button", { name: "Abrir pesquisa" })).toHaveCount(0);
-  await expect(page.locator(".content-card").getByRole("link", { name: "Notícia de exemplo" })).toBeVisible();
+  await expect(page.locator("main .content-card").first()).toBeVisible();
   await context.close();
 });

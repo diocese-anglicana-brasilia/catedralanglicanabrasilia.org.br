@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("recebe pedido de oração anônimo e informa falhas sem perder o texto", async ({ page }) => {
   await page.route("**/pages/prayer", async (route) => {
     const response = await route.fetch(); const html = await response.text();
-    await route.fulfill({ response, body: html.replace("data-prayer-form", 'data-prayer-form data-prayer-endpoint="https://forms.example.test/prayer"').replace(/(<button[^>]*type="submit"[^>]*) disabled/, "$1") });
+    await route.fulfill({ response, body: html.replace(/\sdata-prayer-endpoint="[^"]*"/, "").replace("data-prayer-form", 'data-prayer-form data-prayer-endpoint="https://forms.example.test/prayer"').replace(/<div class="cf-turnstile"[^>]*><\/div>/, "").replace(/<script[^>]*challenges\.cloudflare\.com[^>]*><\/script>/, "").replace(/(<button[^>]*type="submit"[^>]*) disabled/, "$1") });
   });
   let payload: any; let success = false;
   await page.route("https://forms.example.test/prayer", async (route) => { payload = route.request().postDataJSON(); await route.fulfill({ status: success ? 201 : 503, contentType: "application/json", body: success ? '{"ok":true}' : '{"ok":false}' }); });

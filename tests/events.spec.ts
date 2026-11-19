@@ -33,40 +33,49 @@ test("considera encerramento e horário de Brasília ao identificar eventos vige
 
 test("mostra o período no card e os horários no detalhamento", async ({ page }) => {
   await page.goto("/");
-  const visibleAtBuild = isCurrentOrUpcoming({
-    start_date: new Date("2026-01-01T12:00:00Z"),
-    end_date: new Date("2026-12-31T12:00:00Z"),
-  });
-  await expect(page.locator("#eventos .content-card").getByRole("link", { name: "Evento de exemplo" })).toHaveCount(visibleAtBuild ? 1 : 0);
   await page.goto("/events/");
   await expect(page.getByRole("heading", { level: 1, name: "Eventos" })).toBeVisible();
-  const card = page.locator(".content-card").filter({ has: page.getByRole("link", { name: "Evento de exemplo" }) });
+  const card = page.locator(".content-card").filter({ has: page.getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" }) });
   await expect(card.locator("time")).toHaveCount(2);
-  await expect(card.locator("time").nth(0)).toHaveText("01/01/2026");
-  await expect(card.locator("time").nth(1)).toHaveText("31/12/2026");
-  await card.getByRole("link", { name: "Evento de exemplo" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Evento de exemplo" })).toBeVisible();
+  await expect(card.locator("time").nth(0)).toHaveText("06/12/2026");
+  await expect(card.locator("time").nth(1)).toHaveText("06/12/2026");
+  await card.getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Recondução da Rev. Tati como Deã da Catedral" })).toBeVisible();
   const dates = page.locator("main time");
   await expect(dates).toHaveCount(2);
-  await expect(dates.nth(0)).toHaveText(/01\/01\/2026.*09:00/);
-  await expect(dates.nth(1)).toHaveText(/31\/12\/2026.*09:00/);
+  await expect(dates.nth(0)).toHaveText(/06\/12\/2026.*10:00/);
+  await expect(dates.nth(1)).toHaveText(/06\/12\/2026.*12:30/);
   await expect(page.getByText("(horário de Brasília)")).toBeVisible();
 });
 
-test("apresenta calendário mensal navegável com eventos em todos os dias do período", async ({ page }) => {
+test("apresenta calendário mensal navegável com eventos na data correspondente", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-12-15T15:00:00Z"));
+  await page.goto("/events/");
+  const calendar = page.getByRole("region", { name: "Calendário de eventos" });
+  await expect(calendar.getByRole("heading", { name: /dezembro de 2026/i })).toBeVisible();
+  const day = calendar.locator('[data-date="2026-12-06"]');
+  await expect(day.getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" })).toHaveAttribute("href", "/events/reconducao-da-rev-tati-como-dea-da-catedral");
+  await expect(calendar.locator('[data-date="2026-12-07"]').getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" })).toHaveCount(0);
+  await calendar.getByRole("button", { name: "Próximo mês" }).click();
+  await expect(calendar.getByRole("heading", { name: /janeiro de 2027/i })).toBeVisible();
+  await calendar.getByRole("button", { name: "Mês anterior" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(calendar.getByRole("heading", { name: /dezembro de 2026/i })).toBeVisible();
+});
+
+test("apresenta eventos de vários dias em cada data do período", async ({ page }) => {
+  await page.route("**/events/", async (route) => {
+    const response = await route.fetch();
+    const html = await response.text();
+    const events = [{ title: "Evento de vários dias", href: "/events/teste", start: "2026-02-01T12:00:00Z", end: "2026-02-28T12:00:00Z" }];
+    await route.fulfill({ response, body: html.replace(/(<script type="application\/json" data-events>)[\s\S]*?(<\/script>)/, `$1${JSON.stringify(events)}$2`) });
+  });
   await page.clock.setFixedTime(new Date("2026-02-15T15:00:00Z"));
   await page.goto("/events/");
   const calendar = page.getByRole("region", { name: "Calendário de eventos" });
-  await expect(calendar.getByRole("heading", { name: /fevereiro de 2026/i })).toBeVisible();
-  const firstDay = calendar.locator('[data-date="2026-02-01"]');
-  await expect(firstDay.getByRole("link", { name: "Evento de exemplo" })).toHaveAttribute("href", "/events/evento-exemplo");
-  await expect(calendar.locator('[data-date="2026-02-28"]').getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
-  await calendar.getByRole("button", { name: "Próximo mês" }).click();
-  await expect(calendar.getByRole("heading", { name: /março de 2026/i })).toBeVisible();
-  await calendar.getByRole("button", { name: "Mês anterior" }).focus();
-  await page.keyboard.press("Enter");
-  await expect(calendar.getByRole("heading", { name: /fevereiro de 2026/i })).toBeVisible();
-  await expect(page.locator(".content-card").filter({ hasText: "Evento de exemplo" })).toBeVisible();
+  for (const day of ["01", "15", "28"]) {
+    await expect(calendar.locator(`[data-date="2026-02-${day}"]`).getByRole("link", { name: "Evento de vários dias" })).toHaveAttribute("href", "/events/teste");
+  }
 });
 
 test("respeita o mês de Brasília e navega entre anos", async ({ page }) => {
@@ -74,17 +83,17 @@ test("respeita o mês de Brasília e navega entre anos", async ({ page }) => {
   await page.goto("/events/");
   const calendar = page.getByRole("region", { name: "Calendário de eventos" });
   await expect(calendar.getByRole("heading", { name: /dezembro de 2026/i })).toBeVisible();
-  await expect(calendar.locator('[data-date="2026-12-31"]').getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  await expect(calendar.locator('[data-date="2026-12-06"]').getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" })).toBeVisible();
   await calendar.getByRole("button", { name: "Próximo mês" }).click();
   await expect(calendar.getByRole("heading", { name: /janeiro de 2027/i })).toBeVisible();
-  await expect(calendar.getByRole("link", { name: "Evento de exemplo" })).toHaveCount(0);
+  await expect(calendar.getByRole("link", { name: "Recondução da Rev. Tati como Deã da Catedral" })).toHaveCount(0);
 });
 
 test("preserva a lista de eventos quando o JavaScript está desativado", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("/events/");
-  await expect(page.locator(".content-card").getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  await expect(page.locator("main .content-card").first()).toBeVisible();
   await expect(page.getByRole("region", { name: "Calendário de eventos" })).toHaveCount(0);
   await context.close();
 });
