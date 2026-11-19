@@ -1,8 +1,8 @@
 ---
 order: 7
-name: Elias Mayer Vergara
+name: Elias Vergara
 role: Reverendo Deão
-bio: |
+bio: |-
   Elias Mayer Vergara serviu como deão da Catedral da Ressurreição e participou de atividades de formação e reflexão teológica na Igreja Episcopal Anglicana do Brasil.
 
   Sua produção inclui pesquisas sobre religião e interpretação bíblica. Em 2005, a revista *Inclusividade* apresentou um resumo de sua dissertação de mestrado em Ciências da Religião, dedicada à leitura de Gênesis 3.
