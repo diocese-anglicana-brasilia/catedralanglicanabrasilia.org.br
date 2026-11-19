@@ -10,6 +10,8 @@ description: |-
 
   Uma grande festa para celebrar a vida e o ministério pastoral da [Reverendíssima Tati Ribeiro](/pages/dean), que está sendo reconduzida para mais um mandato como Reitora e Deã da Catedral Anglicana da Ressurreição.
 
+  ![Convite para a celebração de ação de graças e renovação do ministério da reverenda Tati Ribeiro como reitora e deã da Catedral, em 6 de dezembro, às 10h. Na parte inferior, uma ilustração da Catedral Anglicana de Brasília. Os detalhes e contatos para o almoço estão no texto da página.](https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-ea0920ca4863.webp)
+
   A celebração de ação de graças e renovação do ministério acontece no segundo domingo do Advento e contará com a presença da [Junta Paroquial](/pages/leadership) e do Bispo Diocesano, Maurício Andrade, no 24º ano de sua sagração.
 
   ## Almoço de confraternização
