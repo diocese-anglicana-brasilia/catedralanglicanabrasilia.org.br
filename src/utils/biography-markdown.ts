@@ -2,8 +2,8 @@ import { renderMarkdown } from "./event-markdown";
 
 // Aceita apenas o formato produzido pelo editor de galerias; os demais HTMLs
 // continuam escapados pelo renderizador Markdown.
-const galleryPattern = /<figure data-content-gallery="true"><div>((?:<img src="[^"<>]*" alt="[^"<>]*" loading="lazy">)*)<\/div>(?:<figcaption>[^<>]*<\/figcaption>)?<\/figure>/g;
-const imagePattern = /<img src="([^"<>]*)" alt="[^"<>]*" loading="lazy">/g;
+const galleryPattern = /<figure data-content-gallery="true"><div>((?:<img src="[^"<>]*" alt="[^"<>]*" loading="lazy"(?: data-caption="[^"<>]*")?>)*)<\/div>(?:<figcaption>[^<>]*<\/figcaption>)?<\/figure>/g;
+const imagePattern = /<img src="([^"<>]*)" alt="[^"<>]*" loading="lazy"(?: data-caption="[^"<>]*")?>/g;
 
 export function renderBiographyMarkdown(source: string): string {
   let result = "";

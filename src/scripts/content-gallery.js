@@ -35,7 +35,10 @@ document.querySelectorAll("[data-content-gallery]").forEach((gallery) => {
   const status = document.createElement("span");
   status.className = "sr-only";
   status.setAttribute("role", "status");
-  stage.after(indicators, status);
+  const caption = document.createElement("p");
+  caption.className = "gallery-photo-caption";
+  caption.setAttribute("data-gallery-caption", "");
+  stage.after(caption, indicators, status);
 
   const dialog = document.createElement("dialog");
   dialog.className = "gallery-dialog";
@@ -50,7 +53,10 @@ document.querySelectorAll("[data-content-gallery]").forEach((gallery) => {
   const dialogStatus = document.createElement("p");
   dialogStatus.className = "gallery-dialog-status";
   dialogStatus.setAttribute("role", "status");
-  dialog.append(close, dialogViewport, dialogPrevious, dialogNext, dialogStatus);
+  const dialogCaption = document.createElement("p");
+  dialogCaption.className = "gallery-photo-caption gallery-dialog-caption";
+  dialogCaption.setAttribute("data-gallery-caption", "");
+  dialog.append(close, dialogViewport, dialogCaption, dialogPrevious, dialogNext, dialogStatus);
   document.body.append(dialog);
 
   function show(position) {
@@ -65,6 +71,8 @@ document.querySelectorAll("[data-content-gallery]").forEach((gallery) => {
     status.textContent = dialogStatus.textContent = `Foto ${index + 1} de ${images.length}`;
     enlarged.src = images[index].currentSrc || images[index].src;
     enlarged.alt = images[index].alt;
+    const text = images[index].getAttribute("data-caption")?.trim() || "";
+    for (const target of [caption, dialogCaption]) { target.textContent = text; target.hidden = !text; }
   }
   previous.addEventListener("click", () => show(index - 1));
   next.addEventListener("click", () => show(index + 1));

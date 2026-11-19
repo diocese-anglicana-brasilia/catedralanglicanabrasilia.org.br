@@ -6,6 +6,55 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { parse } from "yaml";
 import AxeBuilder from "@axe-core/playwright";
+import { renderBiographyMarkdown } from "../src/utils/biography-markdown";
+
+test("preserva legendas opcionais de fotos no editor e nas biografias", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.evaluate((source) => {
+    let component: any;
+    (window as any).CMS = { registerEditorComponent: (definition: any) => { component = definition; } };
+    new Function(source)();
+    const data = { title: "Galeria", images: [{ src: "/foto.jpg", alt: "Altar", caption: 'Foto "histórica" & especial' }, { src: "/outra.jpg", alt: "Pessoas" }] };
+    const block = component.toBlock(data);
+    return { block, parsed: component.fromBlock(component.pattern.exec(block)), fields: component.fields };
+  }, readFileSync("public/admin/gallery-editor.js", "utf8"));
+  expect(result.block).toContain('data-caption="Foto &quot;histórica&quot; &amp; especial"');
+  expect(result.parsed.images).toEqual([{ src: "/foto.jpg", alt: "Altar", caption: 'Foto "histórica" & especial' }, { src: "/outra.jpg", alt: "Pessoas" }]);
+  expect(result.fields.find((field: any) => field.name === "images").fields.find((field: any) => field.name === "caption").required).toBe(false);
+  expect(renderBiographyMarkdown(result.block)).toContain(result.block);
+  expect(renderBiographyMarkdown('<figure data-content-gallery="true"><div><img src="javascript:alert(1)" alt="x" loading="lazy" data-caption="teste"></div></figure>')).not.toContain('<img src="javascript:');
+});
+
+test("mostra a legenda da foto atual dentro e fora da ampliação", async ({ page }) => {
+  await page.route("**/pages/history", async (route) => {
+    const response = await route.fetch();
+    let html = await response.text();
+    html = html.replace('alt="Pequena capela de madeira com uma cruz na fachada, em terreno aberto."', '$& data-caption="Legenda da capela"');
+    html = html.replace('alt="Grupo de crianças e adultos reunido diante de uma construção de madeira."', '$& data-caption="Legenda da comunidade"');
+    await route.fulfill({ response, body: html });
+  });
+  await page.goto("/pages/history");
+  const gallery = page.locator('[data-content-gallery="true"]').first();
+  const caption = gallery.locator("[data-gallery-caption]");
+  await expect(caption).toHaveText("Legenda da capela");
+  await gallery.getByRole("button", { name: "Próxima foto" }).click();
+  await expect(caption).toHaveText("Legenda da comunidade");
+  await gallery.getByRole("button", { name: /ampliar foto/i }).click();
+  const dialog = page.getByRole("dialog", { name: "Foto ampliada" });
+  await expect(dialog.locator("[data-gallery-caption]")).toHaveText("Legenda da comunidade");
+  await dialog.getByRole("button", { name: "Próxima foto" }).click();
+  await expect(dialog.locator("[data-gallery-caption]")).toBeHidden();
+  await dialog.getByRole("button", { name: "Foto anterior" }).click();
+  await expect(dialog.locator("[data-gallery-caption]")).toHaveText("Legenda da comunidade");
+  await page.keyboard.press("Escape");
+  await expect(caption).toHaveText("Legenda da comunidade");
+});
+
+test("a página com galerias não ultrapassa a largura visível", async ({ page }) => {
+  await page.goto("/pages/history");
+  const dimensions = await page.evaluate(() => ({ content: document.documentElement.scrollWidth, viewport: window.visualViewport!.width }));
+  expect(dimensions.content).toBeLessThanOrEqual(Math.ceil(dimensions.viewport));
+});
 
 test("navega pela galeria, amplia a imagem e respeita os limites", async ({ page }) => {
   await page.goto("/pages/history");
@@ -153,7 +202,7 @@ test("renderiza galerias em textos de notícias e atividades, entre imagens e pa
     linkFixtureDependencies(fixture);
     const astroConfig = path.join(fixture, "astro.config.mjs");
     writeFileSync(astroConfig, readFileSync(astroConfig, "utf8").replace("vite: { plugins:", 'vite: { cacheDir: "./.vite-cache", plugins:'));
-    const gallery = '<figure data-content-gallery="true"><div><img src="https://example.org/1.jpg" alt="Pessoas reunidas"><img src="https://example.org/2.jpg" alt="Altar"></div><figcaption>Celebração</figcaption></figure>';
+    const gallery = '<figure data-content-gallery="true"><div><img src="https://example.org/1.jpg" alt="Pessoas reunidas" data-caption="Primeira legenda"><img src="https://example.org/2.jpg" alt="Altar"></div><figcaption>Celebração</figcaption></figure>';
     const body = `Antes.\n\n![Imagem única](https://example.org/unica.jpg)\n\n${gallery}\n\nDepois.`;
     writeFileSync(path.join(fixture, "src/content/news/galeria-teste.md"), `---\ntitle: Galeria teste\ndate: 2026-11-01\nstatus: published\n---\n${body}\n`);
     writeFileSync(path.join(fixture, "src/content/programs/galeria-teste.md"), `---\nname: Atividade teste\ndescription: Descrição\nimages:\n  - https://example.org/destaque.jpg\n---\n${body}\n`);
@@ -162,6 +211,7 @@ test("renderiza galerias em textos de notícias e atividades, entre imagens e pa
       const html = readFileSync(path.join(fixture, `dist/${route}/index.html`), "utf8");
       expect(html).toContain('data-content-gallery="true"');
       expect(html).toContain('alt="Pessoas reunidas"');
+      expect(html).toContain('data-caption="Primeira legenda"');
       expect(html).toContain('alt="Imagem única"');
       expect(html.indexOf("Antes.")).toBeLessThan(html.indexOf("data-content-gallery"));
       expect(html.indexOf("data-content-gallery")).toBeLessThan(html.indexOf("Depois."));
