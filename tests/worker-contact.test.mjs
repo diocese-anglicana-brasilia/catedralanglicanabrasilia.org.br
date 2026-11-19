@@ -4,9 +4,10 @@ import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import worker from "../worker/src/index.mjs";
 
-function database() {
+function database(migrated = true) {
   const sqlite = new DatabaseSync(":memory:");
   sqlite.exec(readFileSync("worker/migrations/0001.sql", "utf8"));
+  if (migrated) sqlite.exec(readFileSync("worker/migrations/0002.sql", "utf8"));
   return {
     sqlite,
     async batch(statements) {
@@ -61,6 +62,44 @@ test("recusa origem não autorizada, dados inválidos e proteção antispam inv�
   try { assert.equal((await worker.fetch(request(sample), env, { waitUntil() {} })).status, 403); }
   finally { globalThis.fetch = previousFetch; }
   assert.equal(db.sqlite.prepare("SELECT count(*) AS n FROM contact_messages").get().n, 0);
+});
+
+test("migração preserva mensagens existentes e acrescenta telefone", () => {
+  const db = database(false);
+  db.sqlite.prepare("INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)").run("existente", "Pessoa", "pessoa@example.org", "Assunto", "Mensagem", "2026-01-01");
+  db.sqlite.exec(readFileSync("worker/migrations/0002.sql", "utf8"));
+  const row = db.sqlite.prepare("SELECT email, phone FROM contact_messages WHERE id = ?").get("existente");
+  assert.equal(row.email, "pessoa@example.org");
+  assert.equal(row.phone, null);
+});
+
+test("aceita email ou telefone, rejeita ambos vazios e inclui telefone na notificação", async () => {
+  const db = database();
+  const env = envFor(db); const jobs = []; const sent = [];
+  const previousFetch = globalThis.fetch;
+  globalThis.fetch = async (url, options) => String(url).includes("siteverify") ? Response.json({ success: true, hostname: "example.org" }) : (sent.push(JSON.parse(options.body)), Response.json({ messageId: "ok" }, { status: 201 }));
+  try {
+    assert.equal((await worker.fetch(request({ ...sample, email: "", telefone: "" }), env, { waitUntil() {} })).status, 400);
+    assert.equal((await worker.fetch(request({ ...sample, email: "", telefone: "(61) 98191-3204" }), env, { waitUntil(p) { jobs.push(p); } })).status, 201);
+    await Promise.all(jobs);
+    const saved = db.sqlite.prepare("SELECT email, phone FROM contact_messages").get();
+    assert.equal(saved.email, ""); assert.equal(saved.phone, "(61) 98191-3204");
+    assert.match(sent[0].textContent, /\(61\) 98191-3204/);
+    assert.equal((await worker.fetch(request({ ...sample, telefone: "" }), env, { waitUntil(p) { jobs.push(p); } })).status, 201);
+    assert.equal((await worker.fetch(request({ ...sample, email: "inválido", telefone: "(61) 98191-3204" }), env, { waitUntil() {} })).status, 400);
+  } finally { await Promise.all(jobs); globalThis.fetch = previousFetch; }
+});
+
+test("aceita telefone quando o campo email é omitido da requisição", async () => {
+  const db = database(); const env = envFor(db); const jobs = [];
+  const previousFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => String(url).includes("siteverify") ? Response.json({ success: true, hostname: "example.org" }) : Response.json({ messageId: "ok" }, { status: 201 });
+  try {
+    const { email, ...withoutEmail } = sample;
+    assert.equal((await worker.fetch(request({ ...withoutEmail, telefone: "(61) 98191-3204" }), env, { waitUntil(p) { jobs.push(p); } })).status, 201);
+    await Promise.all(jobs);
+    assert.equal(db.sqlite.prepare("SELECT email FROM contact_messages").get().email, "");
+  } finally { await Promise.all(jobs); globalThis.fetch = previousFetch; }
 });
 
 test("rejeita corpo grande sem consumir o fluxo inteiro", async () => {

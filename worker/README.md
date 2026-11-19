@@ -26,7 +26,7 @@ Estes comandos são executados na raiz do projeto. Eles criam recursos reais na 
    npx --yes wrangler d1 migrations apply catedral-formularios --remote --config worker/wrangler.production.toml
    ```
 
-   Confira o nome e o identificador exibidos pelo Wrangler antes de confirmar: `--remote` modifica o banco real. Em atualizações futuras, use novamente o comando para aplicar apenas as migrações pendentes; faça backup antes de alterações em produção.
+   Confira o nome e o identificador exibidos pelo Wrangler antes de confirmar: `--remote` modifica o banco real. Em atualizações futuras, use novamente o comando para aplicar apenas as migrações pendentes; faça backup antes de alterações em produção. A migração `0002.sql` acrescenta o telefone aos contatos e preserva as mensagens existentes. Aplique-a **antes** de publicar o Worker atualizado e, depois, publique o site atualizado. O Worker anterior continua funcionando com a nova coluna; o novo Worker precisa dela para processar contatos e notificações.
 
 5. **Configure o Turnstile e o Brevo.** No painel Cloudflare, em Turnstile, crie um widget para os domínios nos quais o formulário será usado e anote sua chave pública e sua chave secreta. No Brevo, obtenha uma chave de API e confirme um remetente autorizado. O destinatário será o endereço que recebe os avisos de contato. Não compartilhe chaves secretas em conversas, capturas de tela, issues ou no Git.
 

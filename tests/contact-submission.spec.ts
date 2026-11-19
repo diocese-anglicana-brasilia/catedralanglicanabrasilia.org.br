@@ -52,3 +52,40 @@ test("não envia o formulário sem a verificação antispam", async ({ page }) =
   await expect(form.getByRole("status")).toContainText("verificação de segurança");
   expect(requests).toBe(0);
 });
+
+test("exige pelo menos um meio de contato e alterna a obrigatoriedade", async ({ page }) => {
+  await page.goto("/pages/contact");
+  const email = page.getByLabel("E-mail");
+  const phone = page.getByLabel("Telefone/WhatsApp");
+  await expect(email).toHaveAttribute("required", "");
+  await expect(phone).toHaveAttribute("required", "");
+  await phone.fill("(61) 98191-3204");
+  await expect(email).not.toHaveAttribute("required");
+  await email.fill("pessoa@example.org");
+  await expect(phone).not.toHaveAttribute("required");
+  await phone.clear();
+  await expect(email).toHaveAttribute("required", "");
+  await email.clear();
+  await expect(phone).toHaveAttribute("required", "");
+  await phone.fill("(61) 98191-3204");
+  await page.locator("[data-contact-form]").evaluate((form: HTMLFormElement) => form.reset());
+  await expect(email).toHaveAttribute("required", "");
+  await expect(phone).toHaveAttribute("required", "");
+});
+
+test("envia contato apenas com telefone", async ({ page }) => {
+  let payload: any;
+  await page.route("https://forms.example.test/contact", async (route) => {
+    payload = route.request().postDataJSON();
+    await route.fulfill({ status: 201, contentType: "application/json", body: '{"ok":true}' });
+  });
+  await page.goto("/pages/contact");
+  const form = page.locator("[data-contact-form]");
+  await form.getByLabel("Nome").fill("Pessoa Teste");
+  await form.getByLabel("Telefone/WhatsApp").fill("(61) 98191-3204");
+  await form.getByLabel("Mensagem").fill("Peço informações.");
+  await form.evaluate((element) => { const input = document.createElement("input"); input.type = "hidden"; input.name = "cf-turnstile-response"; input.value = "token"; element.append(input); });
+  await form.getByRole("button", { name: "Enviar mensagem" }).click();
+  await expect(form.getByRole("status")).toContainText("Mensagem enviada");
+  expect(payload).toMatchObject({ email: "", telefone: "(61) 98191-3204" });
+});

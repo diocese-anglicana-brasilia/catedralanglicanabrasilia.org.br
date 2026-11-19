@@ -133,6 +133,19 @@ if ("IntersectionObserver" in window) {
   animatedElements.forEach((element) => element.classList.add("visible"));
 }
 
+document.querySelectorAll("[data-contact-form]").forEach((form) => {
+  const email = form.querySelector('[name="email"]');
+  const phone = form.querySelector('[name="telefone"]');
+  const updateRequired = () => {
+    email.required = !phone.value.trim();
+    phone.required = !email.value.trim();
+  };
+  email.addEventListener("input", updateRequired);
+  phone.addEventListener("input", updateRequired);
+  form.addEventListener("reset", () => queueMicrotask(updateRequired));
+  updateRequired();
+});
+
 document.querySelectorAll("[data-contact-form], [data-prayer-form]").forEach((formElement) => formElement.addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;

@@ -20,8 +20,12 @@ if (!siteKey) endpoint = undefined;
   <FormField id="nome" label="Nome" required>
     <input id="nome" name="nome" type="text" autocomplete="name" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
   </FormField>
-  <FormField id="email" label="E-mail" required>
-    <input id="email" name="email" type="email" autocomplete="email" required class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
+  <p id="contact-method-help" class="text-sm text-gray-700">Informe pelo menos um meio de contato: e-mail ou telefone/WhatsApp.</p>
+  <FormField id="email" label="E-mail">
+    <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="contact-method-help" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
+  </FormField>
+  <FormField id="telefone" label="Telefone/WhatsApp">
+    <input id="telefone" name="telefone" type="tel" autocomplete="tel" maxlength="40" required aria-describedby="contact-method-help" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]" />
   </FormField>
   <FormField id="assunto" label="Assunto">
     <select id="assunto" name="assunto" class="w-full border border-gray-300 rounded-sm px-4 py-2 focus:outline-none focus:border-[var(--gold)]">

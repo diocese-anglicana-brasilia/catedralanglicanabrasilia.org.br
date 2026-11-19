@@ -25,13 +25,13 @@ async function notifyPending(env) {
     const token = crypto.randomUUID();
     const now = nowIso();
     const until = new Date(Date.now() + 5 * 60_000).toISOString();
-    const claim = await env.DB.prepare("UPDATE contact_messages SET claim_token = ?, claim_until = ? WHERE id = (SELECT id FROM contact_messages WHERE notified_at IS NULL AND (claim_until IS NULL OR claim_until < ?) ORDER BY created_at LIMIT 1) RETURNING id, name, email, subject, message").bind(token, until, now).first();
+    const claim = await env.DB.prepare("UPDATE contact_messages SET claim_token = ?, claim_until = ? WHERE id = (SELECT id FROM contact_messages WHERE notified_at IS NULL AND (claim_until IS NULL OR claim_until < ?) ORDER BY created_at LIMIT 1) RETURNING id, name, email, phone, subject, message").bind(token, until, now).first();
     if (!claim) return;
     try {
       const sent = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: { "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
-        body: JSON.stringify({ sender: { email: env.MAIL_FROM }, to: [{ email: env.MAIL_TO }], subject: "Novo contato pelo site da Catedral", textContent: `Nome: ${claim.name}\nE-mail: ${claim.email}\nAssunto: ${claim.subject}\n\nMensagem:\n${claim.message}` }),
+        body: JSON.stringify({ sender: { email: env.MAIL_FROM }, to: [{ email: env.MAIL_TO }], subject: "Novo contato pelo site da Catedral", textContent: `Nome: ${claim.name}\nE-mail: ${claim.email || "Não informado"}\nTelefone/WhatsApp: ${claim.phone || "Não informado"}\nAssunto: ${claim.subject}\n\nMensagem:\n${claim.message}` }),
         signal: AbortSignal.timeout(15_000),
       });
       if (!sent.ok) throw new Error("Falha de envio");
@@ -84,17 +84,21 @@ export default {
       if (raw === null) return response(413, { ok: false }, origin);
       let data;
       try { data = JSON.parse(raw); } catch { return response(400, { ok: false }, origin); }
-      const fields = path === "/contact" ? ["nome", "email", "assunto", "mensagem", "turnstileToken"] : ["nome", "mensagem", "turnstileToken"];
+      const fields = path === "/contact" ? ["nome", "assunto", "mensagem", "turnstileToken"] : ["nome", "mensagem", "turnstileToken"];
       if (!data || typeof data !== "object" || fields.some((key) => typeof data[key] !== "string")) return response(400, { ok: false }, origin);
       const name = data.nome.trim(), message = data.mensagem.trim();
       if (name.length > 150 || !message || message.length > 600 || !data.turnstileToken || data.turnstileToken.length > 2048) return response(400, { ok: false }, origin);
-      if (path === "/contact" && (!name || !validEmail(data.email.trim()) || data.email.trim().length > 254 || !data.assunto.trim() || data.assunto.trim().length > 120)) return response(400, { ok: false }, origin);
+      if (path === "/contact") {
+        if ((data.email !== undefined && typeof data.email !== "string") || (data.telefone !== undefined && typeof data.telefone !== "string")) return response(400, { ok: false }, origin);
+        const email = (data.email ?? "").trim(), phone = (data.telefone ?? "").trim();
+        if (!name || (!email && !phone) || (email && (!validEmail(email) || email.length > 254)) || phone.length > 40 || !data.assunto.trim() || data.assunto.trim().length > 120) return response(400, { ok: false }, origin);
+      }
       const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ secret: env.TURNSTILE_SECRET, response: data.turnstileToken }), signal: AbortSignal.timeout(10_000) });
       if (!verification.ok) return response(503, { ok: false }, origin);
       const result = await verification.json();
       if (!result.success || result.hostname !== new URL(origin).hostname) return response(403, { ok: false }, origin);
       if (path === "/contact") {
-        await env.DB.prepare("INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)").bind(crypto.randomUUID(), name, data.email.trim(), data.assunto.trim(), message, nowIso()).run();
+        await env.DB.prepare("INSERT INTO contact_messages (id, name, email, phone, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(crypto.randomUUID(), name, (data.email ?? "").trim(), data.telefone?.trim() || null, data.assunto.trim(), message, nowIso()).run();
         ctx.waitUntil(notifyPending(env));
       } else {
         await env.DB.prepare("INSERT INTO prayer_requests (id, name, message, created_at) VALUES (?, ?, ?, ?)").bind(crypto.randomUUID(), name || null, message, nowIso()).run();
