@@ -10,7 +10,7 @@ A história da Catedral Anglicana da Ressurreição se entrelaça com a históri
 
 O início da presença anglicana organizada na cidade é lembrado em **5 de junho de 1960**, poucas semanas depois da inauguração de Brasília. Naquele dia, uma celebração ao ar livre marcou o começo da Missão da Ressurreição, quando o templo ainda era um projeto. O trabalho pioneiro teve à frente o reverendo Saulo Marques da Silva e a celebração foi presidida por Dom Edmond Knox Sherrill. \[[1](#referencia-1), [2](#referencia-2)]
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-29838691cac7.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-4ff26625fed0.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-6ef063827544.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-29838691cac7.webp" alt="Pequena capela de madeira com uma cruz na fachada, em terreno aberto." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-4ff26625fed0.webp" alt="Grupo de crianças e adultos reunido diante de uma construção de madeira." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-6ef063827544.webp" alt="Grupo de adultos e crianças diante da casa paroquial." loading="lazy"></div><figcaption>Nos primeiros anos da capital, a comunidade anglicana começou a construir sua história de fé, convivência e serviço em Brasília.</figcaption></figure>
 
 A missão cresceu junto com a cidade. Entre os desafios de construir uma comunidade em uma capital recém-inaugurada, homens e mulheres ajudaram a dar forma a um lugar de oração, encontro e serviço.
 
@@ -22,13 +22,13 @@ O projeto é do arquiteto **Glauco Campello**, integrante da equipe de Oscar Nie
 
 Assim, a Igreja da Ressurreição tornou-se a segunda a ser construída em Brasília, e a primeira igreja protestante da nova capital.
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-dbe4c7688dc8.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8cc574c6b664.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-ddc8551580b3.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-dbe4c7688dc8.webp" alt="Pessoas reunidas ao ar livre em uma celebração, diante de uma mesa coberta por uma toalha branca." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8cc574c6b664.webp" alt="Homem se inclina sobre a pedra fundamental, cercado por integrantes da comunidade e representantes da Igreja." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-d7d2624cec27.webp" alt="Estrutura triangular do telhado da Igreja da Ressurreição em construção, com pessoas ao redor." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-ddc8551580b3.webp" alt="Igreja da Ressurreição em construção, com o telhado triangular instalado e andaimes junto à torre." loading="lazy"></div><figcaption>Da celebração da pedra fundamental à construção do telhado, a Igreja da Ressurreição começou a tomar forma no coração de Brasília.</figcaption></figure>
 
 A dedicação do templo aconteceu em **5 de maio de 1963**. A Igreja da Ressurreição passava a ter uma casa para acolher suas celebrações e sua comunidade. A cerimônia também expressou os laços da jovem comunidade brasileira com outras partes da Comunhão Anglicana. \[[5](#referencia-5)]
 
 Entre os presentes estava Dom Luís César Pereira, então bispo da Igreja Lusitana, de Portugal. Como sinal dessa amizade, a igreja portuguesa ofereceu uma pia batismal de mármore branco. Durante a inauguração, esta pia foi usada para o batismo de uma criança e de uma pessoa adulta — um testemunho de comunhão que faz parte da memória da Catedral. \[[5](#referencia-5)]
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8c1303e9dcd3.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-f230f28acd8a.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8c1303e9dcd3.webp" alt="Pessoas reunidas diante da entrada da Igreja da Ressurreição, com seu telhado triangular ao fundo." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-45827633943b.webp" alt="Ministros e integrantes da comunidade reunidos para uma celebração no interior da igreja." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-f230f28acd8a.webp" alt="Ministros e familiares reunidos ao redor da pia batismal durante um batismo na igreja." loading="lazy"></div><figcaption>A comunidade reunida para celebrar a dedicação de sua nova igreja, espaço de oração, encontros e acolhida.</figcaption></figure>
 
 ## Da paróquia à Catedral
 
@@ -36,7 +36,7 @@ Ao longo das décadas, a comunidade da Ressurreição continuou sua caminhada co
 
 A Diocese foi criada em 1984 e instalada em 1985. A Igreja da Ressurreição tornou-se sua Catedral, isto é, a sede episcopal da Diocese. Seu primeiro bispo diocesano foi Dom Agostinho Guillon Sória. \[[6](#referencia-6), [2](#referencia-2)]
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-86d85f369388.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-32909c311492.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-86d85f369388.webp" alt="Recorte do jornal Estandarte Cristão com reportagem sobre a aprovação da criação da Diocese de Brasília." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-32909c311492.webp" alt="Recorte de jornal com fotografias e reportagem sobre a instalação da Diocese Missionária de Brasília." loading="lazy"></div><figcaption>Com a criação e a instalação da Diocese Anglicana de Brasília, a Igreja da Ressurreição passou a ser também a Catedral da Diocese.</figcaption></figure>
 
 Como Catedral, a Ressurreição passou a acolher não apenas a vida cotidiana de sua comunidade paroquial, mas também celebrações e encontros da Diocese. Em sua trajetória, recebeu pessoas de diferentes regiões do Brasil e de outras igrejas da Comunhão Anglicana, fortalecendo vínculos de fé e amizade.
 
@@ -46,7 +46,7 @@ A memória da Catedral é também a memória das pessoas que a construíram e su
 
 Entre essas trajetórias está a da reverenda Patricia Ann Powers. Nascida nos Estados Unidos, ela foi a segunda mulher ordenada para o sacerdócio e a primeira Deã (sacerdote responsável por uma catedral) no Brasil. Em seu testemunho publicado no livro _35 anos de ordenação de mulheres na IEAB_, ela relata seu trabalho na Diocese de Brasília entre 1985 e 1988 e seu serviço como deã da Catedral da Ressurreição. Sua história integra a memória das mulheres que contribuíram para a vida e a missão da Igreja. \[[7](#referencia-7)]
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-6977d9d21bd8.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-1706cbcbb336.webp" alt="" loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8a347cdb9a09.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-6977d9d21bd8.webp" alt="Recorte de jornal com fotografias e reportagem sobre o trabalho missionário de Patricia Ann Powers." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-1706cbcbb336.webp" alt="Grupo de pessoas reunido em frente à Igreja da Ressurreição." loading="lazy"><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-8a347cdb9a09.webp" alt="Grupo de pessoas posando sob uma árvore, diante da Igreja da Ressurreição." loading="lazy"></div><figcaption>A caminhada da Catedral é feita por muitas mãos: pessoas que, em diferentes épocas, colocaram seus dons a serviço da Igreja e da comunidade.</figcaption></figure>
 
 A Catedral também participou de encontros ecumênicos, celebrações e momentos de diálogo entre igrejas. Em 2010, o cinquentenário da presença anglicana em Brasília foi lembrado em uma sessão solene na Câmara dos Deputados, em reconhecimento à caminhada iniciada em 1960 e as relações construídas ao longo desse tempo. \[[2](#referencia-2)]
 
@@ -58,7 +58,7 @@ Desde aquela celebração ao ar livre, em 1960, muita coisa mudou em Brasília e
 
 Na EQS 309/310 Sul, nossa história continua sendo escrita a cada encontro, celebração e gesto de acolhida. Você também faz parte dessa caminhada.
 
-<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-d52660bf689e.webp" alt="" loading="lazy"></div></figure>
+<figure data-content-gallery="true"><div><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-d52660bf689e.webp" alt="Interior da Catedral Anglicana da Ressurreição, com bancos voltados para o altar sob o teto triangular." loading="lazy"></div><figcaption>A história iniciada há mais de seis décadas continua sendo escrita a cada celebração, encontro e gesto de cuidado com o próximo.</figcaption></figure>
 
 ## Referências bibliográficas
 
