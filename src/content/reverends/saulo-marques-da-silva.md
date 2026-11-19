@@ -1,8 +1,8 @@
 ---
 order: 10
-name: Saulo Marques da Silva
+name: Saulo Marques
 role: Reverendo
-bio: |
+bio: |-
   O reverendo Saulo Marques da Silva teve participação pioneira na presença anglicana em Brasília. Em 5 de junho de 1960, oficiou o primeiro culto público da comunidade na nova capital, no terreno onde depois seria construída a Igreja da Ressurreição.
 
   Nos primeiros meses, as celebrações também ocorreram em casas de membros da Igreja e no Hotel da Cidade Livre, onde o reverendo residia. Seu trabalho integrou o início da missão anglicana que deu origem à comunidade da Catedral.
