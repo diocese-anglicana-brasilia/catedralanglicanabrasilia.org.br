@@ -3,4 +3,4 @@ Allow: /
 
 # Perfis não indexáveis permanecem acessíveis para que os buscadores leiam a meta noindex.
 
-Sitemap: https://catedralanglicanabrasilia.org.br/sitemap.xml
+Sitemap: https://catedralanglicanabrasilia.org.br/sitemap-index.xml
