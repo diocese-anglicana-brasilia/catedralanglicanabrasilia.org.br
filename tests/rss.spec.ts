@@ -39,7 +39,7 @@ test("disponibiliza um RSS válido com a notícia publicada", async ({ page, req
     };
   }, body);
   expect(feed.error).toBeUndefined();
-  expect(feed.title).toBe("Notícias | Catedral Anglicana da Ressureição");
+  expect(feed.title).toBe("Notícias | Catedral Anglicana da Ressurreição");
   expect(feed.language).toBe("pt-BR");
   expect(feed.items.length).toBeGreaterThan(0);
   for (const item of feed.items) {

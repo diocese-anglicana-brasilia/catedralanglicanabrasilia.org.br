@@ -9,8 +9,8 @@ export async function GET(context: APIContext) {
   const news = publishedNews(await getCollection("news"));
 
   return rss({
-    title: "Notícias | Catedral Anglicana da Ressureição",
-    description: "Notícias e comunicados da Catedral Anglicana da Ressureição.",
+    title: "Notícias | Catedral Anglicana da Ressurreição",
+    description: "Notícias e comunicados da Catedral Anglicana da Ressurreição.",
     site: context.site,
     customData: "<language>pt-BR</language>",
     items: news.map(({ id, data }) => ({

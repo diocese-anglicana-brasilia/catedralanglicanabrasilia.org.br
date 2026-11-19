@@ -293,7 +293,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
   await page.goto("/");
 
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
-  await expect(page).toHaveTitle("Catedral Anglicana da Ressureição");
+  await expect(page).toHaveTitle("Catedral Anglicana da Ressurreição");
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /\S/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -320,7 +320,7 @@ test("expõe metadados de SEO e dados estruturados na página inicial", async ({
 test("impede a indexação da página 404", async ({ page }) => {
   await page.goto("/caminho-inexistente");
 
-  await expect(page).toHaveTitle("Página não encontrada | Catedral Anglicana da Ressureição");
+  await expect(page).toHaveTitle("Página não encontrada | Catedral Anglicana da Ressurreição");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, follow");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",

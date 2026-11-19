@@ -18,7 +18,7 @@ const {
   noindex = false,
   structuredData: pageStructuredData,
 } = Astro.props;
-const description = suppliedDescription?.trim() || "Catedral Anglicana da Ressureição: uma comunidade de fé, esperança e amor no coração do Distrito Federal.";
+const description = suppliedDescription?.trim() || "Catedral Anglicana da Ressurreição: uma comunidade de fé, esperança e amor no coração do Distrito Federal.";
 const normalizedKeywords = keywords?.trim();
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://catedralanglicanabrasilia.org.br";
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
@@ -42,7 +42,7 @@ const structuredData = pageStructuredData ?? {
     <meta name="theme-color" content="#f7f3ec" />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" type="application/rss+xml" title="Notícias da Catedral Anglicana da Ressureição" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Notícias da Catedral Anglicana da Ressurreição" href="/rss.xml" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:title" content={title} />
