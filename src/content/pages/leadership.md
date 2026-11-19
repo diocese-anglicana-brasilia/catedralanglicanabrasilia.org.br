@@ -1,5 +1,7 @@
 ---
 title: Liderança
+seo_description: Conheça as lideranças e os departamentos que colaboram na vida e na missão da Catedral Anglicana da Ressurreição.
+seo_keywords: liderança, equipe pastoral, junta paroquial, Catedral Anglicana da Ressurreição, Brasília
 departments:
   - name: Equipe pastoral
     description: Responsável por dirigir a comunidade espiritualmente, ensinando e ouvindo seus anseios.

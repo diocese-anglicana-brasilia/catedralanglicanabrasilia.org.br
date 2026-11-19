@@ -1,5 +1,7 @@
 ---
 title: Galeria de reverendos
+seo_description: Conheça a trajetória de reverendos e reverendas que serviram à comunidade da Catedral Anglicana da Ressurreição em Brasília.
+seo_keywords: reverendos, reverendas, galeria, história, Catedral Anglicana da Ressurreição, Brasília
 reverends:
   - tatiana-ribeiro
   - magda_guedes

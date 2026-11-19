@@ -1,6 +1,8 @@
 ---
 order: 1
 name: Josias Conserva
+seo_description: Conheça o reverendo Josias Conserva, que serviu como coadjutor na Catedral Anglicana da Ressurreição.
+seo_keywords: Josias Conserva, reverendo, coadjutor, Catedral Anglicana da Ressurreição
 role: Reverendo Coadjutor
 bio: |
   O reverendo Josias Conserva serviu como coadjutor na comunidade da Catedral da Ressurreição. Após sua aposentadoria, foi elevado a cônego da Catedral.

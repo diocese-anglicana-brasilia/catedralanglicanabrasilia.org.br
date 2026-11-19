@@ -1,6 +1,8 @@
 ---
 order: 5
 name: Benedito Luz
+seo_description: Conheça a trajetória do reverendo Benedito Guilherme Ferreira da Luz, que serviu como deão da Catedral da Ressurreição entre 2000 e 2001.
+seo_keywords: Benedito Luz, Benedito Guilherme Ferreira da Luz, reverendo, deão, Catedral da Ressurreição
 role: Reverendo Deão
 bio: |-
   O reverendo Benedito Guilherme Ferreira da Luz serviu à Catedral da Ressurreição como deão. Após sua aposentadoria, foi elevado à cônego.

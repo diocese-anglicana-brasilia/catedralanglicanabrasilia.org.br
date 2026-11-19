@@ -1,6 +1,8 @@
 ---
 order: 3
 name: Magda Guedes
+seo_description: Conheça a trajetória de Magda Guedes, que serviu como deã da Catedral da Ressurreição e é bispa da Diocese Anglicana do Paraná, entre 2011 e 2017.
+seo_keywords: Magda Guedes, reverenda, deã, bispa, Catedral da Ressurreição, Diocese Anglicana do Paraná
 role: Reverenda Deã
 bio: |-
   Magda Guedes Pereira é bispa da Diocese Anglicana do Parná, da Igreja Episcopal Anglicana do Brasil. Formada em Teologia e Pedagogia, atuou como capelã da Escola Anglicana em Erechim e serviu nas dioceses Sul-Ocidental, do Paraná e de Brasília, onde foi deã da Catedral da Ressurreição.

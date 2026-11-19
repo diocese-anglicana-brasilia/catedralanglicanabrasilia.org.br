@@ -1,5 +1,7 @@
 ---
 title: Doar
+seo_description: Saiba como contribuir por Pix para a missão, a comunidade e as atividades da Catedral Anglicana da Ressurreição.
+seo_keywords: doação, Pix, contribuição, Catedral Anglicana da Ressurreição, Brasília
 ---
 
 Sua generosidade ajuda a manter viva a missão da Catedral Anglicana da Ressurreição: celebrar a fé, acolher as pessoas e servir à comunidade. Cada contribuição é um gesto de partilha e fortalece a vida e o trabalho da nossa comunidade.

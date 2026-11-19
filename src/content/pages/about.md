@@ -1,6 +1,7 @@
 ---
 title: Sobre nós
 seo_description: Conheça a Catedral Anglicana da Ressurreição, sua fé, sua missão e sua comunidade em Brasília.
+seo_keywords: Catedral Anglicana da Ressurreição, comunidade anglicana, missão, fé, Brasília
 ---
 
 ## Uma comunidade de fé e acolhida

@@ -1,5 +1,7 @@
 ---
 name: Tati Ribeiro
+seo_description: Conheça a reverenda Tati Ribeiro, deã da Catedral Anglicana da Ressurreição em Brasília.
+seo_keywords: Tati Ribeiro, Tatiana Ribeiro, deã, Catedral Anglicana da Ressurreição, Brasília
 role: Reverendíssima Deã
 start_date: 11/2018
 indexable: true

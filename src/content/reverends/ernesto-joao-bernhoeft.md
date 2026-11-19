@@ -1,6 +1,8 @@
 ---
 order: 8
 name: Ernesto Bernhoeft
+seo_description: Conheça o reverendo Ernesto João Bernhoeft, que serviu à comunidade da Igreja da Ressurreição em Brasília, entre 1971 e 1985.
+seo_keywords: Ernesto Bernhoeft, Ernesto João Bernhoeft, reverendo, Igreja da Ressurreição, Brasília
 role: Reverendo
 bio: |-
   O reverendo Ernesto João Bernhoeft serviu à comunidade anglicana de Brasília, na Igreja da Ressurreição. Professor de origem alemã e judaica, deixou a Alemanha após a ascensão do nazismo e, no Brasil, dedicou-se à divulgação da vida e da obra do teólogo Dietrich Bonhoeffer.

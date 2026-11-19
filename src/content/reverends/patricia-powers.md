@@ -1,6 +1,8 @@
 ---
 order: 9
 name: Patrícia Powers
+seo_description: Conheça a reverenda Patrícia Powers e sua trajetória na Catedral Anglicana da Ressurreição em Brasília, entre 1987 e 1989.
+seo_keywords: Patrícia Powers, reverenda, deã, Catedral Anglicana da Ressurreição, Brasília
 role: Reverenda Deã
 diaconal_ordination_date: 29/06/1986
 priestly_ordination_date: 28/12/1986

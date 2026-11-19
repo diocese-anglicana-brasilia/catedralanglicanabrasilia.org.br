@@ -1,6 +1,8 @@
 ---
 order: 2
 name: Aubri Ecotem
+seo_description: Conheça a trajetória do reverendo Aubri Ecotem, que serviu como deão da Catedral Anglicana da Ressurreição entre 2002 e 2009.
+seo_keywords: Aubri Ecotem, reverendo, deão, Catedral Anglicana da Ressurreição, Brasília
 role: Reverendo Deão
 bio: |-
   Aubri de Oliveira Ecotem é sacerdote da Igreja Episcopal Anglicana do Brasil e serviu como deão da Catedral da Ressurreição. Além do ministério ordenado, atuou como historiador e professor da rede pública do Distrito Federal.

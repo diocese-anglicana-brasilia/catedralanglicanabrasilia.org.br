@@ -1,6 +1,8 @@
 ---
 order: 6
 name: Diamantino Bueno
+seo_description: Conheça o reverendo Diamantino Bueno, que serviu à comunidade da Igreja da Ressurreição em Brasília, entre 1965 e 1971.
+seo_keywords: Diamantino Bueno, reverendo, Igreja da Ressurreição, Brasília
 role: Reverendo
 bio: |
   O reverendo Diamantino Bueno esteve entre os clérigos que serviram à Igreja da Ressurreição em Brasília.

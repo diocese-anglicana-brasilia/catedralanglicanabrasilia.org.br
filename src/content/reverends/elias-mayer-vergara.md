@@ -1,6 +1,8 @@
 ---
 order: 7
 name: Elias Vergara
+seo_description: Conheça a trajetória do reverendo Elias Mayer Vergara, que serviu como deão da Catedral da Ressurreição, entre 1990 e 1999.
+seo_keywords: Elias Vergara, Elias Mayer Vergara, reverendo, deão, Catedral da Ressurreição
 role: Reverendo Deão
 bio: |-
   Elias Mayer Vergara serviu como deão da Catedral da Ressurreição e participou de atividades de formação e reflexão teológica na Igreja Episcopal Anglicana do Brasil.
