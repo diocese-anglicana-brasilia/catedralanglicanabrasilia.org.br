@@ -1,8 +1,8 @@
 ---
 order: 2
-name: Aubri de Oliveira Ecotem
+name: Aubri Ecotem
 role: Reverendo Deão
-bio: |
+bio: |-
   Aubri de Oliveira Ecotem é sacerdote da Igreja Episcopal Anglicana do Brasil e serviu como deão da Catedral da Ressurreição. Além do ministério ordenado, atuou como historiador e professor da rede pública do Distrito Federal.
 
   Atualmente aposentado, é cônego da Catedral.
