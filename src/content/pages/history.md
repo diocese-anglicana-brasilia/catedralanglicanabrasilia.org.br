@@ -1,7 +1,7 @@
 ---
 title: Nossa história
-seo_description: Conheça a história da Catedral Anglicana da Ressurreição e da presença anglicana em Brasília, desde os primeiros anos da capital.
-seo_keywords: história da Catedral Anglicana, Igreja da Ressurreição, presença anglicana em Brasília, Diocese Anglicana de Brasília
+seo_description: 'Conheça a história da Catedral Anglicana da Ressurreição: da primeira celebração em Brasília, em 1960, à construção do templo e à criação da Diocese.'
+seo_keywords: história da Catedral Anglicana, Igreja da Ressurreição, presença anglicana em Brasília, Diocese Anglicana de Brasília, história anglicana em Brasília, arquitetura de Brasília, Glauco Campello
 ---
 
 ## Uma comunidade que nasceu com Brasília
