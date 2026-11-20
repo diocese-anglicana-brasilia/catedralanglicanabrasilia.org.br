@@ -5,6 +5,7 @@ seo_keywords: reverenda tati ribeiro, mandato, liderança
 date: 2026-11-11T13:21:00-03:00
 author:
   - comunicacao-catedral
+  - junta-paroquial
 tags:
   - reverenda-tati
   - lideranca
