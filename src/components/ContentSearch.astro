@@ -12,7 +12,7 @@
 
 <script>
   import { formatNewsDate } from "../utils/news-date";
-  type Card = { title: string; href?: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; dateStyle?: "news"; image?: { src: string; alt: string } };
+  type Card = { type: "news" | "events"; title: string; href?: string; description?: string; date?: string; endDate?: string; dateTimeZone?: string; dateStyle?: "news"; image?: { src: string; alt: string } };
   type WorkerResult = { id: number; error?: boolean; results: Card[]; total: number; page: number };
   document.querySelectorAll<HTMLElement>("[data-content-search]").forEach((section) => {
     const input = section.querySelector<HTMLInputElement>('input[type="search"]')!;
@@ -40,6 +40,7 @@
         frame.append(image); article.append(frame);
       }
       const content = document.createElement("div"); content.className = "content-card-content";
+      content.append(textElement("span", item.type === "news" ? "NOTÍCIA" : "EVENTO", `search-result-badge search-result-badge--${item.type}`));
       if (item.date) {
         const wrapper = document.createElement("div"); wrapper.className = "content-card-date";
         const formatter = new Intl.DateTimeFormat("pt-BR", { timeZone: item.dateTimeZone || "UTC", day: "2-digit", month: "2-digit", year: "numeric" });
@@ -123,6 +124,9 @@
   .search-status:not(:empty) { margin: 1rem 0; }
 </style>
 <style is:global>
+  .content-search .search-result-badge { display: inline-block; border-radius: 9999px; padding: .2rem .65rem; margin-bottom: .45rem; font-size: .75rem; font-weight: 600; letter-spacing: .04em; }
+  .content-search .search-result-badge--news { background: #e4eee7; color: #234936; }
+  .content-search .search-result-badge--events { background: #f1e7d2; color: #574018; }
   .content-search .pagination button { min-width: 2.75rem; min-height: 2.75rem; padding: .5rem; border: 1px solid var(--gold-dark); color: var(--gold-dark); cursor: pointer; }
   .content-search .pagination span { align-self: center; }
   nav:has(> .search-open) > [data-site-brand] { order: 0; }

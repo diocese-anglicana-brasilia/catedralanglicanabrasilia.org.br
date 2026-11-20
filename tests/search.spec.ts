@@ -20,6 +20,17 @@ test("abre a pesquisa global no cabeçalho e encontra notícias e eventos", asyn
   await input.fill("exemplo");
   await expect(dialog.getByRole("link", { name: "Notícia de exemplo" })).toBeVisible();
   await expect(dialog.getByRole("link", { name: "Evento de exemplo" })).toBeVisible();
+  const newsCard = dialog.locator(".content-card").filter({ has: page.getByRole("link", { name: "Notícia de exemplo" }) });
+  const eventCard = dialog.locator(".content-card").filter({ has: page.getByRole("link", { name: "Evento de exemplo" }) });
+  const newsBadge = newsCard.locator(".search-result-badge");
+  const eventBadge = eventCard.locator(".search-result-badge");
+  await expect(newsBadge).toHaveText("NOTÍCIA");
+  await expect(eventBadge).toHaveText("EVENTO");
+  expect(await newsBadge.evaluate((badge) => Boolean(badge.compareDocumentPosition(badge.closest("article")!.querySelector("h3")!) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+  expect(await newsBadge.evaluate((badge) => getComputedStyle(badge).backgroundColor)).not.toBe(await eventBadge.evaluate((badge) => getComputedStyle(badge).backgroundColor));
+  await expect(newsBadge).toHaveCSS("border-radius", "9999px");
+  const audit = await new AxeBuilder({ page }).include("[data-search-results]").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+  expect(audit.violations).toEqual([]);
   await expect(dialog.getByRole("status")).toContainText("2 resultados");
   expect(requests).toHaveLength(2);
   await page.keyboard.press("Escape");
