@@ -2,7 +2,7 @@
 title: Catedral Anglicana da Ressurreição estreia novo site
 seo_description: Novo site da Catedral reúne notícias, agenda, história e caminhos para conhecer e participar da comunidade.
 seo_keywords: Catedral Anglicana da Ressurreição, novo site, notícias, agenda, história, ações sociais, Brasília
-date: 2026-11-11T14:44:00-03:00
+date: '12:48'
 author:
   - comunicacao-catedral
 tags:
