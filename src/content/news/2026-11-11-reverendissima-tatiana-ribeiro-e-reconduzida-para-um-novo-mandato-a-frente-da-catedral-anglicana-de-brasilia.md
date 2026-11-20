@@ -24,11 +24,11 @@ Conforme os Cânones Diocesanos, seis meses antes do fim do mandato de um revere
 
 O ofício, enviado ao Bispo Diocesano em 30 de maio de 2026, reconhece a liderança da Revª. Tati e seu trabalho. "Durante sua gestão, a Reverenda Tatiana demonstrou exímia dedicação pastoral, zelo litúrgico inquestionável, compromisso irrestrito com a missão da Igreja e profunda sensibilidade no cuidado com o rebanho que lhe foi confiado. Sua liderança servidora tem contribuído significativamente para o fortalecimento da vida espiritual, para a ampliação da comunhão entre os fiéis e para o testemunho profético do Evangelho a partir de nossa Sé Catedral."
 
-Durante o comunicado do Bispo Maurício ao povo da Catedral, foi indicado o Segundo Domingo do Advento (6 de dezembro de 2026) para este momento de instalação da Revª. Tati para mais um mandato como reitora da Paróquia da Ressurreição.
+Durante o comunicado do Bispo Maurício ao povo da Catedral, foi indicado o Segundo Domingo do Advento (6 de dezembro de 2026) para este momento de recondução da Revª. Tati para mais um mandato como reitora da Paróquia da Ressurreição.
 
 ## Serviço
 
-[Instalação da Reverendíssima Tatiana Ribeiro em um novo mandato como Deã da Catedral Anglicana de Brasília](/events/reconducao-da-rev-tati-como-dea-da-catedral)
+[Recondução da Reverendíssima Tatiana Ribeiro em um novo mandato como Deã da Catedral Anglicana de Brasília](/events/reconducao-da-rev-tati-como-dea-da-catedral)
 
 Data: 6 de dezembro de 2026
 
