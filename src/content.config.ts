@@ -31,6 +31,7 @@ const news = defineCollection({
     author: z.preprocess((value) => typeof value === "string" ? [value] : value, z.array(z.string()).nullish()),
     tags: z.array(z.string()).nullish(),
     status: z.enum(["draft", "published", "archived"]).default("draft"),
+    comments_enabled: z.boolean().default(true),
     featured_image: image().optional(),
     excerpt: z.string().nullish(),
   }),

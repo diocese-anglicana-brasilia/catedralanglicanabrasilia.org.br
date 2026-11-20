@@ -160,7 +160,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       )}
       {calendarEvent && <CalendarActions event={calendarEvent} />}
       {newsTags.length > 0 && <section class="mt-8 text-sm text-gray-600" aria-label="Tags"><span class="font-semibold">Tags: </span><ul class="inline">{newsTags.map((tag, index) => <li class="inline">{index > 0 && ", "}<a class="underline text-[var(--gold-dark)]" href={`/tags/${tag.id}`}>{tag.data.title}</a></li>)}</ul></section>}
-      {entry.collection === "news" && <Comments />}
+      {entry.collection === "news" && entry.data.comments_enabled && <Comments />}
       <p class="mt-10"><a class="underline text-[var(--gold-dark)]" href="/">Voltar à página inicial</a></p>
     </article>
   </main>

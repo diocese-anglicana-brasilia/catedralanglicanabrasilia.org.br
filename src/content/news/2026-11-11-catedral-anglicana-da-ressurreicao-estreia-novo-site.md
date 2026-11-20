@@ -11,6 +11,7 @@ tags:
   - renovacao
 status: published
 excerpt: Novo portal da Catedral Anglicana da Ressurreição traz notícias, eventos e informações para aproximar ainda mais a comunidade.
+comments_enabled: true
 ---
 
 A Catedral Anglicana da Ressurreição estreia hoje seu novo site.

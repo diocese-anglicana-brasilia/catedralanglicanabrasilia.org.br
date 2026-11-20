@@ -79,6 +79,7 @@ collections:
         widget: select
         options: [draft, published, archived]
         default: draft
+      - { name: comments_enabled, label: Permitir comentários, widget: boolean, default: true, required: false }
       - { name: featured_image, label: Imagem de destaque, widget: image, required: false }
       - { name: excerpt, label: Resumo, widget: text, required: false }
       - { name: body, label: Conteúdo, widget: richtext }

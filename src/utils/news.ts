@@ -16,7 +16,7 @@ export function newsCard(entry: CollectionEntry<"news">): CardItem {
   };
 }
 
-export function publishedNews<T extends Pick<CollectionEntry<"news">, "data">>(entries: T[]): T[] {
+export function publishedNews<T extends { data: Pick<CollectionEntry<"news">["data"], "status" | "date"> }>(entries: T[]): T[] {
   return entries
     .filter(({ data }) => data.status === "published")
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
