@@ -8,6 +8,48 @@ import { parse } from "yaml";
 import AxeBuilder from "@axe-core/playwright";
 import { renderBiographyMarkdown } from "../src/utils/biography-markdown";
 
+test("apresenta fotos da galeria com contorno claro e sombra inferior", async ({ page }) => {
+  await page.goto("/pages/history");
+  const gallery = page.locator('[data-content-gallery="true"]').first();
+  const photo = gallery.locator("img:visible").first();
+  await expect(photo).toHaveCSS("border-top-width", "4px");
+  await expect(photo).toHaveCSS("border-top-color", "rgb(247, 243, 236)");
+  const radius = await photo.evaluate((element) => parseFloat(getComputedStyle(element).borderTopLeftRadius));
+  expect(radius).toBeGreaterThan(0);
+  await expect(gallery.locator(".gallery-stage")).not.toHaveCSS("box-shadow", "none");
+});
+
+test("identifica visualmente a galeria e sua legenda como um bloco", async ({ page }) => {
+  await page.goto("/pages/history");
+  const gallery = page.locator('[data-content-gallery="true"]').first();
+  await expect(gallery.locator(":scope > figcaption")).toBeVisible();
+  const frame = await gallery.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, padding: parseFloat(style.paddingLeft), border: parseFloat(style.borderLeftWidth) };
+  });
+  expect(frame.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(frame.padding).toBeGreaterThan(0);
+  expect(frame.border).toBeGreaterThan(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
+});
+
+test("legendas de imagens individuais seguem o estilo das fotos da galeria", async ({ page }) => {
+  await page.goto("/pages/history");
+  const captions = await page.evaluate(() => {
+    const body = document.querySelector(".content-body")!;
+    const figure = document.createElement("figure");
+    figure.innerHTML = '<img src="/foto.jpg" alt="Foto"><figcaption>Legenda individual</figcaption>';
+    body.append(figure);
+    const galleryCaption = document.querySelector("[data-gallery-caption]")!;
+    const read = (element: Element) => {
+      const style = getComputedStyle(element);
+      return { color: style.color, fontSize: style.fontSize, textAlign: style.textAlign, marginTop: style.marginTop };
+    };
+    return { single: read(figure.querySelector("figcaption")!), gallery: read(galleryCaption) };
+  });
+  expect(captions.single).toEqual(captions.gallery);
+});
+
 test("preserva legendas opcionais de fotos no editor e nas biografias", async ({ page }) => {
   await page.goto("/");
   const result = await page.evaluate((source) => {
@@ -31,6 +73,7 @@ test("mostra a legenda da foto atual dentro e fora da ampliação", async ({ pag
     let html = await response.text();
     html = html.replace('alt="Pequena capela de madeira com uma cruz na fachada, em terreno aberto."', '$& data-caption="Legenda da capela"');
     html = html.replace('alt="Grupo de crianças e adultos reunido diante de uma construção de madeira."', '$& data-caption="Legenda da comunidade"');
+    html = html.replace(/(alt="Grupo de adultos e crianças diante da casa paroquial\."[^>]*?) data-caption="[^"]*"/, "$1");
     await route.fulfill({ response, body: html });
   });
   await page.goto("/pages/history");
