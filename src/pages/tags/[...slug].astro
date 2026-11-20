@@ -1,0 +1,31 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import { newsCard, publishedNews } from "../../utils/news";
+
+export async function getStaticPaths() {
+  const tags = await getCollection("tags");
+  return tags.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<"tags"> }
+const { entry } = Astro.props;
+const articles = publishedNews(await getCollection("news", ({ data }) => data.tags?.includes(entry.id) ?? false));
+---
+
+<BaseLayout title={`Notícias: ${entry.data.title} | Catedral Anglicana da Ressurreição`}>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <Header isHomePage={false} />
+  <main id="conteudo" tabindex="-1" class="min-h-screen bg-[var(--cream)] px-6 py-32">
+    <article class="max-w-5xl mx-auto bg-white p-8 md:p-12 rounded-sm shadow-sm">
+      <h1 class="serif text-4xl md:text-5xl font-bold mb-8">Notícias: {entry.data.title}</h1>
+      <CardGrid items={articles.map(newsCard)} emptyMessage="Ainda não há notícias publicadas com esta tag." headingLevel={2} />
+      <p class="mt-10"><a class="underline text-[var(--gold-dark)]" href="/news/">Voltar às notícias</a></p>
+    </article>
+  </main>
+  <Footer />
+  <script>import "../../scripts/site.js";</script>
+</BaseLayout>
