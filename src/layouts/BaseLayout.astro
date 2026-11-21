@@ -66,10 +66,14 @@ const structuredData = pageStructuredData ?? {
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.catedralanglicanabrasilia.org.br" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@300&display=swap" rel="stylesheet" />
+    <link
+      rel="preload"
+      as="image"
+      href="https://cdn.catedralanglicanabrasilia.org.br/public/media/hero/hero1.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-16x16.png">

@@ -5,6 +5,14 @@
 }
 
 @font-face {
+  font-family: "Alegreya Sans SC";
+  src: url("https://cdn.catedralanglicanabrasilia.org.br/AlegreyaSansSC-Light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Aller";
   src: url("https://cdn.catedralanglicanabrasilia.org.br/Aller-Light.woff2") format("woff2"), url("/Aller-Light.woff2") format("woff2");
   font-style: normal;

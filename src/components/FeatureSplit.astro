@@ -25,7 +25,7 @@ const imageOrder = imagePosition === "left" ? "order-2 md:order-1" : "order-2";
       <slot />
     </div>
     <div class:list={["fade-in", imageOrder]}>
-      <img src={imageSrc} alt={imageAlt} class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
+      <img src={imageSrc} alt={imageAlt} loading="lazy" class="w-full h-[420px] object-cover rounded-sm shadow-xl" />
     </div>
   </div>
 </section>
