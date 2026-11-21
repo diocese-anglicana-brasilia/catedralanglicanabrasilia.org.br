@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import siteStyles from "../styles/global.css?url";
 
 interface Props {
   title: string;
@@ -65,8 +65,23 @@ const structuredData = pageStructuredData ?? {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
+    <style is:inline>
+      @layer critical {
+      @font-face{font-family:"Alegreya Sans SC";src:url("https://cdn.catedralanglicanabrasilia.org.br/AlegreyaSansSC-Light.woff2") format("woff2");font-style:normal;font-weight:300;font-display:swap}
+      @font-face{font-family:Aller;src:url("https://cdn.catedralanglicanabrasilia.org.br/Aller-Light.woff2") format("woff2"),url("/Aller-Light.woff2") format("woff2");font-style:normal;font-weight:300;font-display:swap}
+      *,::before,::after{box-sizing:border-box}body{margin:0;font:300 1rem/1.5 Aller,sans-serif;background:#f7f3ec;color:#1a1a1a}h1,h2,h3,p{margin:0}h1,h2,h3,.serif{font-family:"Alegreya Sans SC",sans-serif;font-weight:300}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}[hidden]{display:none!important}.sr-only,.skip-link:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      header{position:fixed;inset:0 0 auto;z-index:50;background:rgba(255,255,255,.95);box-shadow:0 1px 3px #0002}header nav{max-width:80rem;margin:auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between}.site-brand{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:min(43vw,200px);height:70px;overflow:hidden}.site-brand img{display:block;width:120%;height:auto;max-width:none;flex-shrink:0}.menu-toggle{display:none;min-width:44px;min-height:44px;font-size:1.5rem}.nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;margin:0;padding:0;font-size:.875rem}.nav-group{position:relative}.nav-group-toggle,.nav-links>li>a{display:inline-flex;align-items:center;min-height:44px}.nav-submenu{position:absolute;top:100%;left:0;min-width:13rem;padding:.5rem;background:white;list-style:none}.nav-submenu a{display:block;padding:.5rem}.search-open{min-width:44px;min-height:44px}.content-search:not([open]){display:none}
+      #inicio{position:relative;display:flex;align-items:center;justify-content:center;height:100vh;min-height:600px;background-size:cover;background-position:center}#inicio .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.65),rgba(10,10,10,.5) 50%,rgba(10,10,10,.8))}#inicio>div:last-child{position:relative;z-index:10;max-width:56rem;padding:0 1.5rem;text-align:center;color:white}#inicio h1{font-size:clamp(3rem,5vw,4.5rem);line-height:1.25;margin-bottom:1.5rem}#inicio p{font-size:1.125rem;line-height:1.6;margin:0 auto 2.5rem}#inicio a{display:inline-block;padding:1rem 2rem;margin:.25rem;background:#c9a96e;color:white}#inicio a+a{background:transparent;border:2px solid white}
+      @media(max-width:900px){.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:white}.nav-links.open,body.menu-collapsed .menu-toggle[aria-expanded="true"]+.nav-links{display:flex;flex-direction:column;align-items:stretch;padding:1rem}.nav-submenu{position:static}}
+      }
+    </style>
+    <link rel="preload" as="style" href={siteStyles} data-site-styles onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href={siteStyles} /></noscript>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
     <link rel="preconnect" href="https://cdn.catedralanglicanabrasilia.org.br" crossorigin />
+    <link rel="preload" as="font" href="https://cdn.catedralanglicanabrasilia.org.br/Aller-Light.woff2" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="https://cdn.catedralanglicanabrasilia.org.br/AlegreyaSansSC-Light.woff2" type="font/woff2" crossorigin="anonymous" />
+    {Astro.url.pathname === "/" && (
     <link
       rel="preload"
       as="image"
@@ -74,6 +89,7 @@ const structuredData = pageStructuredData ?? {
       type="image/webp"
       fetchpriority="high"
     />
+    )}
     <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/favicon-16x16.png">
