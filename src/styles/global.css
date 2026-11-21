@@ -70,6 +70,9 @@ body {
 .content-body ul { list-style: disc; }
 .content-body ol { list-style: decimal; }
 .content-body a { color: var(--gold-dark); text-decoration: underline; }
+.content-body table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-block: 1.5rem; }
+.content-body :is(th, td) { border: 1px solid #a69a86; padding: 0.625rem; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.content-body th { background: var(--cream); font-weight: 600; }
 .content-body blockquote {
   border-left: 0.25rem solid var(--gold);
   padding: 0.25rem 1.25rem;
