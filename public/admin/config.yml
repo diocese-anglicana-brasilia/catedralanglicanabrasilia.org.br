@@ -379,6 +379,15 @@ collections:
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
           - { name: body, label: Body, widget: richtext }
+      - name: privacy
+        label: Política de Privacidade
+        file: src/content/pages/privacy.md
+        fields:
+          - { name: title, label: Título }
+          - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
+          - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
+          - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
+          - { name: body, label: Body, widget: richtext }
       - name: programs
         label: Atividades
         file: src/content/pages/programs.md
