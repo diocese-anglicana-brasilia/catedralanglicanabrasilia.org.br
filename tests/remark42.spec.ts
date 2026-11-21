@@ -19,11 +19,12 @@ test("permite desativar comentários por notícia, mantendo o padrão ativado", 
     for (const [id, setting] of [["padrao-comentarios", ""], ["ativos-comentarios", "comments_enabled: true\n"], ["inativos-comentarios", "comments_enabled: false\n"]]) {
       writeFileSync(path.join(newsDir, `${id}.md`), `---\ntitle: Notícia teste\ndate: 2026-11-20T12:00:00-03:00\nstatus: published\n${setting}---\nConteúdo.\n`);
     }
-    execFileSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, stdio: "pipe" });
+    execFileSync(process.execPath, ["node_modules/astro/bin/astro.mjs", "build"], { cwd: fixture, stdio: "pipe", env: { ...process.env, PUBLIC_REMARK42_SITE_ID: "" } });
     for (const id of ["padrao-comentarios", "ativos-comentarios"]) {
       const html = readFileSync(path.join(fixture, `dist/news/${id}/index.html`), "utf8");
       expect(html).toContain('id="comments-title"');
       expect(html).toContain('id="remark42"');
+      expect(html).toContain('data-site-id="catedral-brasilia"');
     }
     const disabled = readFileSync(path.join(fixture, "dist/news/inativos-comentarios/index.html"), "utf8");
     expect(disabled).not.toContain('id="comments-title"');
