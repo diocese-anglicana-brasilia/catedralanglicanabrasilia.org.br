@@ -1,5 +1,6 @@
 ---
 name: Refeição Solidária de Natal 2026
+seo_description: A Refeição Solidária é um momento de partilha, acolhimento e cuidado com o próximo, oferecendo comida aos que mais precisam.
 start_date: 2026-12-19T09:00:00-03:00
 location: catedral-anglicana-da-ressurreicao
 description: |-
