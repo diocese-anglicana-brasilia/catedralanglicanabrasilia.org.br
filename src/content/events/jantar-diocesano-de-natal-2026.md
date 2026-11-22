@@ -1,5 +1,7 @@
 ---
 name: Jantar Diocesano de Natal
+seo_description: Participe do Jantar Diocesano de Natal, dia 12 de dezembro, às 19h! Buffet livre e bebidas inclusas por R$ 40. Reserve seu ingresso pelo WhatsApp.
+seo_keywords: Jantar Diocesano de Natal, Diocese Anglicana de Brasília, Natal 2026, Igreja Anglicana, Confraternização de Natal, Jantar de Natal, Comunidade Anglicana
 start_date: 2026-12-11T19:00:00-03:00
 end_date: 2026-12-11T21:30:00-03:00
 location: salao-paroquial-da-catedral
