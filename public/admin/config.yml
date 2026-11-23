@@ -17,6 +17,8 @@ backend:
   name: github
   branch: main
   repo: diocese-anglicana-brasilia/catedralanglicanabrasilia.org.br
+  auth_type: additions
+  base_url: https://cms.catedralanglicanabrasilia.org.br
 
 media_libraries:
   cloudflare_r2:
