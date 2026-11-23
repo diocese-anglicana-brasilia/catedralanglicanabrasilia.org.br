@@ -157,6 +157,26 @@ const site_seo = defineCollection({
   schema: z.object({ ...seoFields, seo_image: z.string().nullish() }),
 });
 
+const announcements = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/announcements" }),
+  schema: z.object({
+    title: z.string().min(1),
+    message: z.string().min(1),
+    type: z.enum(["banner", "modal"]),
+    status: z.enum(["draft", "published", "disabled"]).default("draft"),
+    priority: z.number().int().default(0),
+    start: z.preprocess(parseEventTime, z.coerce.date().nullish()),
+    end: z.preprocess(parseEventTime, z.coerce.date().nullish()),
+    paths: z.array(z.string().regex(/^\/(?!\/)/)).default([]),
+    dismiss: z.enum(["visit", "session", "days", "required"]).default("session"),
+    dismiss_days: z.number().int().min(1).max(365).default(7),
+    link_url: z.string().regex(/^(\/(?!\/)|https:\/\/)/).nullish(),
+    link_label: z.string().nullish(),
+  }).refine((data) => !data.start || !data.end || data.start < data.end, { message: "O fim deve ser posterior ao início." })
+    .refine((data) => Boolean(data.link_url) === Boolean(data.link_label), { message: "Preencha o endereço e o texto do botão juntos." })
+    .refine((data) => data.type !== "modal" || data.dismiss !== "required" || !!data.link_url, { message: "Modal obrigatório precisa de um botão de destino." }),
+});
+
 export const collections = {
   news,
   tags,
@@ -168,4 +188,5 @@ export const collections = {
   reverends,
   pages,
   site_seo,
+  announcements,
 };
