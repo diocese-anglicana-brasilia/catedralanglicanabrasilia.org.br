@@ -133,6 +133,27 @@ collections:
         required: false
       - { name: description, label: Descrição, widget: richtext, required: false, editor_components: [image, code-block] }
       - { name: registration_url, label: URL de registro, required: false }
+      - name: event_status
+        label: Situação do evento
+        widget: select
+        default: scheduled
+        options:
+          - { label: Agendado, value: scheduled }
+          - { label: Cancelado, value: cancelled }
+          - { label: Adiado sem nova data, value: postponed }
+      - { name: featured_image, label: Imagem de destaque, widget: image, required: false, hint: "Usada nos cards e metadados; para exibi-la no texto, insira-a também na descrição." }
+      - { name: organizer_name, label: Nome da organização responsável, required: false }
+      - { name: organizer_url, label: Site da organização responsável, required: false }
+      - { name: performer_name, label: Nome de quem se apresenta, required: false, hint: "Preencha apenas quando houver uma apresentação." }
+      - name: performer_type
+        label: Tipo de apresentação
+        widget: select
+        required: false
+        hint: Selecione pessoa ou grupo para incluir a apresentação nos dados estruturados.
+        options:
+          - { label: Pessoa, value: Person }
+          - { label: Grupo, value: PerformingGroup }
+      - { name: admission_price, label: Preço de entrada em reais, widget: number, value_type: float, min: 0, required: false, hint: "Use 0 apenas quando o evento for gratuito; deixe vazio quando não souber ou não se aplicar." }
       - { name: featured, label: Destaque, widget: boolean, default: false }
   - name: board_members
     label: Lideranças

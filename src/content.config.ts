@@ -69,7 +69,7 @@ const locations = defineCollection({
 
 const events = defineCollection({
   loader: eventsLoader(),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     ...seoFields,
     name: z.string(),
     start_date: z.preprocess(parseEventTime, z.coerce.date()),
@@ -77,6 +77,15 @@ const events = defineCollection({
     location: z.string().nullish(),
     description: z.string().nullish(),
     registration_url: z.string().nullish(),
+    event_status: z.preprocess((value) => value == null || value === "" ? undefined : value, z.enum(["scheduled", "cancelled", "postponed"]).default("scheduled")),
+    featured_image: image().optional(),
+    image: z.url().refine((value) => /^https?:\/\//i.test(value)).nullish(),
+    image_alt: z.string().nullish(),
+    organizer_name: z.string().nullish(),
+    organizer_url: z.url().refine((value) => /^https?:\/\//i.test(value)).nullish(),
+    performer_name: z.string().nullish(),
+    performer_type: z.enum(["Person", "PerformingGroup"]).nullish(),
+    admission_price: z.number().min(0).nullish(),
     featured: z.boolean().default(false),
   }),
 });
