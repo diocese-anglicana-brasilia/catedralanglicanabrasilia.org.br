@@ -14,6 +14,7 @@ description: |-
 
   Participe com sua família deste momento especial.
 event_status: scheduled
+featured_image: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261124-93feca9361f5.webp
 admission_price: 0
 featured: false
 ---
