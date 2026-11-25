@@ -4,6 +4,8 @@ import { textExcerpt } from "./text";
 
 
 export function eventCard(entry: CollectionEntry<"events">): CardItem {
+  const image = entry.data.featured_image;
+  const src = (typeof image === "string" ? image : image?.src) || entry.data.image;
   return {
     title: entry.data.name,
     href: isCurrentOrUpcoming(entry.data) ? `/events/${entry.id}` : undefined,
@@ -11,6 +13,7 @@ export function eventCard(entry: CollectionEntry<"events">): CardItem {
     endDate: entry.data.end_date,
     dateTimeZone: "America/Sao_Paulo",
     description: textExcerpt(entry.data.description),
+    image: src ? { src, alt: "" } : undefined,
   };
 }
 type EventDates = { start_date: Date; end_date?: Date | null };

@@ -20,6 +20,7 @@ import { renderEventDescription, renderMarkdown } from "../../utils/event-markdo
 import { eventLocationData, locationData } from "../../utils/structured-data";
 import { formatNewsDate } from "../../utils/news-date";
 import { isCurrentOrUpcoming } from "../../utils/events";
+import { eventStructuredDetails } from "../../utils/event-structured-details";
 
 type PublicEntry =
   | CollectionEntry<"news">
@@ -62,7 +63,7 @@ const tagIds = entry.collection === "news" ? entry.data.tags ?? [] : [];
 const availableTags = tagIds.length ? await getCollection("tags", ({ id }) => tagIds.includes(id)) : [];
 const newsTags = tagIds.flatMap((id) => availableTags.filter((tag) => tag.id === id));
 const defaultAuthorPhoto = "https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261114-90e953160594.webp";
-const image = entry.collection === "news" ? entry.data.featured_image : undefined;
+const image = entry.collection === "news" ? entry.data.featured_image : entry.collection === "events" ? (entry.data.featured_image ?? entry.data.image) : undefined;
 const eventLocation = entry.collection === "events" && entry.data.location
   ? await getEntry("locations", entry.data.location)
   : undefined;
@@ -81,6 +82,7 @@ const structuredData = entry.collection === "news" ? {
   startDate: entry.data.start_date.toISOString(),
   ...(entry.data.end_date && { endDate: entry.data.end_date.toISOString() }),
   ...(entry.data.seo_description && { description: entry.data.seo_description }),
+  ...eventStructuredDetails({ ...entry.data, image: typeof image === "string" ? image : image?.src }),
   ...(eventLocation && eventLocationData(eventLocation, siteUrl) && { location: eventLocationData(eventLocation, siteUrl) }),
 } : entry.collection === "locations" ? {
   "@context": "https://schema.org", ...locationData(entry, siteUrl),
@@ -129,6 +131,12 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {entry.collection === "events" ? (
         <p class="text-gray-600 mb-6"><DateRange start={entry.data.start_date} end={entry.data.end_date} showTime timeZone="America/Sao_Paulo" /> <span>(horário de Brasília)</span></p>
       ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{entry.collection === "news" ? formatNewsDate(date, true) : dateText}</time></p>}
+      {entry.collection === "events" && <>
+        {entry.data.event_status && <p class="mb-4"><strong>Situação: </strong>{{ scheduled: "Agendado", cancelled: "Cancelado", postponed: "Adiado sem nova data" }[entry.data.event_status]}</p>}
+        {entry.data.organizer_name && <p class="mb-4"><strong>Organização: </strong>{entry.data.organizer_url ? <a class="underline" href={entry.data.organizer_url}>{entry.data.organizer_name}</a> : entry.data.organizer_name}</p>}
+        {entry.data.performer_name && <p class="mb-4"><strong>Apresentação: </strong>{entry.data.performer_name}</p>}
+        {entry.data.admission_price != null && <p class="mb-4"><strong>Entrada: </strong>{entry.data.admission_price === 0 ? "Gratuita" : new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(entry.data.admission_price)}</p>}
+      </>}
       {authors.length > 0 && <div class="flex flex-wrap gap-4 mb-6">{authors.map((author) => <div class="flex items-center gap-3"><img src={(typeof author.data.photo === "string" ? author.data.photo : author.data.photo?.src) || defaultAuthorPhoto} alt="" class="w-12 h-12 rounded-full object-cover" />{author.data.profile_enabled ? <a href={`/authors/${author.id}`} class="text-[var(--gold-dark)] underline">{author.data.name}</a> : <span class="text-gray-700">{author.data.name}</span>}</div>)}</div>}
       {eventDescription && <div class="content-body text-gray-700 leading-relaxed mb-6" data-event-description set:html={eventDescription} />}
       {eventLocation && <p class="mb-6"><strong>Local: </strong><a class="underline text-[var(--gold-dark)]" href={`/locations/${eventLocation.id}`}>{eventLocation.data.name}</a></p>}

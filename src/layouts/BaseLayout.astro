@@ -1,5 +1,6 @@
 ---
 import siteStyles from "../styles/global.css?url";
+import Announcements from "../components/Announcements.astro";
 
 interface Props {
   title: string;
@@ -96,6 +97,7 @@ const structuredData = pageStructuredData ?? {
     <link rel="manifest" href="https://cdn.catedralanglicanabrasilia.org.br/public/media/site.webmanifest">
   </head>
   <body>
+    <Announcements />
     <slot />
     <script>import "../scripts/content-gallery.js";</script>
     <script is:inline defer src="/analytics.js"></script>

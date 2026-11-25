@@ -28,6 +28,19 @@
   --cream: #f7f3ec;
 }
 
+body > header { top: var(--announcement-height, 0px); }
+.announcement-banner { position: fixed; z-index: 60; inset: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 1rem; padding: .65rem 1rem; background: #6b4f1d; color: white; }
+.announcement-banner[hidden] { display: none; }
+.announcement-banner a, .announcement-dialog a { text-decoration: underline; }
+.announcement-banner button { flex: none; min-width: 44px; min-height: 44px; font-size: 1.5rem; cursor: pointer; }
+.announcement-dialog { max-width: min(90vw, 36rem); max-height: 85dvh; overflow: auto; margin: auto; padding: 2rem; border: 1px solid #c9a96e; border-radius: .5rem; background: white; color: #1a1a1a; }
+.announcement-dialog::backdrop { background: rgb(0 0 0 / 65%); }
+.announcement-dialog h2 { font-size: 2rem; }
+.announcement-dialog p { margin: 1rem 0; white-space: pre-wrap; }
+.announcement-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.announcement-actions :is(a, button) { min-height: 44px; padding: .65rem 1rem; }
+.announcement-actions button { background: #6b4f1d; color: white; cursor: pointer; }
+
 html {
   scroll-behavior: smooth;
 }
