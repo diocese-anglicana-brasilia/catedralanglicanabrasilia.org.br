@@ -13,5 +13,8 @@ description: |-
   <figure><img src="https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261124-93feca9361f5.webp" alt="Cartaz em azul-marinho, com flores em tons de rosa e o logotipo da Catedral. Convida para a celebração do Dia Nacional de Ação de Graças, na quinta-feira, 26 de novembro, às 19h, na Catedral Anglicana de Brasília, EQS 309/310, Asa Sul. Ao final, traz uma passagem do Salmo 136:1 sobre dar graças ao Senhor."><figcaption>Convidamos a comunidade para celebrar o Dia Nacional de Ação de Graças, em 26 de novembro, às 19h.</figcaption></figure>
 
   Participe com sua família deste momento especial.
+event_status: scheduled
+featured_image: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261124-93feca9361f5.webp
+admission_price: 0
 featured: false
 ---
