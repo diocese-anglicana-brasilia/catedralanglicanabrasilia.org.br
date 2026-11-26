@@ -22,5 +22,8 @@ description: |-
 
   - (61) 98191-3204: [ligar](tel:+5561981913204) ou [WhatsApp](https://wa.me/5561981913204).
   - (61) 3879-0382: [ligar](tel:+556138790382) ou [WhatsApp](https://wa.me/556138790382).
+event_status: scheduled
+featured_image: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261119-ea0920ca4863.webp
+admission_price: 0
 featured: true
 ---
