@@ -23,6 +23,22 @@ function includeInSitemap(page) {
   }
 }
 
+function contentLastModified(page) {
+  const parts = new URL(page).pathname.split("/").filter(Boolean);
+  const folders = { news: "news", events: "events", pages: "pages", programs: "programs", locations: "locations", reverends: "reverends", authors: "authors", "board-members": "board-members" };
+  if (parts.length !== 2 || !Object.hasOwn(folders, parts[0]) || !/^[a-zA-Z0-9_-]+$/.test(parts[1])) return undefined;
+  try {
+    const content = readFileSync(new URL(`./src/content/${folders[parts[0]]}/${parts[1]}.md`, import.meta.url), "utf8");
+    const frontmatter = content.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/);
+    const data = frontmatter && parse(frontmatter[1]);
+    const value = data && (data.updated_at || (parts[0] === "news" ? data.date : undefined));
+    if (!value) return undefined;
+    if (typeof value === "string" && !/(?:Z|[+-]\d{2}:?\d{2})$/i.test(value)) return undefined;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  } catch { return undefined; }
+}
+
 export default defineConfig({
   site: BASE_URL,
   vite: { plugins: [tailwindcss()] },
@@ -30,6 +46,8 @@ export default defineConfig({
 		mdx(),
 		sitemap({
 			filter: includeInSitemap,
+			serialize: (item) => ({ ...item, ...(contentLastModified(item.url) ? { lastmod: contentLastModified(item.url) } : {}) }),
+			customSitemaps: [new URL("/sitemap-news.xml", BASE_URL).href, new URL("/sitemap-images.xml", BASE_URL).href],
 		})
 	],
   cache: {

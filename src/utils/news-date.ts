@@ -6,3 +6,7 @@ export function formatNewsDate(date: Date, detail = false): string {
   const dateText = detail ? `${parts.day} de ${parts.month} de ${parts.year}` : `${parts.day}/${parts.month}/${parts.year}`;
   return `${dateText}, às ${parts.hour}:${parts.minute}`;
 }
+
+export function showNewsUpdate(published: Date, updated?: Date | null): boolean {
+  return !!updated && updated.getTime() !== published.getTime();
+}

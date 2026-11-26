@@ -48,6 +48,7 @@ collections:
     create: true
     identifier_field: title
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: title, label: Título }
       - { name: message, label: Mensagem, widget: text }
       - name: type
@@ -91,6 +92,7 @@ collections:
       fields: [date, title]
       default: { field: date, direction: descending }
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: title, label: Título }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -124,6 +126,7 @@ collections:
     publish_mode: simple
     folder: src/content/tags
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: title, label: Title }
   - name: authors
     label: Autores
@@ -132,6 +135,7 @@ collections:
     folder: src/content/authors
     identifier_field: name
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: profile_enabled, label: Criar página pública do autor?, widget: boolean, default: false, required: true }
       - { name: bio, label: Bio, widget: richtext, required: false, editor_components: [image, code-block] }
@@ -144,6 +148,7 @@ collections:
     identifier_field: name
     create: true
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -161,6 +166,7 @@ collections:
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
     create: true
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -203,6 +209,7 @@ collections:
     create: true
     identifier_field: name
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -224,6 +231,7 @@ collections:
     create: true
     identifier_field: name
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -244,6 +252,7 @@ collections:
       fields: [start_date, end_date]
       default: { field: start_date, direction: descending }
     fields:
+      - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
       - { name: name, label: Nome }
       - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
       - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -341,6 +350,7 @@ collections:
         label: Sobre nós
         file: src/content/pages/about.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -350,6 +360,7 @@ collections:
         label: Nossa história
         file: src/content/pages/history.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -359,6 +370,7 @@ collections:
         label: Contato
         file: src/content/pages/contact.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -368,6 +380,7 @@ collections:
         label: Pedidos de oração
         file: src/content/pages/prayer.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -377,6 +390,7 @@ collections:
         label: Reverendíssima Deã
         file: src/content/pages/dean.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -386,6 +400,7 @@ collections:
         label: Liderança
         file: src/content/pages/leadership.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -415,6 +430,7 @@ collections:
         label: Galeria de reverendos
         file: src/content/pages/reverends-gallery.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -436,6 +452,7 @@ collections:
         label: Doar
         file: src/content/pages/donate.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -445,6 +462,7 @@ collections:
         label: Política de Privacidade
         file: src/content/pages/privacy.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Título }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -454,6 +472,7 @@ collections:
         label: Atividades
         file: src/content/pages/programs.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: title, label: Title }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
@@ -474,6 +493,7 @@ collections:
         label: Página inicial
         file: src/content/site-seo/home.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
@@ -481,6 +501,7 @@ collections:
         label: Lista de notícias
         file: src/content/site-seo/news.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
@@ -488,6 +509,7 @@ collections:
         label: Lista de eventos
         file: src/content/site-seo/events.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
@@ -495,6 +517,7 @@ collections:
         label: Lista de endereços
         file: src/content/site-seo/locations.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
@@ -502,6 +525,7 @@ collections:
         label: Lista de ações sociais
         file: src/content/site-seo/programs.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }
@@ -509,6 +533,7 @@ collections:
         label: Página não encontrada
         file: src/content/site-seo/not-found.md
         fields:
+          - { name: updated_at, label: Última atualização, widget: datetime, auto_now: true, input_timezone: America/Sao_Paulo, required: false }
           - { name: seo_description, label: Descrição para mecanismos de busca, widget: text, required: false }
           - { name: seo_keywords, label: Palavras-chave, required: false, hint: "Separe as palavras por vírgulas." }
           - { name: seo_image, label: Imagem para compartilhamento, widget: image, required: false }

@@ -5,6 +5,7 @@ import { dateFieldsLoader, eventsLoader } from "./loaders/events";
 import { parseEventTime } from "./utils/event-time";
 
 const seoFields = {
+  updated_at: z.preprocess(parseEventTime, z.coerce.date().nullish()),
   seo_description: z.string().nullish(),
   seo_keywords: z.string().nullish(),
 };
@@ -39,12 +40,13 @@ const news = defineCollection({
 
 const tags = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/tags" }),
-  schema: z.object({ title: z.string() }),
+  schema: z.object({ updated_at: z.preprocess(parseEventTime, z.coerce.date().nullish()), title: z.string() }),
 });
 
 const authors = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/authors" }),
   schema: ({ image }) => z.object({
+    updated_at: z.preprocess(parseEventTime, z.coerce.date().nullish()),
     name: z.string(),
     profile_enabled: z.boolean().default(false),
     bio: z.string().nullish(),
@@ -169,6 +171,7 @@ const site_seo = defineCollection({
 const announcements = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/announcements" }),
   schema: z.object({
+    updated_at: z.preprocess(parseEventTime, z.coerce.date().nullish()),
     title: z.string().min(1),
     message: z.string().min(1),
     type: z.enum(["banner", "modal"]),

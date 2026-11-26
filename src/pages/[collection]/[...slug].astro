@@ -18,7 +18,7 @@ import { contactDetails } from "../../utils/contact-details";
 import { eventCalendar } from "../../utils/event-calendar";
 import { renderEventDescription, renderMarkdown } from "../../utils/event-markdown";
 import { eventLocationData, locationData } from "../../utils/structured-data";
-import { formatNewsDate } from "../../utils/news-date";
+import { formatNewsDate, showNewsUpdate } from "../../utils/news-date";
 import { isCurrentOrUpcoming } from "../../utils/events";
 import { eventStructuredDetails } from "../../utils/event-structured-details";
 
@@ -131,6 +131,7 @@ const relatedPrograms = entry.collection === "pages" && entry.data.programs?.len
       {entry.collection === "events" ? (
         <p class="text-gray-600 mb-6"><DateRange start={entry.data.start_date} end={entry.data.end_date} showTime timeZone="America/Sao_Paulo" /> <span>(horário de Brasília)</span></p>
       ) : date && <p class="text-gray-600 mb-6"><time datetime={date.toISOString()}>{entry.collection === "news" ? formatNewsDate(date, true) : dateText}</time></p>}
+      {entry.collection === "news" && showNewsUpdate(entry.data.date, entry.data.updated_at) && entry.data.updated_at && <p class="text-gray-600 mb-6">Atualizado em <time datetime={entry.data.updated_at.toISOString()}>{formatNewsDate(entry.data.updated_at, true)}</time></p>}
       {entry.collection === "events" && <>
         {entry.data.event_status && <p class="mb-4"><strong>Situação: </strong>{{ scheduled: "Agendado", cancelled: "Cancelado", postponed: "Adiado sem nova data" }[entry.data.event_status]}</p>}
         {entry.data.organizer_name && <p class="mb-4"><strong>Organização: </strong>{entry.data.organizer_url ? <a class="underline" href={entry.data.organizer_url}>{entry.data.organizer_name}</a> : entry.data.organizer_name}</p>}
