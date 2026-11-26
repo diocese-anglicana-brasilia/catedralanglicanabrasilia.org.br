@@ -11,5 +11,8 @@ description: |-
 
 
   Traga velas antigas ou usadas para reaproveitarmos na criação das novas e venha viver esse momento fraterno com a gente!
+event_status: scheduled
+featured_image: https://cdn.catedralanglicanabrasilia.org.br/cms-uploads/20261120-e1e8120c73fb.webp
+admission_price: 0
 featured: false
 ---
